@@ -13,7 +13,11 @@ export async function fetchChatResponse({ message }: { message: string }) {
 
 		const { choices } = response.data
 
-		const conversationStarters = choices.map((choice) => choice.message)
+		const responseObjects = choices.map((choice) => choice.message)
+
+		const conversationStarters = responseObjects.map(
+			(responseObject) => responseObject?.content
+		)
 
 		return { conversationStarters }
 	} catch (error) {
