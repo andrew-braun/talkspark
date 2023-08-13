@@ -1,0 +1,46 @@
+html {
+	background: var(--background-color);
+	font-family: var(--body-font-family);
+	font-size: 62.5%;
+	box-sizing: border-box;
+
+	@media (max-width: 768px) {
+		font-size: 50%;
+	}
+}
+
+*,
+*:before,
+*:after {
+	box-sizing: inherit;
+}
+
+body {
+	font-size: 1.6rem;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: var(--heading-font-family);
+	margin: 0 0 var(--spacing-md) 0;
+}
+
+h1 {
+	font-size: var(--font-size-xxl);
+}
+
+h2 {
+	font-size: var(--font-size-xl);
+}
+
+h3 {
+	font-size: var(--font-size-lg);
+}
+
+h4 {
+	font-size: var(--font-size-md-lg);
+}
