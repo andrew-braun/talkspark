@@ -1,5 +1,9 @@
 import { json } from "@sveltejs/kit"
 import { fetchChatResponse } from "lib/server/api/gpt/chat-api.js"
+import {
+	returnSparkJSON,
+	sparkSchemaFunction,
+} from "lib/server/api/gpt/functions/sparksToJSON.js"
 
 export async function POST({ request, cookies }) {
 	try {
@@ -7,6 +11,7 @@ export async function POST({ request, cookies }) {
 
 		const response = await fetchChatResponse({
 			message: "Give me a list of three random conversation starters.",
+			functions: [returnSparkJSON],
 		})
 
 		return json(response, { status: 201 })
