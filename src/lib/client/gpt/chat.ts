@@ -1,12 +1,9 @@
-export interface ConversationStarterProps {
+export interface SparkProps {
 	type: string
 	options?: any
 }
 
-export async function getConversationStarter({
-	type,
-	options,
-}: ConversationStarterProps) {
+export async function getSpark({ type, options }: SparkProps) {
 	const response = await fetch("/api/generate", {
 		method: "POST",
 		headers: { "content-type": "application/json" },

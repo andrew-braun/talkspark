@@ -1,22 +1,22 @@
 <script lang="ts">
 	import Button from "components/buttons/Button.svelte"
-	import { generatedStarters } from "stores/starters/generated-starters"
-	import { getConversationStarter } from "lib/client/gpt/chat"
+	import { generatedStarters } from "stores/starters/generated-sparks"
+	import { getSpark } from "lib/client/gpt/chat"
 
-	import type { ConversationStarter } from "ts/conversation-starters"
+	import type { Spark } from "ts/sparks"
 
-	let currentStarters: ConversationStarter[] = []
+	let currentStarters: Spark[] = []
 
 	generatedStarters.subscribe((starters) => {
 		currentStarters = starters
 	})
 
-	const handleRandomConversationInitiate = async () => {
-		const promptResponse = await getConversationStarter({
+	const handleRandomSparkInitiate = async () => {
+		const promptResponse = await getSpark({
 			type: "random",
 		})
 
-		const formattedStarters = promptResponse.conversationStarters.map(
+		const formattedStarters = promptResponse.chatResponse.map(
 			(starter: any) => {
 				return {
 					type: "random",
@@ -31,8 +31,7 @@
 	}
 </script>
 
-<Button style="primary" onClick={handleRandomConversationInitiate}
-	>Random Conversation</Button
+<Button style="primary" onClick={handleRandomSparkInitiate}>Random Spark</Button
 >
 
 <div class="response-container">

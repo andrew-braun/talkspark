@@ -6,7 +6,7 @@ export async function POST({ request, cookies }) {
 		const { type, options } = await request.json()
 
 		const response = await fetchChatResponse({
-			message: "Give me a random conversation starter.",
+			message: "Give me a list of three random conversation starters.",
 		})
 
 		return json(response, { status: 201 })
