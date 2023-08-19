@@ -1,5 +1,5 @@
-export function returnJSON({ spark, index }: { spark: string, index: number }}) {
-	return { spark, index}
+export function returnJSON({ spark, index }: { spark: string; index: number }) {
+	return { spark, index }
 }
 
 export const returnJSONDefinition = {

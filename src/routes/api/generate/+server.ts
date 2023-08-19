@@ -7,6 +7,13 @@ export async function POST({ request, cookies }) {
 
 		const response = await fetchChatResponse({
 			message: "Give me a list of three random conversation starters.",
+			roles: [
+				{
+					role: "system",
+					content:
+						"You will provide these conversation starters as a list of JSON objects, each with a 'content' property, like so: {'content': 'Conversation starter'}. }",
+				},
+			],
 		})
 
 		return json(response, { status: 201 })
