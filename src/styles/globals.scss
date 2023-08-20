@@ -2,6 +2,7 @@ html {
 	background: var(--background-color);
 	font-family: var(--body-font-family);
 	font-size: 62.5%;
+	color: var(--text-color);
 	box-sizing: border-box;
 
 	@media (max-width: 768px) {

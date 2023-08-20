@@ -26,10 +26,16 @@
 
 <style lang="scss">
 	.general-button {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 100%;
+		max-width: 320px;
+		min-height: 32px;
 		padding: var(--spacing-sm) var(--spacing-md);
 		outline: 2px solid transparent;
 		border: none;
-		border-radius: var(--border-radius-md);
+		border-radius: var(--border-radius-lg);
 		background: var(--accent-color-1);
 		font-size: var(--font-size-md);
 		font-weight: 500;

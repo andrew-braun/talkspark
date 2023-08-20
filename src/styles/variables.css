@@ -1,15 +1,22 @@
 :root {
-	--primary-color: #f5f5f5;
+	--primary-color: hsl(234, 61%, 13%);
 	--secondary-color: #e0e0e0;
 	--tertiary-color: #bdbdbd;
 
-	--background-color: #ffffff;
+	--background-color: var(--primary-color);
 
-	--text-color: #212121;
+	--text-color: hsl(0, 0%, 100%);
 
 	--accent-color-1: #ff5722;
 	--accent-color-2: #ff9800;
 	--accent-color-3: #ffc107;
+
+	--gradient-1: #fbf69b;
+	--gradient-2: #fcbfbf;
+	--gradient-3: #fcb2ff;
+	--gradient-4: #b2fdfd;
+	--gradient-5: #97caff;
+	--gradient-6: #9bfbf0;
 
 	--body-font-family: "Roboto", sans-serif;
 	--heading-font-family: "Roboto", sans-serif;
@@ -30,6 +37,8 @@
 	--spacing-xl: 2.2rem;
 
 	--border-radius-md: 4px;
+	--border-radius-lg: 8px;
+	--border-radius-xl: 16px;
 
 	--transition-std: all 0.3s ease-in-out;
 }
