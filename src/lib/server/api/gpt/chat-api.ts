@@ -1,5 +1,6 @@
 import initOpenAi from "lib/server/api/gpt/init"
 import type { ChatCompletionRequestMessage } from "openai"
+import type { ChatCompletionResponseChoice } from "ts/chat-gpt"
 
 export async function fetchChatResponse({
 	message,
@@ -30,9 +31,15 @@ export async function fetchChatResponse({
 		const response = await openai.createChatCompletion({
 			model: "gpt-3.5-turbo",
 			messages: [...apiRoles, { role: "user", content: message ?? "" }],
+			max_tokens: 256,
+			temperature: 1.5,
+			frequency_penalty: 0.75,
+			presence_penalty: 1.0,
 		})
 
 		const parsedResponse = parseResponse(response)
+
+		console.log(`Results from calling ChatGPT API: ${parsedResponse}`)
 
 		return { chatResponse: parsedResponse }
 	} catch (error) {
@@ -45,9 +52,13 @@ export async function fetchChatResponse({
 function parseResponse(response: any) {
 	const { choices } = response.data
 
-	const responseObjects = choices.map((choice: any) => choice.message)
+	console.log(choices)
 
-	const contentArray = responseObjects.map(
+	const responseObjects: ChatCompletionResponseChoice[] = choices.map(
+		(choice: any) => choice.message
+	)
+
+	const contentArray: string[] = responseObjects.map(
 		(responseObject: any) => responseObject?.content
 	)
 

@@ -1,5 +1,6 @@
 export interface Spark {
+	index: number
 	type: string
 	options?: any
-	text: string
+	content: string
 }

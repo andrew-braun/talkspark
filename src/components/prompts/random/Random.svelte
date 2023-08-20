@@ -1,41 +1,35 @@
 <script lang="ts">
 	import Button from "components/buttons/Button.svelte"
-	import { generatedStarters } from "stores/starters/generated-sparks"
-	import { getSpark } from "lib/client/gpt/chat"
+	import { generatedSparks } from "stores/starters/generated-sparks"
+	import { getSpark, type GetSparkResponse } from "lib/client/gpt/chat"
 
 	import type { Spark } from "ts/sparks"
 
-	let currentStarters: Spark[] = []
+	let currentSparks: Spark[] = []
 
-	generatedStarters.subscribe((starters) => {
-		currentStarters = starters
+	generatedSparks.subscribe((sparks) => {
+		currentSparks = sparks
 	})
 
 	const handleRandomSparkInitiate = async () => {
-		const promptResponse = await getSpark({
+		const promptResponse: GetSparkResponse = await getSpark({
 			type: "random",
 		})
 
-		const formattedStarters = promptResponse.chatResponse.map(
-			(starter: any) => {
-				return {
-					type: "random",
-					text: starter,
-				}
-			}
-		)
+		const { sparks } = promptResponse
 
-		generatedStarters.update((starters) => {
-			return [...starters, ...formattedStarters]
+		generatedSparks.update((currentSparks) => {
+			return [...currentSparks, ...sparks]
 		})
 	}
 </script>
 
-<Button style="primary" onClick={handleRandomSparkInitiate}>Random Spark</Button
+<Button style="primary" onClick={handleRandomSparkInitiate}
+	>Random Sparks</Button
 >
 
-<div class="response-container">
-	{#each currentStarters as starter}
-		<div class="response">{starter.text}</div>
+<ol class="response-container">
+	{#each currentSparks as spark}
+		<li class="spark">{spark.content}</li>
 	{/each}
-</div>
+</ol>
