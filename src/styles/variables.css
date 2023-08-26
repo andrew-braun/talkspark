@@ -5,11 +5,10 @@
 
 	--background-color: var(--primary-color);
 
-	--text-color: hsl(0, 0%, 100%);
+	--spark-background-color: hsla(234, 45%, 17%, 1);
+	--spark-border: 1px solid var(--secondary-color);
 
-	// --accent-color-1: #ff5722;
-	// --accent-color-2: #ff9800;
-	// --accent-color-3: #ffc107;
+	--text-color: hsl(0, 0%, 100%);
 
 	--accent-color-1: hsla(46, 97%, 53%, 1);
 	--accent-color-2: hsla(353, 100%, 64%, 1);
@@ -62,11 +61,11 @@
 	--font-size-xl: 2.6rem;
 	--font-size-xxl: 3.2rem;
 
-	--spacing-xs: 0.4rem;
-	--spacing-sm: 0.6rem;
-	--spacing-md: 1rem;
-	--spacing-lg: 1.4rem;
-	--spacing-xl: 2.2rem;
+	--spacing-xs: 0.6rem;
+	--spacing-sm: 0.8rem;
+	--spacing-md: 1.2rem;
+	--spacing-lg: 1.6rem;
+	--spacing-xl: 2.4rem;
 	--spacing-xxl: 4rem;
 
 	--border-radius-md: 4px;

@@ -1,4 +1,4 @@
-export interface Spark {
+export interface SparkData {
 	index: number
 	type: string
 	options?: any

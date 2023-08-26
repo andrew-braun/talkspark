@@ -1,5 +1,5 @@
 import { writable } from "svelte/store"
 import type { Writable } from "svelte/store"
-import type { Spark } from "ts/sparks"
+import type { SparkData } from "ts/sparks"
 
-export const generatedSparks: Writable<Spark[]> = writable([])
+export const generatedSparks: Writable<SparkData[]> = writable([])

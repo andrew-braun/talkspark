@@ -2,10 +2,11 @@
 	import Button from "components/buttons/Button.svelte"
 	import { generatedSparks } from "stores/starters/generated-sparks"
 	import { getSpark, type GetSparkResponse } from "lib/client/gpt/chat"
+	import Sparks from "components/sparks/Sparks.svelte"
 
-	import type { Spark } from "ts/sparks"
+	import type { SparkData } from "ts/sparks"
 
-	let currentSparks: Spark[] = []
+	let currentSparks: SparkData[] = []
 
 	generatedSparks.subscribe((sparks) => {
 		currentSparks = sparks
@@ -25,18 +26,23 @@
 </script>
 
 <div class="dialog-container">
-	<Button style="primary" onClick={handleRandomSparkInitiate}
-		>Random Sparks</Button
+	<Button
+		style="primary"
+		onClick={handleRandomSparkInitiate}
+		classes="random-spark-button"
 	>
+		Random Sparks
+	</Button>
 
-	<ol class="response-container">
-		{#each currentSparks as spark}
-			<li class="spark">{spark.content}</li>
-		{/each}
-	</ol>
+	<div class="sparks-container">
+		<Sparks sparks={currentSparks} />
+	</div>
 </div>
 
 <style lang="scss">
+	.sparks-container {
+		margin-top: var(--spacing-lg);
+	}
 	.dialog-container {
 		display: flex;
 		flex-direction: column;

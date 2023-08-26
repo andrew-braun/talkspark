@@ -1,6 +1,6 @@
 import { json } from "@sveltejs/kit"
 import { fetchChatResponse } from "lib/server/api/gpt/chat-api.js"
-import type { Spark } from "ts/sparks.js"
+import type { SparkData } from "ts/sparks.js"
 
 export async function POST({ request }) {
 	try {
@@ -35,7 +35,7 @@ export async function POST({ request }) {
 		 ** force ChatGPT to format the response itself, but that's a ToDo item.
 		 */
 
-		const sparkJSON: Spark[] = JSON.parse(chatResponse[0])
+		const sparkJSON: SparkData[] = JSON.parse(chatResponse[0])
 
 		const sparksArray = sparkJSON.map((spark, index) => {
 			return { ...spark, index, type }
