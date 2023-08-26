@@ -7,16 +7,48 @@
 
 	--text-color: hsl(0, 0%, 100%);
 
-	--accent-color-1: #ff5722;
-	--accent-color-2: #ff9800;
-	--accent-color-3: #ffc107;
+	// --accent-color-1: #ff5722;
+	// --accent-color-2: #ff9800;
+	// --accent-color-3: #ffc107;
 
-	--gradient-1: #fbf69b;
-	--gradient-2: #fcbfbf;
-	--gradient-3: #fcb2ff;
-	--gradient-4: #b2fdfd;
-	--gradient-5: #97caff;
-	--gradient-6: #9bfbf0;
+	--accent-color-1: hsla(46, 97%, 53%, 1);
+	--accent-color-2: hsla(353, 100%, 64%, 1);
+	--accent-color-3: hsla(325, 87%, 54%, 1);
+	--accent-color-4: hsla(285, 76%, 59%, 1);
+	--accent-color-5: hsla(209, 92%, 60%, 1);
+	--accent-color-6: hsla(169, 79%, 57%, 1);
+
+	--gradient-1: linear-gradient(
+		90deg,
+		var(--accent-color-2),
+		var(--accent-color-3),
+		var(--accent-color-4)
+	);
+	--gradient-2: linear-gradient(
+		90deg,
+		var(--accent-color-6),
+		var(--accent-color-5)
+	);
+	--gradient-3: linear-gradient(
+		90deg,
+		var(--accent-color-1),
+		var(--accent-color-2)
+	);
+	--gradient-4: linear-gradient(
+		90deg,
+		var(--accent-color-6),
+		var(--accent-color-5),
+		var(--accent-color-4)
+	);
+	--gradient-5: linear-gradient(
+		90deg,
+		var(--accent-color-1),
+		var(--accent-color-2),
+		var(--accent-color-3),
+		var(--accent-color-4),
+		var(--accent-color-5),
+		var(--accent-color-6)
+	);
 
 	--body-font-family: "Roboto", sans-serif;
 	--heading-font-family: "Roboto", sans-serif;

@@ -21,6 +21,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@poppanator/sveltekit-svg": "^4.1.0",
 		"openai": "^3.3.0",
 		"vite-tsconfig-paths": "^4.2.0"
 	}

@@ -45,5 +45,9 @@
 			cursor: pointer;
 			outline: 2px solid var(--accent-color-3);
 		}
+
+		&.style-primary {
+			background: var(--gradient-1);
+		}
 	}
 </style>
