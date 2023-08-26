@@ -40,9 +40,6 @@
 </div>
 
 <style lang="scss">
-	.sparks-container {
-		margin-top: var(--spacing-lg);
-	}
 	.dialog-container {
 		display: flex;
 		flex-direction: column;
@@ -50,5 +47,9 @@
 		justify-content: center;
 		width: 100%;
 		height: 100%;
+
+		.sparks-container {
+			margin-top: var(--spacing-lg);
+		}
 	}
 </style>

@@ -4,7 +4,7 @@
 </script>
 
 <header class="main-header page-section">
-	<a href="/" class="logo-link">
+	<a href="/" class="logo-link" title="TalkSpark home page">
 		<Logo />
 	</a>
 	<Nav />
@@ -16,6 +16,7 @@
 			var(--spacing-sm);
 		border-bottom: 3px solid transparent;
 		border-image: var(--gradient-5) 1;
+		width: 100vw;
 
 		.logo-link {
 			display: flex;
