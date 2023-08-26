@@ -24,12 +24,25 @@
 	}
 </script>
 
-<Button style="primary" onClick={handleRandomSparkInitiate}
-	>Random Sparks</Button
->
+<div class="dialog-container">
+	<Button style="primary" onClick={handleRandomSparkInitiate}
+		>Random Sparks</Button
+	>
 
-<ol class="response-container">
-	{#each currentSparks as spark}
-		<li class="spark">{spark.content}</li>
-	{/each}
-</ol>
+	<ol class="response-container">
+		{#each currentSparks as spark}
+			<li class="spark">{spark.content}</li>
+		{/each}
+	</ol>
+</div>
+
+<style lang="scss">
+	.dialog-container {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		width: 100%;
+		height: 100%;
+	}
+</style>
