@@ -17,7 +17,7 @@ html {
 }
 
 body {
-	font-size: 1.6rem;
+	font-size: 1.8rem;
 	margin: 0;
 }
 
@@ -49,6 +49,12 @@ h4 {
 
 a {
 	line-height: 1;
+}
+
+ol li,
+ul li {
+	margin-bottom: var(--spacing-md);
+	line-height: 1.4;
 }
 
 .page-section {

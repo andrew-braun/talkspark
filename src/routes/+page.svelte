@@ -3,7 +3,10 @@
 </script>
 
 <section class="page-section home-page-container">
-	<h1>Spark A Conversation!</h1>
+	<h1 class="title">Spark a Conversation!</h1>
+	<p class="subtitle">
+		Press a button to generate conversation starters through the power of AI.
+	</p>
 	<div class="conversation-container">
 		<Random />
 	</div>
@@ -17,6 +20,12 @@
 		justify-content: center;
 		width: 100%;
 		height: 100%;
+		margin-top: 10dvh;
+		text-align: center;
+
+		.subtitle {
+			margin-bottom: var(--spacing-xxl);
+		}
 
 		.conversation-container {
 			display: flex;

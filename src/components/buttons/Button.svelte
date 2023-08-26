@@ -31,19 +31,17 @@
 		align-items: center;
 		width: 100%;
 		max-width: 320px;
-		min-height: 32px;
+		min-height: 38px;
 		padding: var(--spacing-sm) var(--spacing-md);
-		outline: 2px solid transparent;
 		border: none;
 		border-radius: var(--border-radius-lg);
 		background: var(--accent-color-1);
-		font-size: var(--font-size-md);
-		font-weight: 500;
+		font-size: var(--font-size-md-lg);
+		font-weight: 600;
 		transition: var(--transition-std);
 
 		&:hover {
 			cursor: pointer;
-			outline: 2px solid var(--accent-color-3);
 		}
 
 		&.style-primary {
