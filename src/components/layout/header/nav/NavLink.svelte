@@ -5,3 +5,9 @@
 <a href={link} class="nav-link">
 	<slot />
 </a>
+
+<style lang="scss">
+	.nav-link {
+		display: block;
+	}
+</style>
