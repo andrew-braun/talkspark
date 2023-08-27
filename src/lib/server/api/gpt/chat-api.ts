@@ -1,6 +1,9 @@
 import initOpenAi from "lib/server/api/gpt/init"
-import type { ChatCompletionRequestMessage } from "openai"
+import type OpenAI from "openai"
 import type { ChatCompletionResponseChoice } from "ts/chat-gpt"
+
+interface ChatCompletionRequestMessage
+	extends OpenAI.Chat.CreateChatCompletionRequestMessage {}
 
 export async function fetchChatResponse({
 	message,
@@ -28,7 +31,7 @@ export async function fetchChatResponse({
 	try {
 		const openai = initOpenAi()
 
-		const response = await openai.createChatCompletion({
+		const response = await openai.chat.completions.create({
 			model: "gpt-3.5-turbo",
 			messages: [...apiRoles, { role: "user", content: message ?? "" }],
 			max_tokens: 256,
@@ -50,7 +53,7 @@ export async function fetchChatResponse({
 }
 
 function parseResponse(response: any) {
-	const { choices } = response.data
+	const { choices } = response
 
 	console.log(choices)
 

@@ -27,6 +27,10 @@ export async function POST({ request }) {
 					content: `Here is an example response format: [ {"content": "Conversation starter 1"}, {"content": "Conversation starter 2"}, {"content": "Conversation starter 3"}	]
 					 `,
 				},
+				{
+					role: "system",
+					content: `Only provide the array. Do not wrap it in an object. Do not include any other keys. The response should ONLY be in the structure: [ { content: "Conversation starter 1"} ]`,
+				},
 			],
 		})
 
