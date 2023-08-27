@@ -11,6 +11,8 @@
 		| "light"
 		| "dark" = "primary"
 	export let disabled: boolean = false
+	export let isLoading: boolean = false
+	export let loadingText: string = "Loading..."
 	export let onClick: () => void
 	export let classes: string = ""
 </script>
@@ -19,9 +21,15 @@
 	{type}
 	{disabled}
 	on:click={onClick}
-	class={`general-button style-${style} ${classes}`}
+	class={`general-button style-${style} ${classes} ${
+		isLoading ? "loading" : ""
+	}`}
 >
-	<slot />
+	{#if isLoading}
+		{loadingText}
+	{:else}
+		<slot />
+	{/if}
 </button>
 
 <style lang="scss">
@@ -44,8 +52,20 @@
 			cursor: pointer;
 		}
 
+		&:disabled {
+			cursor: not-allowed;
+			opacity: 0.7;
+			color: var(--text-color-dark);
+		}
+
 		&.style-primary {
 			background: var(--gradient-1);
+		}
+
+		&.loading {
+			background: var(--gradient-5);
+			background-size: 400% 400%;
+			animation: gradientMotion 3s ease infinite;
 		}
 	}
 </style>

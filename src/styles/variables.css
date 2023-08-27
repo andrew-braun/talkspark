@@ -8,7 +8,8 @@
 	--spark-background-color: hsla(234, 45%, 17%, 1);
 	--spark-border: 1px solid var(--secondary-color);
 
-	--text-color: hsl(0, 0%, 100%);
+	--text-color-light: hsl(0, 0%, 100%);
+	--text-color-dark: hsl(0, 0%, 0%);
 
 	--accent-color-1: hsla(46, 97%, 53%, 1);
 	--accent-color-2: hsla(353, 100%, 64%, 1);
