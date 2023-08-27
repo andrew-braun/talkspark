@@ -20,17 +20,22 @@
 	const handleRandomSparkInitiate = async () => {
 		loadingState.set(true)
 
-		const promptResponse: GetSparkResponse = await getSpark({
-			type: "random",
-		})
+		try {
+			const promptResponse: GetSparkResponse = await getSpark({
+				type: "random",
+			})
 
-		const { sparks } = promptResponse
+			const { sparks } = promptResponse
 
-		generatedSparks.update((currentSparks) => {
-			return [...currentSparks, ...sparks]
-		})
+			generatedSparks.update((currentSparks) => {
+				return [...currentSparks, ...sparks]
+			})
 
-		loadingState.set(false)
+			loadingState.set(false)
+		} catch (error) {
+			console.error(error)
+			loadingState.set(false)
+		}
 	}
 </script>
 

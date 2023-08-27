@@ -6,7 +6,7 @@
 </script>
 
 <div class="response-container">
-	{#each sparks as spark, index}
+	{#each sparks.reverse() as spark, index}
 		<Spark {spark} index={(Math.floor(index) % 4) + 1} />
 	{/each}
 </div>
