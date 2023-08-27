@@ -1,19 +1,32 @@
 <script lang="ts">
 	import type { SparkData } from "ts/sparks"
+	import CopyIcon from "lib/assets/icons/copy.svg?component"
 
 	export let spark: SparkData
 	export let index: number
+
+	const handleCopyClick = () => {
+		navigator.clipboard.writeText(spark.content)
+	}
 </script>
 
-<article class={`spark gradient-${index}`}>{spark.content}</article>
+<article class={`spark gradient-${index}`}>
+	<div class="content">{spark.content}</div>
+	<div class="actions">
+		<button class="copy" title="Copy to clipboard" on:click={handleCopyClick}>
+			<CopyIcon />
+		</button>
+	</div>
+</article>
 
 <style lang="scss">
 	.spark {
 		position: relative;
 		display: flex;
 		align-items: center;
+		justify-content: space-between;
 		max-width: 600px;
-		height: 80px;
+		max-height: 140px;
 		margin: var(--spacing-xl) 0;
 		margin-left: -6px;
 		padding: var(--spacing-md);
@@ -21,6 +34,7 @@
 		border-radius: var(--border-radius-md);
 		background: var(--spark-background-color);
 		text-align: left;
+		line-height: 1.4;
 
 		&::before {
 			position: absolute;
@@ -44,6 +58,22 @@
 		}
 		&.gradient-4::before {
 			background: var(--gradient-4);
+		}
+
+		.actions {
+			padding: 0 var(--spacing-sm) 0 var(--spacing-md);
+			.copy {
+				background: transparent;
+				border: none;
+				color: var(--text-light);
+
+				&:hover {
+					cursor: pointer;
+				}
+				&:active {
+					transform: scale(0.9);
+				}
+			}
 		}
 	}
 </style>
