@@ -41,7 +41,7 @@
 		classes="random-spark-button"
 		disabled={generatingSparks}
 		isLoading={generatingSparks}
-		loadingText="Sparking up..."
+		loadingText="✨ Generating sparks..."
 	>
 		Random Sparks
 	</Button>

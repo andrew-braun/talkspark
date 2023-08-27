@@ -15,7 +15,7 @@
 <Header />
 
 <div class="loading">
-	<Loading {isLoading} />
+	<Loading {isLoading} animation="bouncyBox" />
 </div>
 
 <main>
@@ -26,9 +26,11 @@
 
 <style lang="scss">
 	.loading {
-		position: fixed;
-		top: 70px;
-		right: 15px;
+		position: sticky;
+		top: 15px;
+		margin-top: var(--spacing-sm);
+		margin-left: auto;
+		margin-right: 15px;
 		width: 25px;
 		height: 25px;
 		z-index: 100;

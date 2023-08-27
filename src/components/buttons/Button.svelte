@@ -54,7 +54,7 @@
 
 		&:disabled {
 			cursor: not-allowed;
-			opacity: 0.7;
+			opacity: 1;
 			color: var(--text-color-dark);
 		}
 
