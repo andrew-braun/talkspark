@@ -35,9 +35,9 @@ export async function fetchChatResponse({
 			model: "gpt-3.5-turbo",
 			messages: [...apiRoles, { role: "user", content: message ?? "" }],
 			max_tokens: 256,
-			temperature: 1.5,
-			frequency_penalty: 0.75,
-			presence_penalty: 1.0,
+			temperature: 1.25,
+			frequency_penalty: 0.55,
+			presence_penalty: 0.8,
 		})
 
 		const parsedResponse = parseResponse(response)
