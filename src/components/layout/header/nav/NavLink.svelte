@@ -10,7 +10,7 @@
 	.nav-link {
 		position: relative;
 		display: block;
-		color: var(--text-color-light);
+		color: var(--text-color-dark);
 		text-decoration: none;
 		padding: var(--spacing-md);
 		border-radius: var(--border-radius-sm);
