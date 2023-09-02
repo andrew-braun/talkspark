@@ -1,55 +1,18 @@
 <script lang="ts">
-	import Button from "components/buttons/Button.svelte"
 	import { generatedSparks } from "stores/starters/generated-sparks"
-	import { loadingState } from "stores/app-state/loading"
-	import { getSpark, type GetSparkResponse } from "lib/client/gpt/chat"
 	import Sparks from "components/sparks/Sparks.svelte"
 
 	import type { SparkData } from "ts/sparks"
+	import GenerateSparksButton from "components/buttons/GenerateSparksButton.svelte"
 
 	let currentSparks: SparkData[] = []
 	generatedSparks.subscribe((sparks) => {
 		currentSparks = sparks
 	})
-
-	let generatingSparks: boolean = false
-	loadingState.subscribe((loading) => {
-		generatingSparks = loading
-	})
-
-	const handleRandomSparkInitiate = async () => {
-		loadingState.set(true)
-
-		try {
-			const promptResponse: GetSparkResponse = await getSpark({
-				type: "random",
-			})
-
-			const { sparks } = promptResponse
-
-			generatedSparks.update((currentSparks) => {
-				return [...currentSparks, ...sparks]
-			})
-
-			loadingState.set(false)
-		} catch (error) {
-			console.error(error)
-			loadingState.set(false)
-		}
-	}
 </script>
 
 <div class="dialog-container">
-	<Button
-		style="primary"
-		onClick={handleRandomSparkInitiate}
-		classes="random-spark-button"
-		disabled={generatingSparks}
-		isLoading={generatingSparks}
-		loadingText="✨ Generating sparks..."
-	>
-		Random Sparks
-	</Button>
+	<GenerateSparksButton />
 
 	<div class="sparks-container">
 		<Sparks sparks={currentSparks} />
