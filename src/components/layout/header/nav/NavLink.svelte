@@ -8,23 +8,20 @@
 
 <style lang="scss">
 	.nav-link {
+		position: relative;
 		display: block;
 		color: var(--text-color-light);
 		text-decoration: none;
 		padding: var(--spacing-md);
-		transition: var(--transition-std);
-		background-repeat: repeat;
-		background-position: top right;
-		background-size: 100%;
+		border-radius: var(--border-radius-sm);
+		transition: all 0.3s ease-in-out;
+		background-image: var(--gradient-5);
+		background-size: 300%;
+		background-position: 100% 0;
+		font-weight: 500;
 
 		&:hover {
-			color: transparent;
-			background-image: var(--gradient-1);
-			background-clip: text;
-			-webkit-background-clip: text;
-			-moz-background-clip: text;
-			-webkit-text-fill-color: transparent;
-			-moz-text-fill-color: transparent;
+			background-position: 150% 100%;
 		}
 	}
 </style>
