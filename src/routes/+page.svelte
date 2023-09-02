@@ -2,7 +2,7 @@
 	import Random from "components/prompts/random/Random.svelte"
 </script>
 
-<section class="page-section home-page-container">
+<section class="home-page-container">
 	<h1 class="title">Spark a Conversation!</h1>
 	<p class="subtitle">
 		Press a button to generate conversation starters through the power of AI.
