@@ -41,9 +41,7 @@
 	.loading {
 		position: sticky;
 		top: 15px;
-		margin-top: var(--spacing-sm);
-		margin-left: auto;
-		margin-right: 15px;
+		margin: var(--spacing-sm) 15px -25px auto;
 		width: 25px;
 		height: 25px;
 		z-index: 100;
