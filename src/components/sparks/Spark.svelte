@@ -1,12 +1,18 @@
 <script lang="ts">
 	import type { SparkData } from "ts/sparks"
 	import CopyIcon from "lib/assets/icons/copy.svg?component"
+	import BiBookmarkHeart from "lib/assets/icons/BiBookmarkHeart.svg?component"
+	import BiBookmarkHeartFill from "lib/assets/icons/BiBookmarkHeartFill.svg?component"
 
 	export let spark: SparkData
 	export let index: number
 
 	const handleCopyClick = () => {
 		navigator.clipboard.writeText(spark.content)
+	}
+
+	const handleSaveClick = () => {
+		console.log("Save")
 	}
 </script>
 
@@ -15,6 +21,9 @@
 	<div class="actions">
 		<button class="copy" title="Copy to clipboard" on:click={handleCopyClick}>
 			<CopyIcon />
+		</button>
+		<button class="copy" title="Copy to clipboard" on:click={handleCopyClick}>
+			<BiBookmarkHeart />
 		</button>
 	</div>
 </article>
