@@ -1,4 +1,4 @@
-export const topics = [
+export const topics: string[] = [
 	"Artificial intelligence",
 	"Space exploration",
 	"Sustainable living",
