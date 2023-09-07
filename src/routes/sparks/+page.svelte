@@ -1,15 +1,15 @@
 <script lang="ts">
 	import GenerateSparksButton from "components/buttons/GenerateSparksButton.svelte"
 	import Sparks from "components/sparks/Sparks.svelte"
-	import { generatedSparks } from "stores/starters/generated-sparks"
+	import { saved_sparks } from "stores/sparks/saved-sparks"
 	import type { SparkData } from "ts/sparks"
 
-	let currentSparks: SparkData[] = []
-	generatedSparks.subscribe((sparks) => {
-		currentSparks = sparks
+	let savedSparks: SparkData[] = []
+	saved_sparks.subscribe((sparks) => {
+		savedSparks = sparks
 	})
 </script>
 
 <h1>Sparks</h1>
 <GenerateSparksButton buttonText="More Random Sparks" />
-<Sparks sparks={currentSparks} />
+<Sparks sparks={savedSparks} />

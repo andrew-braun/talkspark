@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from "$app/stores"
 	import { goto } from "$app/navigation"
-	import { generatedSparks } from "stores/starters/generated-sparks"
+	import { generated_sparks } from "stores/sparks/generated-sparks"
 	import { loadingState } from "stores/app-state/loading"
 	import { getSpark, type GetSparkResponse } from "lib/client/gpt/chat"
 
@@ -24,15 +24,15 @@
 
 			const { sparks } = promptResponse
 
-			generatedSparks.update((currentSparks) => {
+			generated_sparks.update((currentSparks) => {
 				return [...currentSparks, ...sparks]
 			})
 
 			loadingState.set(false)
 
-			if ($page.data.pathname !== "/sparks") {
-				await goto("/sparks")
-			}
+			// if ($page.data.pathname !== "/sparks") {
+			// 	await goto("/sparks")
+			// }
 		} catch (error) {
 			console.error(error)
 			loadingState.set(false)
