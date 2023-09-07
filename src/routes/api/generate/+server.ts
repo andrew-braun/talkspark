@@ -1,3 +1,4 @@
+import crypto from "crypto"
 import { json } from "@sveltejs/kit"
 import { fetchChatResponse } from "lib/server/api/gpt/chat-api.js"
 import { topics } from "lib/data/random-topics.js"
@@ -53,7 +54,7 @@ export async function POST({ request }) {
 		const sparkJSON: SparkData[] = JSON.parse(chatResponse[0])
 
 		const sparksArray = sparkJSON.map((spark, index) => {
-			return { ...spark, index, type }
+			return { ...spark, index, type, id: crypto.randomUUID() }
 		})
 
 		return json({ sparks: sparksArray, status: 201 })

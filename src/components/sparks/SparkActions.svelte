@@ -6,19 +6,28 @@
 	import BiBookmarkHeart from "lib/assets/icons/BiBookmarkHeart.svg?component"
 	import BiBookmarkHeartFill from "lib/assets/icons/BiBookmarkHeartFill.svg?component"
 
+	// Props
 	export let spark: SparkData
 
+	// Stores
 	let savedSparks: SparkData[] = []
 	saved_sparks.subscribe((sparks) => {
 		savedSparks = sparks
 	})
 
+	// Check if spark is in saved store
+	$: isSaved = savedSparks.some((savedSpark) => savedSpark.id === spark.id)
+
+	// Copy
 	const handleCopyClick = () => {
 		navigator.clipboard.writeText(spark.content)
 	}
 
 	const handleSaveClick = () => {
 		saved_sparks.update((prev) => {
+			if (isSaved) {
+				return prev.filter((savedSpark) => savedSpark.id !== spark.id)
+			}
 			return [...prev, spark]
 		})
 	}
@@ -37,7 +46,11 @@
 		title="Copy to clipboard"
 		on:click={handleSaveClick}
 	>
-		<BiBookmarkHeart />
+		{#if isSaved}
+			<BiBookmarkHeartFill />
+		{:else}
+			<BiBookmarkHeart />
+		{/if}
 	</button>
 </div>
 

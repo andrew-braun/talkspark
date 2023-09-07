@@ -1,4 +1,4 @@
-import type { Spark } from "ts/sparks"
+import type { SparkData } from "ts/sparks"
 
 export interface SparkProps {
 	type: "random" | "custom"
@@ -6,7 +6,7 @@ export interface SparkProps {
 }
 
 export interface GetSparkResponse {
-	sparks: Spark[]
+	sparks: SparkData[]
 	status: number
 }
 
