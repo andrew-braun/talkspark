@@ -11,6 +11,9 @@ dependencies:
   '@poppanator/sveltekit-svg':
     specifier: ^4.1.0
     version: 4.1.0(svelte@4.2.0)(svgo@3.0.2)(vite@4.4.9)
+  '@popperjs/core':
+    specifier: ^2.11.8
+    version: 2.11.8
   openai:
     specifier: ^4.3.0
     version: 4.3.0
@@ -309,6 +312,10 @@ packages:
       svelte: 4.2.0
       svgo: 3.0.2
       vite: 4.4.9(sass@1.66.1)
+    dev: false
+
+  /@popperjs/core@2.11.8:
+    resolution: {integrity: sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A==}
     dev: false
 
   /@sveltejs/adapter-auto@2.1.0(@sveltejs/kit@1.23.0):

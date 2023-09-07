@@ -1,11 +1,11 @@
 <script lang="ts">
+	import ActionButton from "./ActionButton.svelte"
+
 	import { saved_sparks } from "stores/sparks/saved-sparks"
 	import type { SparkData } from "ts/sparks"
 
 	import BiBookmarkHeart from "lib/assets/icons/BiBookmarkHeart.svg?component"
 	import BiBookmarkHeartFill from "lib/assets/icons/BiBookmarkHeartFill.svg?component"
-	import CopyButton from "components/buttons/CopyButton.svelte"
-	import BookmarkButton from "components/buttons/BookmarkButton.svelte"
 
 	// Props
 	export let spark: SparkData
@@ -32,17 +32,10 @@
 	}
 </script>
 
-<div class="actions">
-	<CopyButton content={spark.content} />
-	<BookmarkButton {spark} />
-</div>
-
-<style lang="scss">
-	.actions {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		padding: 0 var(--spacing-sm) 0 var(--spacing-md);
-	}
-</style>
+<ActionButton onClick={handleSaveClick} title="Save this spark" type="save">
+	{#if isSaved}
+		<BiBookmarkHeartFill />
+	{:else}
+		<BiBookmarkHeart />
+	{/if}
+</ActionButton>

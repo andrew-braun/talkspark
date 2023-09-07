@@ -23,6 +23,7 @@
 	"dependencies": {
 		"@lottiefiles/lottie-player": "^2.0.2",
 		"@poppanator/sveltekit-svg": "^4.1.0",
+		"@popperjs/core": "^2.11.8",
 		"openai": "^4.3.0",
 		"vite-tsconfig-paths": "^4.2.0"
 	}
