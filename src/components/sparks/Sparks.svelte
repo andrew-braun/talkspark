@@ -5,11 +5,15 @@
 
 	export let sparks: SparkData[] = []
 
-	$: sortedSparks = sortByDate({ objects: sparks, dateField: "created_at" })
+	$: sortedSparks = sortByDate({
+		objects: sparks,
+		dateField: "created_at",
+		direction: "DESC",
+	})
 </script>
 
 <div class="response-container">
-	{#each sortedSparks.reverse() as spark, index}
+	{#each sortedSparks as spark, index}
 		<Spark {spark} index={(Math.floor(index) % 4) + 1} />
 	{/each}
 </div>
