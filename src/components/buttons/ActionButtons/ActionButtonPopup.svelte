@@ -14,7 +14,7 @@
 <style lang="scss">
 	.popup {
 		position: absolute;
-		top: -15px;
+		top: -1.6em;
 		right: -10px;
 		background: var(--accent-color-6);
 		border-radius: var(--border-radius-sm);
