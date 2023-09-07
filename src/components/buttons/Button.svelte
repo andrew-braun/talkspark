@@ -1,6 +1,7 @@
 <script lang="ts">
 	export let type: "button" | "submit" | "reset" = "button"
 	export let style:
+		| "basic"
 		| "primary"
 		| "secondary"
 		| "tertiary"
@@ -14,14 +15,13 @@
 	export let isLoading: boolean = false
 	export let loadingText: string = "Loading..."
 	export let onClick: () => void
-	export let classes: string = ""
 </script>
 
 <button
 	{type}
 	{disabled}
 	on:click={onClick}
-	class={`general-button style-${style} ${classes} ${
+	class={`general-button style-${style} ${$$restProps.classes} ${
 		isLoading ? "loading" : ""
 	}`}
 >
@@ -60,6 +60,18 @@
 
 		&.style-primary {
 			background: var(--gradient-1);
+		}
+
+		&.style-basic {
+			width: max-content;
+			min-height: 24px;
+			background: transparent;
+			border: 1px solid var(--accent-color-2);
+			color: var(--text-color-light);
+			font-weight: 400;
+			line-height: 1;
+			text-decoration: underline;
+			font-size: var(--font-size-md-sm);
 		}
 
 		&.loading {

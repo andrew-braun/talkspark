@@ -15,7 +15,7 @@
 	<GenerateSparksButton />
 
 	<div class="sparks-container">
-		<Sparks sparks={currentSparks} />
+		<Sparks sparks={currentSparks} clearButton={true} />
 	</div>
 </div>
 
@@ -29,6 +29,8 @@
 		height: 100%;
 
 		.sparks-container {
+			flex: 1 1 auto;
+			width: 100%;
 			margin-top: var(--spacing-lg);
 		}
 	}

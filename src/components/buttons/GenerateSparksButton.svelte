@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { page } from "$app/stores"
-	import { goto } from "$app/navigation"
 	import { generated_sparks } from "stores/sparks/generated-sparks"
 	import { loadingState } from "stores/app-state/loading"
 	import { getSpark, type GetSparkResponse } from "lib/client/gpt/chat"
@@ -8,6 +6,7 @@
 	import Button from "./Button.svelte"
 
 	export let buttonText: string = "Random Sparks"
+	export let onClick: () => Promise<void> = async () => {}
 
 	let generatingSparks: boolean = false
 	loadingState.subscribe((loading) => {
@@ -28,11 +27,9 @@
 				return [...currentSparks, ...sparks]
 			})
 
-			loadingState.set(false)
+			await onClick()
 
-			// if ($page.data.pathname !== "/sparks") {
-			// 	await goto("/sparks")
-			// }
+			loadingState.set(false)
 		} catch (error) {
 			console.error(error)
 			loadingState.set(false)
