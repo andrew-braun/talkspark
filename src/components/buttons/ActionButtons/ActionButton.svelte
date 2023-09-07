@@ -1,18 +1,31 @@
 <script lang="ts">
-	// import { createPopper } from "@popperjs/core"
+	import type { SvelteComponent } from "svelte"
+	import ActionButtonPopup from "./ActionButtonPopup.svelte"
 
 	// Props
 	export let onClick: () => void
 	export let title: string
 	export let type: "copy" | "save"
+	export let isPopupActive: boolean = false
 </script>
 
-<button class={`action ${type}`} {title} on:click={onClick}>
+<button
+	class={`action ${type}`}
+	{title}
+	on:click={() => {
+		onClick()
+	}}
+>
 	<slot />
 </button>
 
+<ActionButtonPopup show={isPopupActive}>
+	<slot name="popup" />
+</ActionButtonPopup>
+
 <style lang="scss">
 	.action {
+		position: relative;
 		border: none;
 		background: transparent;
 		color: var(--text-light);
