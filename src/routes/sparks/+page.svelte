@@ -11,5 +11,15 @@
 </script>
 
 <h1>Sparks</h1>
-<GenerateSparksButton buttonText="More Random Sparks" />
+<div class="button-container">
+	<GenerateSparksButton buttonText="More Random Sparks" />
+</div>
 <Sparks sparks={savedSparks} />
+
+<style lang="scss">
+	.button-container {
+		display: flex;
+		justify-content: center;
+		margin: var(--spacing-xl) 0;
+	}
+</style>

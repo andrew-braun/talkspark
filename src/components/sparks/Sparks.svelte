@@ -17,3 +17,12 @@
 		<Spark {spark} index={(Math.floor(index) % 4) + 1} />
 	{/each}
 </div>
+
+<style lang="scss">
+	.response-container {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		width: 100%;
+	}
+</style>
