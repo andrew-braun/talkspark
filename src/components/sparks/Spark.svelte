@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { fade } from "svelte/transition"
+	import { fade, fly, slide } from "svelte/transition"
 	import type { SparkData } from "ts/sparks"
 	import SparkActions from "./SparkActions.svelte"
 	import { afterUpdate } from "svelte"
@@ -15,7 +15,8 @@
 </script>
 
 {#if spark && visible}
-	<article class={`spark gradient-${index}`} in:fade>
+	<article class={`spark`} transition:fade>
+		<span class={`gradient gradient-${index}`} transition:slide />
 		<div class="content">{spark.content}</div>
 		<SparkActions {spark} />
 	</article>
@@ -40,7 +41,7 @@
 		text-align: left;
 		line-height: 1.4;
 
-		&::before {
+		.gradient {
 			position: absolute;
 			top: 6px;
 			left: 6px;
@@ -49,23 +50,29 @@
 			height: 101%;
 			border-radius: var(--border-radius-sm);
 			z-index: -1;
-		}
+			animation-name: fadeIn;
+			animation-duration: 0.3s;
+			animation-fill-mode: forwards;
+			animation-timing-function: ease-out;
+			animation-delay: 0.1s;
+			opacity: 0;
 
-		&.gradient-1::before {
-			background: var(--gradient-1);
-			z-index: -1;
-		}
-		&.gradient-2::before {
-			background: var(--gradient-2);
-			z-index: -1;
-		}
-		&.gradient-3::before {
-			background: var(--gradient-3);
-			z-index: -1;
-		}
-		&.gradient-4::before {
-			background: var(--gradient-4);
-			z-index: -1;
+			&.gradient-1 {
+				background: var(--gradient-1);
+				z-index: -1;
+			}
+			&.gradient-2 {
+				background: var(--gradient-2);
+				z-index: -1;
+			}
+			&.gradient-3 {
+				background: var(--gradient-3);
+				z-index: -1;
+			}
+			&.gradient-4 {
+				background: var(--gradient-4);
+				z-index: -1;
+			}
 		}
 	}
 </style>
