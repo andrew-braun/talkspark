@@ -4,6 +4,7 @@
 	import Spark from "components/sparks/Spark.svelte"
 	import { sortByDate } from "lib/utils/sort"
 	import Button from "components/buttons/Button.svelte"
+	import { fade } from "svelte/transition"
 
 	export let sparks: SparkData[] = []
 	export let sparkStore = generated_sparks

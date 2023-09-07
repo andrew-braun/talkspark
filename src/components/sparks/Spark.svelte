@@ -1,15 +1,25 @@
 <script lang="ts">
+	import { fade } from "svelte/transition"
 	import type { SparkData } from "ts/sparks"
 	import SparkActions from "./SparkActions.svelte"
+	import { afterUpdate } from "svelte"
 
 	export let spark: SparkData
 	export let index: number
+
+	let visible = false
+
+	afterUpdate(() => {
+		visible = true
+	})
 </script>
 
-<article class={`spark gradient-${index}`}>
-	<div class="content">{spark.content}</div>
-	<SparkActions {spark} />
-</article>
+{#if spark && visible}
+	<article class={`spark gradient-${index}`} in:fade>
+		<div class="content">{spark.content}</div>
+		<SparkActions {spark} />
+	</article>
+{/if}
 
 <style lang="scss">
 	.spark {
@@ -43,15 +53,19 @@
 
 		&.gradient-1::before {
 			background: var(--gradient-1);
+			z-index: -1;
 		}
 		&.gradient-2::before {
 			background: var(--gradient-2);
+			z-index: -1;
 		}
 		&.gradient-3::before {
 			background: var(--gradient-3);
+			z-index: -1;
 		}
 		&.gradient-4::before {
 			background: var(--gradient-4);
+			z-index: -1;
 		}
 	}
 </style>
