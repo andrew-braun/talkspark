@@ -54,7 +54,13 @@ export async function POST({ request }) {
 		const sparkJSON: SparkData[] = JSON.parse(chatResponse[0])
 
 		const sparksArray = sparkJSON.map((spark, index) => {
-			return { ...spark, index, type, id: crypto.randomUUID() }
+			return {
+				...spark,
+				index,
+				type,
+				id: crypto.randomUUID(),
+				created_at: Date.now(),
+			}
 		})
 
 		return json({ sparks: sparksArray, status: 201 })
