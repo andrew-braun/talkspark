@@ -22,15 +22,18 @@
 </script>
 
 <div class="sparks">
-	{#if clearButton}
-		<Button
-			type="reset"
-			style="basic"
-			classes="clear-button"
-			onClick={handleSparksClear}>Clear All</Button
-		>
-	{/if}
 	<div class="response-container">
+		<div class="actions">
+			{#if clearButton}
+				<Button
+					type="reset"
+					style="basic"
+					classes="clear-button"
+					onClick={handleSparksClear}>Clear All</Button
+				>
+			{/if}
+		</div>
+
 		{#each sortedSparks as spark, index}
 			<Spark {spark} index={(Math.floor(index) % 4) + 1} />
 		{/each}
@@ -40,6 +43,8 @@
 <style lang="scss">
 	.sparks {
 		flex: 1 1 auto;
+		display: flex;
+		justify-content: center;
 		width: 100%;
 		margin-top: var(--spacing-md);
 		&:global(.clear-button) {
@@ -49,7 +54,13 @@
 			display: flex;
 			flex-direction: column;
 			align-items: center;
-			width: 100%;
+			width: max-content;
+
+			.actions {
+				display: flex;
+				justify-content: flex-end;
+				width: 100%;
+			}
 		}
 	}
 </style>
