@@ -10,6 +10,7 @@
 		| "success"
 		| "info"
 		| "light"
+		| "utility"
 		| "dark" = "primary"
 	export let disabled: boolean = false
 	export let isLoading: boolean = false
@@ -72,6 +73,10 @@
 			line-height: 1;
 			text-decoration: underline;
 			font-size: var(--font-size-md-sm);
+		}
+
+		&.style-utility {
+			background: var(--accent-color-1);
 		}
 
 		&.loading {

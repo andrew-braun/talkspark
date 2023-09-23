@@ -5,7 +5,7 @@
 	// Props
 	export let onClick: () => void
 	export let title: string
-	export let type: "copy" | "save"
+	export let type: "copy" | "save" | "utility"
 	export let isPopupActive: boolean = false
 </script>
 
@@ -27,8 +27,9 @@
 	.action {
 		position: relative;
 		border: none;
+		border-radius: var(--border-radius-sm);
 		background: transparent;
-		color: var(--text-light);
+		color: var(--text-color-light);
 		margin: var(--spacing-xs) 0;
 
 		&:hover {
@@ -36,6 +37,12 @@
 		}
 		&:active {
 			transform: scale(0.9);
+		}
+
+		&.utility {
+			background: var(--accent-color-1);
+			color: var(--text-color-dark);
+			margin: 0;
 		}
 	}
 </style>
