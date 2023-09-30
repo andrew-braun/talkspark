@@ -1,4 +1,5 @@
 <script lang="ts">
+	export let id = ""
 	export let type: "button" | "submit" | "reset" = "button"
 	export let style:
 		| "basic"
@@ -13,18 +14,22 @@
 		| "utility"
 		| "dark" = "primary"
 	export let disabled: boolean = false
+	export let active: boolean = false
 	export let isLoading: boolean = false
 	export let loadingText: string = "Loading..."
-	export let onClick: () => void
+	export let onClick: any
 </script>
 
 <button
+	id={id ?? ""}
 	{type}
 	{disabled}
 	on:click={onClick}
-	class={`general-button style-${style} ${$$restProps.classes} ${
-		isLoading ? "loading" : ""
-	}`}
+	class={`general-button style-${style} 
+	${$$restProps.classes ? $$restProps.classes : ""} 
+	${isLoading ? "loading" : ""}
+	${active ? "active" : ""}
+	`}
 >
 	{#if isLoading}
 		{loadingText}
@@ -57,6 +62,10 @@
 			cursor: not-allowed;
 			opacity: 1;
 			color: var(--text-color-dark);
+		}
+
+		&.active {
+			outline: 2px solid var(--text-color-light);
 		}
 
 		&.style-primary {

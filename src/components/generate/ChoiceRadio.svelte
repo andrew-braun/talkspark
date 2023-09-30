@@ -3,13 +3,28 @@
 	import type { Choice } from "ts/flow"
 
 	export let choices: Choice[] = []
-	console.log(choices)
+
+	let currentlySelectedId = choices[0].id
+	$: currentlySelectedValue = choices.find(
+		(choice) => choice.id === currentlySelectedId
+	)?.value
+
+	const handleRadioButtonSelect = (event: Event) => {
+		console.log(event.target)
+		const target = event.target as HTMLInputElement
+		currentlySelectedId = target.id
+	}
 </script>
 
 <div class="choices">
 	{#each choices as choice}
 		<div class="choice">
-			<Button style="primary" onClick={() => {}}>{choice.text}</Button>
+			<Button
+				style="primary"
+				onClick={handleRadioButtonSelect}
+				active={choice.id === currentlySelectedId}
+				id={choice.id}>{choice.text}</Button
+			>
 		</div>
 	{/each}
 </div>
