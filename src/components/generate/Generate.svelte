@@ -5,6 +5,7 @@
 	import type { SparkData } from "ts/sparks"
 	import GenerateSparksButton from "components/buttons/GenerateSparksButton.svelte"
 	import CustomModal from "./CustomModal.svelte"
+	import CustomizationFlow from "./CustomizationFlow.svelte"
 
 	let currentSparks: SparkData[] = []
 	generated_sparks.subscribe((sparks) => {
@@ -36,7 +37,10 @@
 		<Sparks sparks={currentSparks} clearButton={true} />
 	</div>
 	<div class="custom-modal">
-		<CustomModal open={isCustomModalOpen} {closeCustomModal} />
+		<CustomModal open={true} {closeCustomModal}>
+			<h2 slot="modalTitle" class="modal-title">Customize Your Sparks</h2>
+			<CustomizationFlow slot="modalBody" />
+		</CustomModal>
 	</div>
 </div>
 
@@ -71,6 +75,12 @@
 			flex: 1 1 auto;
 			width: 100%;
 			margin-top: var(--spacing-lg);
+		}
+
+		.custom-modal {
+			.modal-title {
+				margin-bottom: 0;
+			}
 		}
 	}
 </style>

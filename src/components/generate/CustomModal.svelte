@@ -1,7 +1,7 @@
 <script>
-	import { fade } from "svelte/transition"
+	import { fade, fly } from "svelte/transition"
 	import Close from "lib/assets/icons/Close.svg?component"
-	import Button from "components/buttons/Button.svelte"
+	// import Button from "components/buttons/Button.svelte"
 	import ActionButton from "components/buttons/ActionButtons/ActionButton.svelte"
 
 	export let open = false
@@ -9,10 +9,10 @@
 </script>
 
 {#if open === true}
-	<div class="modal" transition:fade>
+	<div class="modal" in:fly={{ x: "-100%" }} out:fly={{ x: "100%" }}>
 		<div class="modal-content">
 			<div class="modal-header">
-				<h2>Custom Sparks</h2>
+				<span class="modal-title"><slot name="modalTitle" /></span>
 				<span class="close-button">
 					<ActionButton onClick={closeCustomModal} type="utility" title="">
 						<span class="close-button-svg"><Close /></span>
@@ -20,7 +20,7 @@
 				</span>
 			</div>
 			<div class="modal-body">
-				<p>Custom Sparks</p>
+				<slot name="modalBody" />
 			</div>
 			<div class="modal-footer" />
 		</div>
@@ -41,11 +41,14 @@
 
 		.modal-content {
 			width: 50%;
+			// min-height: 400px;
 			height: 50%;
-			background-color: white;
+			background-color: var(--background-color);
+			border: 2px solid var(--accent-color-3);
 			border-radius: 10px;
 			display: flex;
 			flex-direction: column;
+			overflow: auto;
 
 			@media (max-width: 480px) {
 				width: 100%;
@@ -56,7 +59,12 @@
 				display: flex;
 				justify-content: space-between;
 				align-items: center;
-				padding: 0 1rem;
+				padding: var(--spacing-sm);
+
+				.modal-title {
+					width: 100%;
+					text-align: center;
+				}
 
 				.close-button {
 					.close-button-svg {
@@ -68,14 +76,14 @@
 
 			.modal-body {
 				flex: 1 1 auto;
-				padding: 1rem;
+				padding: var(--spacing-sm);
 			}
 
 			.modal-footer {
 				display: flex;
 				justify-content: flex-end;
 				align-items: center;
-				padding: 1rem;
+				padding: var(--spacing-sm);
 			}
 		}
 	}

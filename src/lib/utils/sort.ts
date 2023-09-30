@@ -25,7 +25,6 @@ export function sortByDate(args: SortByDateArgs) {
 		// Invert the comparison result if 'direction' is 'desc'
 		if (direction === "DESC") {
 			comparison = -comparison
-			console.log(comparison)
 		}
 
 		return comparison
