@@ -10,7 +10,7 @@
 <div class="choices">
 	{#each page?.inputs as input}
 		{#if input.type === "radio"}
-			<ChoiceRadio choices={input.choices} />
+			<ChoiceRadio choices={input.choices} id={input.id} />
 		{/if}
 	{/each}
 </div>

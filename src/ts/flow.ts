@@ -15,3 +15,7 @@ export interface FlowPage {
 	id: string
 	inputs: FlowInput[]
 }
+
+export interface Customizations {
+	choices: Choice[]
+}

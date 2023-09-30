@@ -37,7 +37,7 @@
 		<Sparks sparks={currentSparks} clearButton={true} />
 	</div>
 	<div class="custom-modal">
-		<CustomModal open={true} {closeCustomModal}>
+		<CustomModal open={isCustomModalOpen} {closeCustomModal}>
 			<h2 slot="modalTitle" class="modal-title">Customize Your Sparks</h2>
 			<CustomizationFlow slot="modalBody" />
 		</CustomModal>

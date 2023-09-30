@@ -6,5 +6,5 @@
 </script>
 
 {#if input.type === "radio"}
-	<ChoiceRadio choices={input.choices} />
+	<ChoiceRadio choices={input.choices} id={input.id} />
 {/if}
