@@ -1,7 +1,6 @@
 <script lang="ts">
-	// import Button from "components/buttons/Button.svelte"
 	import type { FlowPage } from "ts/flow"
-	import ChoiceRadio from "./ChoiceRadio.svelte"
+	import FlowInput from "./FlowInput.svelte"
 
 	export let page: FlowPage
 	console.log(page)
@@ -9,9 +8,7 @@
 
 <div class="choices">
 	{#each page?.inputs as input}
-		{#if input.type === "radio"}
-			<ChoiceRadio choices={input.choices} id={input.id} />
-		{/if}
+		<FlowInput {input} />
 	{/each}
 </div>
 

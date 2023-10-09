@@ -44,6 +44,7 @@
 		margin: var(--spacing-sm) 15px -25px auto;
 		width: 25px;
 		height: 25px;
-		z-index: 100;
+		z-index: 80;
+		pointer-events: none;
 	}
 </style>

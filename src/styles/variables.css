@@ -54,13 +54,13 @@
 	--heading-font-family: "Roboto", sans-serif;
 
 	--font-size-xs: 1rem;
-	--font-size-sm: 1.2rem;
-	--font-size-md-sm: 1.4rem;
-	--font-size-md: 1.6rem;
-	--font-size-md-lg: 1.8rem;
-	--font-size-lg: 2.2rem;
-	--font-size-xl: 2.6rem;
-	--font-size-xxl: 3.2rem;
+	--font-size-sm: 1.25rem;
+	--font-size-md-sm: 1.5rem;
+	--font-size-md: 1.75rem;
+	--font-size-md-lg: 2rem;
+	--font-size-lg: 2.25rem;
+	--font-size-xl: 2.5rem;
+	--font-size-xxl: 3rem;
 
 	--spacing-xs: 0.6rem;
 	--spacing-sm: 0.8rem;

@@ -11,13 +11,13 @@
 {#if open === true}
 	<div class="modal" in:fly={{ x: "-100%" }} out:fly={{ x: "100%" }}>
 		<div class="modal-content">
+			<span class="close-button">
+				<ActionButton onClick={closeCustomModal} type="utility" title="">
+					<span class="close-button-svg"><Close /></span>
+				</ActionButton>
+			</span>
 			<div class="modal-header">
 				<span class="modal-title"><slot name="modalTitle" /></span>
-				<span class="close-button">
-					<ActionButton onClick={closeCustomModal} type="utility" title="">
-						<span class="close-button-svg"><Close /></span>
-					</ActionButton>
-				</span>
 			</div>
 			<div class="modal-body">
 				<slot name="modalBody" />
@@ -30,7 +30,7 @@
 <style lang="scss">
 	.modal {
 		position: fixed;
-		top: 0;
+		top: 75px;
 		left: 0;
 		width: 100%;
 		height: 100%;
@@ -40,7 +40,7 @@
 		align-items: center;
 
 		.modal-content {
-			width: 50%;
+			width: clamp(300px, 60%, 600px);
 			// min-height: 400px;
 			height: 50%;
 			background-color: var(--background-color);
@@ -53,6 +53,18 @@
 			@media (max-width: 480px) {
 				width: 100%;
 				height: 100%;
+				border: none;
+			}
+
+			.close-button {
+				width: max-content;
+				margin-left: auto;
+				padding: var(--spacing-sm);
+				z-index: 85;
+				.close-button-svg {
+					width: 100%;
+					height: 100%;
+				}
 			}
 
 			.modal-header {
@@ -64,13 +76,6 @@
 				.modal-title {
 					width: 100%;
 					text-align: center;
-				}
-
-				.close-button {
-					.close-button-svg {
-						width: 100%;
-						height: 100%;
-					}
 				}
 			}
 

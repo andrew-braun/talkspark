@@ -5,6 +5,8 @@
 	export let input: FlowInput
 </script>
 
-{#if input.type === "radio"}
-	<ChoiceRadio choices={input.choices} id={input.id} />
-{/if}
+<div class="input-container">
+	{#if input.type === "radio"}
+		<ChoiceRadio {input} />
+	{/if}
+</div>

@@ -1,10 +1,14 @@
 <script lang="ts">
 	import Button from "components/buttons/Button.svelte"
-	import type { Choice } from "ts/flow"
 	import { customizations } from "stores/sparks/customizations"
+	import InputLabel from "components/forms/elements/InputLabel/InputLabel.svelte"
+	import type { FlowInput } from "ts/flow"
+	import type { Choice } from "ts/flow"
 
-	export let id: string = ""
-	export let choices: Choice[] = []
+	export let input: FlowInput
+
+	const choices: Choice[] | [] = input?.choices ?? []
+	const inputId = input?.id ?? ""
 
 	let currentlySelectedId = choices[0].id
 	$: currentlySelectedValue = choices.find(
@@ -18,7 +22,7 @@
 				...customizations,
 				choices: {
 					...customizations.choices,
-					[id]: currentlySelectedValue,
+					[inputId]: currentlySelectedValue,
 				},
 			}
 		})
@@ -32,13 +36,17 @@
 </script>
 
 <div class="choices">
+	<InputLabel htmlFor={input.id} formElement={false} type="radio"
+		>{input.text}</InputLabel
+	>
 	{#each choices as choice}
 		<div class="choice">
 			<Button
 				style="primary"
 				onClick={handleRadioButtonSelect}
 				active={choice.id === currentlySelectedId}
-				id={choice.id}>{choice.text}</Button
+				id={choice.id}
+				classes="choice-button">{choice.text}</Button
 			>
 		</div>
 	{/each}

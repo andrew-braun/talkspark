@@ -14,8 +14,7 @@
 	.main-header {
 		display: flex;
 		justify-content: space-between;
-		// padding: var(--spacing-xl) var(--spacing-sm) var(--spacing-lg)
-		// 	var(--spacing-sm);
+		min-height: 75px;
 		padding-top: var(--spacing-xl);
 		padding-bottom: var(--spacing-lg);
 		border-bottom: 3px solid transparent;

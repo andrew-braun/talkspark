@@ -18,6 +18,7 @@
 	export let isLoading: boolean = false
 	export let loadingText: string = "Loading..."
 	export let onClick: any
+	export let classes: string = ""
 </script>
 
 <button
@@ -26,9 +27,9 @@
 	{disabled}
 	on:click={onClick}
 	class={`general-button style-${style} 
-	${$$restProps.classes ? $$restProps.classes : ""} 
 	${isLoading ? "loading" : ""}
 	${active ? "active" : ""}
+	${classes}
 	`}
 >
 	{#if isLoading}
