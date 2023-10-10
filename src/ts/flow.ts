@@ -11,7 +11,7 @@ export interface FlowInput {
 	choices?: Choice[]
 }
 
-export interface FlowPage {
+export interface FlowPageProps {
 	id: string
 	inputs: FlowInput[]
 }
