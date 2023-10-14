@@ -31,7 +31,7 @@
 	}
 
 	customizations.subscribe((customizations) => {
-		console.log(customizations)
+		// console.log(customizations)
 	})
 </script>
 
@@ -42,7 +42,8 @@
 	{#each choices as choice}
 		<div class="choice">
 			<Button
-				style="primary"
+				style="light"
+				secondaryStyle="chip"
 				onClick={handleRadioButtonSelect}
 				active={choice.id === currentlySelectedId}
 				id={choice.id}
@@ -56,7 +57,8 @@
 	.choices {
 		.choice {
 			margin: var(--spacing-xs);
-			width: clamp(260px, 20vw, 300px);
+			// width: clamp(260px, 20vw, 300px);
+			width: 100%;
 		}
 	}
 </style>

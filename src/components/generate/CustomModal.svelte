@@ -16,9 +16,9 @@
 					<span class="close-button-svg"><Close /></span>
 				</ActionButton>
 			</span>
-			<div class="modal-header">
+			<h2 class="modal-header">
 				<span class="modal-title"><slot name="modalTitle" /></span>
-			</div>
+			</h2>
 			<div class="modal-body">
 				<slot name="modalBody" />
 			</div>
@@ -59,7 +59,7 @@
 			.close-button {
 				width: max-content;
 				margin-left: auto;
-				padding: var(--spacing-sm);
+				padding: var(--spacing-lg);
 				z-index: 85;
 				.close-button-svg {
 					width: 100%;

@@ -3,9 +3,8 @@
 	import FlowInput from "./FlowInput.svelte"
 
 	export let props: FlowPageProps
+	// export let currentPage: number
 	const page = props
-
-	console.log(page)
 </script>
 
 <div class="choices">
@@ -16,9 +15,11 @@
 
 <style lang="scss">
 	.choices {
+		position: absolute;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
+		width: clamp(260px, 80%, 320px);
 	}
 </style>

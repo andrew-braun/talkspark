@@ -13,6 +13,7 @@ export interface FlowInput {
 
 export interface FlowPageProps {
 	id: string
+	pageNumber: number
 	inputs: FlowInput[]
 }
 

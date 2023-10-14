@@ -1,9 +1,11 @@
 :root {
 	--primary-color: hsl(234, 61%, 13%);
-	--secondary-color: #e0e0e0;
-	--tertiary-color: #bdbdbd;
+	--secondary-color: hsl(0, 0%, 88%);
+	--tertiary-color: hsl(0, 0%, 74%);
 
 	--background-color: var(--primary-color);
+
+	--fill-color: hsla(234, 31%, 33%, 1);
 
 	--spark-background-color: hsla(234, 45%, 17%, 1);
 	--spark-border: 1px solid var(--secondary-color);
@@ -58,9 +60,9 @@
 	--font-size-md-sm: 1.5rem;
 	--font-size-md: 1.75rem;
 	--font-size-md-lg: 2rem;
-	--font-size-lg: 2.25rem;
-	--font-size-xl: 2.5rem;
-	--font-size-xxl: 3rem;
+	--font-size-lg: 2.5rem;
+	--font-size-xl: 3.25rem;
+	--font-size-xxl: 3.75rem;
 
 	--spacing-xs: 0.6rem;
 	--spacing-sm: 0.8rem;
@@ -73,6 +75,7 @@
 	--border-radius-md: 4px;
 	--border-radius-lg: 8px;
 	--border-radius-xl: 16px;
+	--border-radius-half: 40px;
 
 	--transition-std: all 0.3s ease-in-out;
 }

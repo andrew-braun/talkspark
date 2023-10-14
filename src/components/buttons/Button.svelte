@@ -13,6 +13,7 @@
 		| "light"
 		| "utility"
 		| "dark" = "primary"
+	export let secondaryStyle: "chip" | string
 	export let disabled: boolean = false
 	export let active: boolean = false
 	export let isLoading: boolean = false
@@ -27,6 +28,7 @@
 	{disabled}
 	on:click={onClick}
 	class={`general-button style-${style} 
+	${secondaryStyle ? `secondary-style-${secondaryStyle}` : ""}
 	${isLoading ? "loading" : ""}
 	${active ? "active" : ""}
 	${classes}
@@ -73,6 +75,12 @@
 			background: var(--gradient-1);
 		}
 
+		&.style-light {
+			background: var(--fill-color);
+			color: var(--text-color-light);
+			font-size: var(--font-size-md);
+			font-weight: 400;
+		}
 		&.style-basic {
 			width: max-content;
 			min-height: 24px;
@@ -83,6 +91,10 @@
 			line-height: 1;
 			text-decoration: underline;
 			font-size: var(--font-size-md-sm);
+		}
+
+		&.secondary-style-chip {
+			border-radius: var(--border-radius-half);
 		}
 
 		&.style-utility {

@@ -2,7 +2,6 @@
 	import type { FlowInput } from "ts/flow"
 	import FlowPage from "components/generate/FlowPage.svelte"
 	import Pages from "components/pagination/Pages.svelte"
-	import Button from "components/buttons/Button.svelte"
 
 	const page1Inputs: FlowInput[] = [
 		{
@@ -71,9 +70,10 @@
 	const pages = [
 		{
 			id: "page-1",
+			pageNumber: 1,
 			inputs: page1Inputs,
 		},
-		{ id: "page-2", inputs: page2Inputs },
+		{ id: "page-2", pageNumber: 2, inputs: page2Inputs },
 	]
 
 	const pageComponents = pages.map((page) => {

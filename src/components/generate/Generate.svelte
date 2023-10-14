@@ -15,10 +15,16 @@
 	let isCustomModalOpen = false
 
 	function openCustomModal() {
+		const body = document.querySelector("body")
+		body?.classList?.add("noscroll")
+
 		isCustomModalOpen = true
 	}
 
 	function closeCustomModal() {
+		const body = document.querySelector("body")
+		body?.classList?.remove("noscroll")
+
 		isCustomModalOpen = false
 	}
 </script>

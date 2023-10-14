@@ -1,14 +1,69 @@
 <script lang="ts">
-	import Button from "components/buttons/Button.svelte"
+	import { fly, slide } from "svelte/transition"
 	import PageNavigation from "./PageNavigation.svelte"
 
 	export let pages: any[]
-	console.log(pages)
+
+	let currentPage = 0
+	$: currentPageProps = pages[currentPage].props
+	$: currentPageComponent = pages[currentPage].component
+
+	const handleNextPage = () => {
+		if (currentPage < pages.length - 1) {
+			currentPage += 1
+		}
+	}
+
+	const handlePreviousPage = () => {
+		if (currentPage > 0) {
+			currentPage -= 1
+		}
+	}
 </script>
 
-<div class="pages">
-	{#each pages as page}
-		<svelte:component this={page.component} props={page.props} />
-	{/each}
-	<PageNavigation />
+<div class="pages-container">
+	{#key currentPage}
+		<div
+			class="page"
+			in:fly={{ delay: 300, duration: 250 }}
+			out:slide={{ axis: "x", duration: 300 }}
+		>
+			<svelte:component
+				this={currentPageComponent}
+				props={currentPageProps}
+				{currentPage}
+			/>
+		</div>
+	{/key}
+	<div class="controls">
+		<PageNavigation {handleNextPage} {handlePreviousPage} />
+	</div>
 </div>
+
+<style lang="scss">
+	.pages-container {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-start;
+		width: 100%;
+		height: 80vh;
+		overflow: hidden;
+
+		.page {
+			display: flex;
+			position: absolute;
+			justify-content: center;
+			align-items: flex-start;
+			width: 100%;
+			height: 80%;
+		}
+		.controls {
+			position: absolute;
+			bottom: 0;
+			width: 100%;
+			height: 20%;
+			background: var(--background-color);
+		}
+	}
+</style>

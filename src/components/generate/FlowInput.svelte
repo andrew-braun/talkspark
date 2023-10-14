@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { slide } from "svelte/transition"
 	import type { FlowInput } from "ts/flow"
 	import ChoiceRadio from "./ChoiceRadio.svelte"
 
@@ -10,3 +11,9 @@
 		<ChoiceRadio {input} />
 	{/if}
 </div>
+
+<style lang="scss">
+	.input-container {
+		width: 100%;
+	}
+</style>
