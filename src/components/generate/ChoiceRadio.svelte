@@ -1,9 +1,9 @@
 <script lang="ts">
 	import Button from "components/buttons/Button.svelte"
-	import { customizations } from "stores/sparks/customizations"
 	import InputLabel from "components/forms/elements/InputLabel/InputLabel.svelte"
 	import type { FlowInput } from "ts/flow"
 	import type { Choice } from "ts/flow"
+	import { customizations } from "stores/sparks/customizations"
 
 	export let input: FlowInput
 
@@ -57,7 +57,6 @@
 	.choices {
 		.choice {
 			margin: var(--spacing-xs);
-			// width: clamp(260px, 20vw, 300px);
 			width: 100%;
 		}
 	}

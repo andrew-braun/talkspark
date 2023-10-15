@@ -8,13 +8,19 @@
 	$: currentPageProps = pages[currentPage].props
 	$: currentPageComponent = pages[currentPage].component
 
+	let transitionDirection = 1
+
 	const handleNextPage = () => {
+		transitionDirection = 1
+
 		if (currentPage < pages.length - 1) {
 			currentPage += 1
 		}
 	}
 
 	const handlePreviousPage = () => {
+		transitionDirection = -1
+
 		if (currentPage > 0) {
 			currentPage -= 1
 		}
@@ -25,8 +31,17 @@
 	{#key currentPage}
 		<div
 			class="page"
-			in:fly={{ delay: 300, duration: 250 }}
-			out:slide={{ axis: "x", duration: 300 }}
+			in:fly={{
+				delay: 100,
+				duration: 250,
+				x: `${(transitionDirection * 100).toString()}%`,
+				// opacity: 0,
+			}}
+			out:fly={{
+				duration: 250,
+				x: `${(transitionDirection * -100).toString()}%`,
+				// opacity: 0,
+			}}
 		>
 			<svelte:component
 				this={currentPageComponent}

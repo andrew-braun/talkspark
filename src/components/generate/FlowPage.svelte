@@ -3,7 +3,7 @@
 	import FlowInput from "./FlowInput.svelte"
 
 	export let props: FlowPageProps
-	// export let currentPage: number
+
 	const page = props
 </script>
 

@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { slide } from "svelte/transition"
 	import type { FlowInput } from "ts/flow"
 	import ChoiceRadio from "./ChoiceRadio.svelte"
 
