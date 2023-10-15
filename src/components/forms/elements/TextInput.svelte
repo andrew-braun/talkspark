@@ -1,13 +1,14 @@
 <script lang="ts">
 	import InputLabel from "./InputLabel/InputLabel.svelte"
 
-	export let id: name
+	export let id: string
 	export let placeholder: string | null | undefined = null
 	export let label: string
+	export let onInput: (event: Event) => void
 </script>
 
 <InputLabel htmlFor={id}>{label}</InputLabel>
-<input type="text" {id} {placeholder} class="text-input" />
+<input type="text" {id} {placeholder} class="text-input" on:input={onInput} />
 
 <style lang="scss">
 	.text-input {

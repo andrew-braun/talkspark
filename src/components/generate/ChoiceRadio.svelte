@@ -3,7 +3,7 @@
 	import InputLabel from "components/forms/elements/InputLabel/InputLabel.svelte"
 	import type { FlowInput } from "ts/flow"
 	import type { Choice } from "ts/flow"
-	import { customizations } from "stores/sparks/customizations"
+	import { customizations, updateChoices } from "stores/sparks/customizations"
 
 	export let input: FlowInput
 
@@ -11,27 +11,27 @@
 	const inputId = input?.id ?? ""
 
 	let currentlySelectedId = choices[0].id
-	$: currentlySelectedValue = choices.find(
-		(choice) => choice.id === currentlySelectedId
-	)?.value
+	$: currentlySelectedValue =
+		choices.find((choice) => choice.id === currentlySelectedId)?.value ?? null
 
 	const handleRadioButtonSelect = (event: Event) => {
-		console.log(event.target)
-		customizations.update((customizations) => {
-			return {
-				...customizations,
-				choices: {
-					...customizations.choices,
-					[inputId]: currentlySelectedValue,
-				},
-			}
-		})
+		// customizations.update((customizations) => {
+		// 	return {
+		// 		...customizations,
+		// 		choices: {
+		// 			...customizations.choices,
+		// 			[inputId]: currentlySelectedValue,
+		// 		},
+		// 	}
+		// })
+
+		updateChoices({ choice: inputId, value: currentlySelectedValue })
 		const target = event.target as HTMLInputElement
 		currentlySelectedId = target.id
 	}
 
 	customizations.subscribe((customizations) => {
-		// console.log(customizations)
+		console.log(customizations)
 	})
 </script>
 

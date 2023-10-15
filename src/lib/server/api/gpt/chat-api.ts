@@ -55,8 +55,6 @@ export async function fetchChatResponse({
 function parseResponse(response: any) {
 	const { choices } = response
 
-	console.log(choices)
-
 	const responseObjects: ChatCompletionResponseChoice[] = choices.map(
 		(choice: any) => choice.message
 	)
