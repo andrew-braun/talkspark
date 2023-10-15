@@ -33,6 +33,11 @@ const page1Inputs: FlowInput[] = [
 			},
 		],
 	},
+	{
+		id: "relationship-type",
+		type: "text",
+		text: "Other",
+	},
 ]
 const page2Inputs: FlowInput[] = [
 	{
