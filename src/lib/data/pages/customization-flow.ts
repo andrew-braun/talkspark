@@ -9,26 +9,31 @@ const page1Inputs: FlowInput[] = [
 			{
 				id: "relationship-type-romantic",
 				text: "Romantic",
+				emoji: "💖",
 				value: "romantic",
 			},
 			{
 				id: "relationship-type-professional",
 				text: "Professional",
+				emoji: "💼",
 				value: "professional",
 			},
 			{
 				id: "relationship-type-friend",
 				text: "Friend",
+				emoji: "😊",
 				value: "friend",
 			},
 			{
 				id: "relationship-type-family",
 				text: "Family",
+				emoji: "👩🏽‍👩🏽‍👧🏽‍👦🏽",
 				value: "family",
 			},
 			{
 				id: "relationship-type-acquaintance",
 				text: "Acquaintance",
+				emoji: "👋🏽",
 				value: "acquaintance",
 			},
 		],

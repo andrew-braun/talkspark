@@ -47,7 +47,7 @@
 				onClick={handleRadioButtonSelect}
 				active={choice.id === currentlySelectedId}
 				id={choice.id}
-				classes="choice-button">{choice.text}</Button
+				classes="choice-button">{choice.text} {choice?.emoji ?? ""}</Button
 			>
 		</div>
 	{/each}
