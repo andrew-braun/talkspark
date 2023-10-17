@@ -50,7 +50,7 @@
 		max-width: 320px;
 		min-height: 38px;
 		padding: var(--spacing-sm) var(--spacing-md);
-		border: none;
+		border: 2px solid transparent;
 		border-radius: var(--border-radius-lg);
 		background: var(--accent-color-1);
 		font-size: var(--font-size-md-lg);
@@ -68,7 +68,7 @@
 		}
 
 		&.active {
-			outline: 2px solid var(--text-color-light);
+			border: 2px solid var(--text-color-light);
 		}
 
 		&.style-primary {

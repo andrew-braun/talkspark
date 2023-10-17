@@ -51,7 +51,12 @@
 		</div>
 	{/key}
 	<div class="controls">
-		<PageNavigation {handleNextPage} {handlePreviousPage} />
+		<PageNavigation
+			{handleNextPage}
+			{handlePreviousPage}
+			currentPageIndex={currentPage}
+			totalPages={pages.length}
+		/>
 	</div>
 </div>
 

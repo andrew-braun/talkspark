@@ -15,8 +15,8 @@ dependencies:
     specifier: ^2.11.8
     version: 2.11.8
   openai:
-    specifier: ^4.12.1
-    version: 4.12.1
+    specifier: ^4.12.3
+    version: 4.12.3
   vite-tsconfig-paths:
     specifier: ^4.2.1
     version: 4.2.1(typescript@5.2.2)(vite@4.4.11)
@@ -1030,8 +1030,8 @@ packages:
       wrappy: 1.0.2
     dev: true
 
-  /openai@4.12.1:
-    resolution: {integrity: sha512-EAoUwm4dtiWvFwBhOCK/VfF8sj1ZU8+aAIJnfT4NyeTfrt1DM/6Gdd6fOZWTjBYryTAqu9Vpb5+9Wu6JMtm/gA==}
+  /openai@4.12.3:
+    resolution: {integrity: sha512-Kw8M8qioKg+iw2tCpdJ1G772uV0tk4SRF1MtySYSPr82YH+Csl61kYv2KzKAOqINcOVn5eSN26t0ImIsdJexfw==}
     hasBin: true
     dependencies:
       '@types/node': 18.17.11
@@ -1042,6 +1042,7 @@ packages:
       form-data-encoder: 1.7.2
       formdata-node: 4.4.1
       node-fetch: 2.7.0
+      web-streams-polyfill: 3.2.1
     transitivePeerDependencies:
       - encoding
     dev: false
@@ -1420,6 +1421,11 @@ packages:
     dependencies:
       vite: 4.4.11(sass@1.69.3)
     dev: true
+
+  /web-streams-polyfill@3.2.1:
+    resolution: {integrity: sha512-e0MO3wdXWKrLbL0DgGnUV7WHVuw9OUvL4hjgnPkIeEvESk74gAITi5G606JtZPp39cd8HA9VQzCIvA49LpPN5Q==}
+    engines: {node: '>= 8'}
+    dev: false
 
   /web-streams-polyfill@4.0.0-beta.3:
     resolution: {integrity: sha512-QW95TCTaHmsYfHDybGMwO5IJIM93I/6vTRk+daHTWFPhwh+C8Cg7j7XyKrwrj8Ib6vYXe0ocYNrmzY4xAAN6ug==}

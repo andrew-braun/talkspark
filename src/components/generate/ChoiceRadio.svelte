@@ -15,23 +15,13 @@
 		choices.find((choice) => choice.id === currentlySelectedId)?.value ?? null
 
 	const handleRadioButtonSelect = (event: Event) => {
-		// customizations.update((customizations) => {
-		// 	return {
-		// 		...customizations,
-		// 		choices: {
-		// 			...customizations.choices,
-		// 			[inputId]: currentlySelectedValue,
-		// 		},
-		// 	}
-		// })
-
 		updateChoices({ choice: inputId, value: currentlySelectedValue })
 		const target = event.target as HTMLInputElement
 		currentlySelectedId = target.id
 	}
 
 	customizations.subscribe((customizations) => {
-		console.log(customizations)
+		// console.log(customizations)
 	})
 </script>
 
