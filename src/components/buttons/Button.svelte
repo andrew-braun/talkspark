@@ -13,7 +13,7 @@
 		| "light"
 		| "utility"
 		| "dark" = "primary"
-	export let secondaryStyle: "chip" | string
+	export let secondaryStyle: "chip" | string | null = null
 	export let disabled: boolean = false
 	export let active: boolean = false
 	export let isLoading: boolean = false

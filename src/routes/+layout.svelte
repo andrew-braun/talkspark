@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Header from "components/layout/header/Header.svelte"
 	import Loading from "components/states/loading/Loading.svelte"
-	import { loadingState } from "stores/app-state/loading"
+	import { getAnyLoadingState, loadingState } from "stores/app-state/loading"
 	import { fly } from "svelte/transition"
 	import { cubicIn, cubicOut } from "svelte/easing"
 	import "styles/variables.css"
@@ -12,7 +12,7 @@
 
 	let isLoading: boolean = false
 	loadingState.subscribe((state) => {
-		isLoading = state
+		isLoading = getAnyLoadingState(state)
 	})
 </script>
 

@@ -1,6 +1,10 @@
 <script lang="ts">
 	import { generated_sparks } from "stores/sparks/generated-sparks"
-	import { loadingState } from "stores/app-state/loading"
+	import {
+		loadingState,
+		setLoadingState,
+		type LoadingStore,
+	} from "stores/app-state/loading"
 	import { getSpark, type GetSparkResponse } from "lib/client/gpt/chat"
 
 	import Button from "./Button.svelte"
@@ -13,9 +17,10 @@
 	export let openCustomModal: () => void = () => {}
 	// export let closeCustomModal: () => void = () => {}
 
-	let generatingSparks: boolean = false
+	let isSparkLoading = false
+
 	loadingState.subscribe((loading) => {
-		generatingSparks = loading
+		isSparkLoading = loading[`${type}Sparks`]?.loading
 	})
 
 	async function generateSparks() {
@@ -29,16 +34,15 @@
 			return sparks
 		} catch (error) {
 			console.error(error)
-			loadingState.set(false)
+			setLoadingState({ action: "randomSparks", loading: false })
 		}
 	}
 
 	const handleSparkGeneration = async () => {
-		loadingState.set(true)
-
 		let sparks: any = []
 
 		if (type === "random") {
+			setLoadingState({ action: "randomSparks", loading: true })
 			sparks = await generateSparks()
 
 			generated_sparks.update((currentSparks) => {
@@ -47,12 +51,12 @@
 
 			await onClick()
 
+			setLoadingState({ action: "randomSparks", loading: false })
 			return
 		}
 
 		if (type === "custom") {
 			openCustomModal()
-			loadingState.set(false)
 
 			console.log("Creating custom sparks...")
 
@@ -67,8 +71,8 @@
 	style="primary"
 	onClick={handleSparkGeneration}
 	classes="spark-button"
-	disabled={generatingSparks}
-	isLoading={generatingSparks}
+	disabled={isSparkLoading}
+	isLoading={isSparkLoading}
 	loadingText="✨ Generating sparks..."
 >
 	{buttonText}
