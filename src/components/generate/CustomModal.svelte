@@ -1,5 +1,5 @@
 <script>
-	import { fade, fly } from "svelte/transition"
+	import { fly } from "svelte/transition"
 	import Close from "lib/assets/icons/Close.svg?component"
 	// import Button from "components/buttons/Button.svelte"
 	import ActionButton from "components/buttons/ActionButtons/ActionButton.svelte"
@@ -39,10 +39,13 @@
 		justify-content: center;
 		align-items: center;
 
+		@media (min-width: 480px) {
+			top: 0;
+		}
+
 		.modal-content {
 			width: clamp(300px, 60%, 600px);
-			// min-height: 400px;
-			height: 50%;
+			height: clamp(400px, 80dvh, 700px);
 			background-color: var(--background-color);
 			border: 2px solid var(--accent-color-3);
 			border-radius: 10px;
