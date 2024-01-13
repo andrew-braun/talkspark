@@ -13,3 +13,8 @@ export interface ChatCompletionResponseChoice {
 	message: ChatCompletionResponseMessage
 	finish_reason: string
 }
+
+export interface ChatCompletionMessageObject {
+	role: OpenAI.Chat.ChatCompletionRole
+	content: string
+}

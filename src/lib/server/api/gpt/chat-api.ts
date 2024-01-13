@@ -1,19 +1,24 @@
 import initOpenAi from "lib/server/api/gpt/init"
 import type OpenAI from "openai"
-import type { ChatCompletionResponseChoice } from "ts/chat-gpt"
+import type {
+	ChatCompletionMessageObject,
+	ChatCompletionResponseChoice,
+} from "ts/chat-gpt"
 
-interface ChatCompletionRequestMessage
-	extends OpenAI.Chat.CreateChatCompletionRequestMessage {}
+// interface ChatCompletionRequestMessage
+// 	extends OpenAI.Chat.ChatCompletionMessageParam {}
 
 export async function fetchChatResponse({
 	message,
 	roles,
 }: {
-	message: string
-	roles?: ChatCompletionRequestMessage[]
+	message?: string
+	roles?:
+		| OpenAI.ChatCompletionMessageParam[]
+		| { role: OpenAI.Chat.ChatCompletionRole; content: string }[]
 }) {
 	// Set default roles assuming that the user is asking for conversation starters
-	const defaultRoles: ChatCompletionRequestMessage[] = [
+	const defaultRoles: ChatCompletionMessageObject[] = [
 		{
 			role: "system",
 			content:
@@ -22,7 +27,7 @@ export async function fetchChatResponse({
 	]
 
 	// If default is overridden, use the provided roles
-	let apiRoles: ChatCompletionRequestMessage[] = roles ?? defaultRoles
+	let apiRoles = roles ?? defaultRoles
 
 	if (!roles) {
 		apiRoles = defaultRoles
@@ -33,7 +38,7 @@ export async function fetchChatResponse({
 
 		const response = await openai.chat.completions.create({
 			model: "gpt-3.5-turbo",
-			messages: [...apiRoles, { role: "user", content: message ?? "" }],
+			messages: [...apiRoles, { role: "user", content: message ?? "" }] as any,
 			max_tokens: 256,
 			temperature: 1.25,
 			frequency_penalty: 0.55,
