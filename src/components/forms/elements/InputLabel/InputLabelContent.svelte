@@ -1,5 +1,5 @@
 <script lang="ts">
-	export let type: "radio" | "checkbox" | null = null
+	export let type: "radio" | "checkboxes" | null = null
 </script>
 
 <div class="input-label">
@@ -7,7 +7,11 @@
 		<slot />
 	</p>
 	{#if type === "radio"}
-		<p class="input-label-secondary-text">(Choose One)</p>
+		<p class="input-label-secondary-text">(Choose one)</p>
+	{/if}
+
+	{#if type === "checkboxes"}
+		<p class="input-label-secondary-text">(Choose one or more)</p>
 	{/if}
 </div>
 

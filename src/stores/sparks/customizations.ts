@@ -1,6 +1,6 @@
 import { writable } from "svelte/store"
 import type { Writable } from "svelte/store"
-import type { Customizations } from "ts/flow"
+import type { Customizations } from "$ts/flow"
 
 export const customizations: Writable<Customizations> = writable({
 	choices: [],
@@ -11,7 +11,7 @@ export const updateChoices = ({
 	value: value,
 }: {
 	choice: string
-	value: string | null
+	value: string | string[] | null
 }) =>
 	customizations.update((customizations: Customizations) => {
 		return {

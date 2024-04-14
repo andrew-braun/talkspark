@@ -1,5 +1,6 @@
 <script lang="ts">
 	import ChoiceRadio from "./ChoiceRadio.svelte"
+	import ChoiceCheckboxes from "./ChoiceCheckboxes.svelte"
 	import ChoiceTextInput from "./ChoiceTextInput.svelte"
 	import type { FlowInput } from "$ts/flow"
 
@@ -9,6 +10,9 @@
 <div class="input-container">
 	{#if input.type === "radio"}
 		<ChoiceRadio {input} />
+	{/if}
+	{#if input.type === "checkboxes"}
+		<ChoiceCheckboxes {input} />
 	{/if}
 	{#if input.type === "text"}
 		<ChoiceTextInput {input} />

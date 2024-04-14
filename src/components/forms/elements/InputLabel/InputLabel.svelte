@@ -2,7 +2,7 @@
 	import InputLabelContent from "./InputLabelContent.svelte"
 
 	export let htmlFor: string = ""
-	export let type: "radio" | "checkbox" | null = null
+	export let type: "radio" | "checkboxes" | null = null
 	export let formElement: boolean = true
 </script>
 

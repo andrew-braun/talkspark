@@ -8,7 +8,8 @@ export interface Choice {
 export interface FlowInput {
 	id: string
 	text: string
-	type: "radio" | "text"
+	type: "radio" | "text" | "checkboxes"
+	props?: any
 	choices?: Choice[]
 }
 

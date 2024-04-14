@@ -21,6 +21,8 @@
 		align-items: center;
 		justify-content: center;
 		width: clamp(260px, 80%, 320px);
+		height: 100%;
+		padding-top: var(--spacing-xl);
 		// width: 100%;
 	}
 </style>

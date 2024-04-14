@@ -58,7 +58,7 @@ const page2Inputs: FlowInput[] = [
 			{
 				id: "relationship-depth-1",
 				text: "We know each other, but not well",
-				value: "0",
+				value: "1",
 			},
 			{
 				id: "relationship-depth-2",
@@ -74,6 +74,42 @@ const page2Inputs: FlowInput[] = [
 	},
 ]
 
+const page3Inputs: FlowInput[] = [
+	{
+		id: "tone",
+		type: "checkboxes",
+		props: { style: "chips" },
+		text: "Tone",
+		choices: [
+			{
+				id: "tone-0",
+				text: "Playful",
+				value: "playful",
+			},
+			{
+				id: "tone-1",
+				text: "Flirty",
+				value: "flirty",
+			},
+			{
+				id: "tone-2",
+				text: "Serious",
+				value: "serious",
+			},
+			{
+				id: "tone-3",
+				text: "Funny",
+				value: "funny",
+			},
+			{
+				id: "tone-4",
+				text: "Philosophical",
+				value: "philosophical",
+			},
+		],
+	},
+]
+
 export const customizationFlowPages: FlowPageProps[] = [
 	{
 		id: "page-1",
@@ -81,4 +117,5 @@ export const customizationFlowPages: FlowPageProps[] = [
 		inputs: page1Inputs,
 	},
 	{ id: "page-2", pageNumber: 2, inputs: page2Inputs },
+	{ id: "page-3", pageNumber: 3, inputs: page3Inputs },
 ]
