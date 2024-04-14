@@ -26,7 +26,7 @@
 		"@poppanator/sveltekit-svg": "^4.2.1",
 		"@popperjs/core": "^2.11.8",
 		"kit": "link:@sveltejs?/kit",
-		"openai": "^4.24.7",
+		"openai": "^4.33.1",
 		"vite-tsconfig-paths": "^4.3.2"
 	}
 }
