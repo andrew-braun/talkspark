@@ -77,6 +77,8 @@
 			align-items: flex-start;
 			width: 100%;
 			height: 80%;
+			overflow-y: auto;
+			overflow-x: hidden;
 		}
 		.controls {
 			position: absolute;

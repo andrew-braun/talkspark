@@ -45,8 +45,11 @@
 
 <style lang="scss">
 	.choices {
+		position: relative;
+		height: 100%;
+		overflow: auto;
 		.choice {
-			margin: var(--spacing-xs);
+			margin: var(--spacing-xs) 0;
 			width: 100%;
 		}
 	}

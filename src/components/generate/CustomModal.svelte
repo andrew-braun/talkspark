@@ -16,9 +16,9 @@
 					<span class="close-button-svg"><Close /></span>
 				</ActionButton>
 			</span>
-			<h2 class="modal-header">
+			{#if $$slots.modalTitle}
 				<span class="modal-title"><slot name="modalTitle" /></span>
-			</h2>
+			{/if}
 			<div class="modal-body">
 				<slot name="modalBody" />
 			</div>
@@ -44,6 +44,7 @@
 		}
 
 		.modal-content {
+			position: relative;
 			width: clamp(300px, 60%, 600px);
 			height: clamp(400px, 80dvh, 700px);
 			background-color: var(--background-color);
@@ -51,7 +52,7 @@
 			border-radius: 10px;
 			display: flex;
 			flex-direction: column;
-			overflow: auto;
+			overflow: hidden;
 
 			@media (max-width: 480px) {
 				width: 100%;
@@ -60,6 +61,8 @@
 			}
 
 			.close-button {
+				position: absolute;
+				right: 0;
 				width: max-content;
 				margin-left: auto;
 				padding: var(--spacing-lg);
