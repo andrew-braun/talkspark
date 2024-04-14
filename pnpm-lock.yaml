@@ -31,6 +31,9 @@ devDependencies:
   '@sveltejs/kit':
     specifier: ^2.5.5
     version: 2.5.5(@sveltejs/vite-plugin-svelte@3.1.0)(svelte@4.2.14)(vite@5.2.8)
+  '@sveltejs/vite-plugin-svelte':
+    specifier: ^3.0.0
+    version: 3.1.0(svelte@4.2.14)(vite@5.2.8)
   sass:
     specifier: ^1.75.0
     version: 1.75.0
@@ -705,7 +708,7 @@ packages:
     engines: {node: ^10 || ^12.20.0 || ^14.13.0 || >=15.0.0, npm: '>=7.0.0'}
     dependencies:
       mdn-data: 2.0.28
-      source-map-js: 1.0.2
+      source-map-js: 1.2.0
     dev: false
 
   /css-tree@2.3.1:
