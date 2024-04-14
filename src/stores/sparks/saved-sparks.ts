@@ -1,7 +1,7 @@
 import { writable } from "svelte/store"
-import { toLocalStorage, fromLocalStorage } from "stores/utils/local-storage"
+import { toLocalStorage, fromLocalStorage } from "$stores/utils/local-storage"
 import type { Writable } from "svelte/store"
-import type { SparkData } from "ts/sparks"
+import type { SparkData } from "$ts/sparks"
 
 export const saved_sparks: Writable<SparkData[]> = writable(
 	fromLocalStorage("saved_sparks", [])

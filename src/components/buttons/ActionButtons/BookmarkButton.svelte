@@ -1,11 +1,11 @@
 <script lang="ts">
 	import ActionButton from "./ActionButton.svelte"
 
-	import { saved_sparks } from "stores/sparks/saved-sparks"
-	import type { SparkData } from "ts/sparks"
+	import { saved_sparks } from "$stores/sparks/saved-sparks"
+	import type { SparkData } from "$ts/sparks"
 
-	import BiBookmarkHeart from "lib/assets/icons/BiBookmarkHeart.svg?component"
-	import BiBookmarkHeartFill from "lib/assets/icons/BiBookmarkHeartFill.svg?component"
+	import BiBookmarkHeart from "$lib/assets/icons/BiBookmarkHeart.svg?component"
+	import BiBookmarkHeartFill from "$lib/assets/icons/BiBookmarkHeartFill.svg?component"
 
 	// Props
 	export let spark: SparkData

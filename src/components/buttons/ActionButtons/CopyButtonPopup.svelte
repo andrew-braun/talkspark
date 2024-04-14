@@ -1,5 +1,5 @@
 <script lang="ts">
-	import BiClipboardCheck from "lib/assets/icons/BiClipboardCheck.svg?component"
+	import BiClipboardCheck from "$lib/assets/icons/BiClipboardCheck.svg?component"
 </script>
 
 <span class="copy-popup">

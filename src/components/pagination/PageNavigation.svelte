@@ -1,8 +1,8 @@
 <script lang="ts">
-	import IoArrowBack from "lib/assets/icons/IoArrowBack.svg?component"
-	import IoArrowForwards from "lib/assets/icons/IoArrowForwards.svg?component"
-	import ActionButton from "components/buttons/ActionButtons/ActionButton.svelte"
-	import ProgressBar from "components/data/ProgressBar.svelte"
+	import IoArrowBack from "$lib/assets/icons/IoArrowBack.svg?component"
+	import IoArrowForwards from "$lib/assets/icons/IoArrowForwards.svg?component"
+	import ActionButton from "$components/buttons/ActionButtons/ActionButton.svelte"
+	import ProgressBar from "$components/data/ProgressBar.svelte"
 
 	export let currentPageIndex: number
 	export let totalPages: number

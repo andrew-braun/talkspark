@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { fade, fly, slide } from "svelte/transition"
-	import type { SparkData } from "ts/sparks"
+	import type { SparkData } from "$ts/sparks"
 	import SparkActions from "./SparkActions.svelte"
 	import { afterUpdate } from "svelte"
 

@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { generated_sparks } from "stores/sparks/generated-sparks"
-	import Sparks from "components/sparks/Sparks.svelte"
+	import { generated_sparks } from "$stores/sparks/generated-sparks"
+	import Sparks from "$components/sparks/Sparks.svelte"
 
-	import type { SparkData } from "ts/sparks"
-	import GenerateSparksButton from "components/buttons/GenerateSparksButton.svelte"
+	import type { SparkData } from "$ts/sparks"
+	import GenerateSparksButton from "$components/buttons/GenerateSparksButton.svelte"
 	import CustomModal from "./CustomModal.svelte"
 	import CustomizationFlow from "./CustomizationFlow.svelte"
 

@@ -1,8 +1,8 @@
 import crypto from "crypto"
 import { json } from "@sveltejs/kit"
-import { fetchChatResponse } from "lib/server/api/gpt/chat-api.js"
-import { topics } from "lib/data/random-topics.js"
-import type { SparkData } from "ts/sparks.js"
+import { fetchChatResponse } from "$lib/server/api/gpt/chat-api.js"
+import { topics } from "$lib/data/random-topics.js"
+import type { SparkData } from "$ts/sparks.js"
 
 export async function POST({ request }) {
 	try {

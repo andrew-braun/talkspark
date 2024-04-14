@@ -1,12 +1,12 @@
 <script lang="ts">
-	import Header from "components/layout/header/Header.svelte"
-	import Loading from "components/states/loading/Loading.svelte"
-	import { getAnyLoadingState, loadingState } from "stores/app-state/loading"
+	import Header from "$components/layout/header/Header.svelte"
+	import Loading from "$components/states/loading/Loading.svelte"
+	import { getAnyLoadingState, loadingState } from "$stores/app-state/loading"
 	import { fly } from "svelte/transition"
 	import { cubicIn, cubicOut } from "svelte/easing"
-	import "styles/variables.css"
-	import "styles/globals.scss"
-	import "styles/animations.css"
+	import "$styles/variables.css"
+	import "$styles/globals.scss"
+	import "$styles/animations.css"
 
 	export let data
 

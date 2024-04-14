@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { FlowPageProps } from "ts/flow"
+	import type { FlowPageProps } from "$ts/flow"
 	import FlowInput from "./FlowInput.svelte"
 
 	export let props: FlowPageProps

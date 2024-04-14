@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { AnimationType } from "ts/animation"
+	import type { AnimationType } from "$ts/animation"
 
 	export let animation: AnimationType = "bouncyBox"
 </script>

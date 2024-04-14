@@ -1,6 +1,6 @@
 <script lang="ts">
-	import type { AnimationType } from "ts/animation"
-	import LoadingAnimation from "components/states/loading/LoadingAnimation.svelte"
+	import type { AnimationType } from "$ts/animation"
+	import LoadingAnimation from "$components/states/loading/LoadingAnimation.svelte"
 
 	export let isLoading: boolean = false
 	export let animation: AnimationType

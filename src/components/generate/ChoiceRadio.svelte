@@ -1,9 +1,9 @@
 <script lang="ts">
-	import Button from "components/buttons/Button.svelte"
-	import InputLabel from "components/forms/elements/InputLabel/InputLabel.svelte"
-	import type { FlowInput } from "ts/flow"
-	import type { Choice } from "ts/flow"
-	import { customizations, updateChoices } from "stores/sparks/customizations"
+	import Button from "$components/buttons/Button.svelte"
+	import InputLabel from "$components/forms/elements/InputLabel/InputLabel.svelte"
+	import type { FlowInput } from "$ts/flow"
+	import type { Choice } from "$ts/flow"
+	import { customizations, updateChoices } from "$stores/sparks/customizations"
 
 	export let input: FlowInput
 

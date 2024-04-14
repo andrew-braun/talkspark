@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Generate from "components/generate/Generate.svelte"
+	import Generate from "$components/generate/Generate.svelte"
 </script>
 
 <section class="home-page-container">

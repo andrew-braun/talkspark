@@ -1,7 +1,7 @@
 <script lang="ts">
-	import TextInput from "components/forms/elements/TextInput.svelte"
-	import { updateChoices } from "stores/sparks/customizations"
-	import type { FlowInput } from "ts/flow"
+	import TextInput from "$components/forms/elements/TextInput.svelte"
+	import { updateChoices } from "$stores/sparks/customizations"
+	import type { FlowInput } from "$ts/flow"
 
 	export let input: FlowInput
 

@@ -1,11 +1,11 @@
 <script lang="ts">
-	import { generated_sparks } from "stores/sparks/generated-sparks"
+	import { generated_sparks } from "$stores/sparks/generated-sparks"
 	import {
 		loadingState,
 		setLoadingState,
 		type LoadingStore,
-	} from "stores/app-state/loading"
-	import { getSpark, type GetSparkResponse } from "lib/client/gpt/chat"
+	} from "$stores/app-state/loading"
+	import { getSpark, type GetSparkResponse } from "$lib/client/gpt/chat"
 
 	import Button from "./Button.svelte"
 	// import Spark from "components/sparks/Spark.svelte"

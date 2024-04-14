@@ -1,5 +1,5 @@
 <script lang="ts">
-	import CopyIcon from "lib/assets/icons/copy.svg?component"
+	import CopyIcon from "$lib/assets/icons/copy.svg?component"
 	import ActionButton from "./ActionButton.svelte"
 	import CopyButtonPopup from "./CopyButtonPopup.svelte"
 

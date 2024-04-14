@@ -1,8 +1,8 @@
 <script>
 	import { fly } from "svelte/transition"
-	import Close from "lib/assets/icons/Close.svg?component"
+	import Close from "$lib/assets/icons/Close.svg?component"
 	// import Button from "components/buttons/Button.svelte"
-	import ActionButton from "components/buttons/ActionButtons/ActionButton.svelte"
+	import ActionButton from "$components/buttons/ActionButtons/ActionButton.svelte"
 
 	export let open = false
 	export let closeCustomModal = () => {}

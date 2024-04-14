@@ -1,4 +1,4 @@
-import type { FlowInput, FlowPageProps } from "ts/flow"
+import type { FlowInput, FlowPageProps } from "$ts/flow"
 
 const page1Inputs: FlowInput[] = [
 	{

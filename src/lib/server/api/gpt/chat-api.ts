@@ -1,9 +1,9 @@
-import initOpenAi from "lib/server/api/gpt/init"
+import initOpenAi from "$lib/server/api/gpt/init"
 import type OpenAI from "openai"
 import type {
 	ChatCompletionMessageObject,
 	ChatCompletionResponseChoice,
-} from "ts/chat-gpt"
+} from "$ts/chat-gpt"
 
 // interface ChatCompletionRequestMessage
 // 	extends OpenAI.Chat.ChatCompletionMessageParam {}

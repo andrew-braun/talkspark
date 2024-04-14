@@ -1,10 +1,9 @@
 <script lang="ts">
-	import type { SparkData } from "ts/sparks"
-	import { generated_sparks } from "stores/sparks/generated-sparks"
-	import Spark from "components/sparks/Spark.svelte"
-	import { sortByDate } from "lib/utils/sort"
-	import Button from "components/buttons/Button.svelte"
-	import { fade } from "svelte/transition"
+	import type { SparkData } from "$ts/sparks"
+	import { generated_sparks } from "$stores/sparks/generated-sparks"
+	import Spark from "$components/sparks/Spark.svelte"
+	import { sortByDate } from "$lib/utils/sort"
+	import Button from "$components/buttons/Button.svelte"
 
 	export let sparks: SparkData[] = []
 	export let sparkStore = generated_sparks
