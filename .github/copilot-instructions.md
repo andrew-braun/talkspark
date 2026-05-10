@@ -1,0 +1,21 @@
+# TalkSpark Copilot Instructions
+
+- Use `pnpm`, not `npm`, for install and script execution in this repository.
+- Start by trusting `AGENTS.md` for the project overview, architecture map, environment requirements, and validated commands. Search only when the task needs details not covered there.
+- This repository is a SvelteKit app for generating conversation starters with a server-side OpenAI call and browser-side localStorage persistence.
+- The README is default scaffold content and is not reliable project documentation.
+- The most important paths are:
+  - `src/routes/api/generate/+server.ts` for spark-generation request handling and JSON response shaping
+  - `src/lib/server/api/gpt/` for OpenAI client setup and chat completion calls
+  - `src/lib/client/gpt/chat.ts` for the client request wrapper
+  - `src/stores/sparks/` and `src/stores/utils/local-storage.ts` for persisted client state
+  - `src/components/` and `src/routes/+page.svelte` for the UI
+- Keep `OPENAI_API_KEY` server-only. Do not move secret-dependent code into client bundles.
+- Use the repo's existing import style and aliases from `tsconfig.json`, including `$lib`, `$components`, `$styles`, and `$ts`.
+- For Svelte, TypeScript, or store changes, validate with `pnpm check`.
+- `pnpm check` currently fails in the repo baseline because of existing `openai` SDK typing mismatches in `src/lib/server/api/gpt/chat-api.ts`; do not misreport that as caused by your change unless you touched that area.
+- For integration or release-safety validation, use `OPENAI_API_KEY=dummy pnpm build` when you only need a packaging check.
+- There is no lint script and no test suite today, so do not report lint or test results unless you add that tooling.
+- `pnpm install` currently works on Node `v24.15.0` and pnpm `10.33.0`, but pnpm warns that the committed lockfile is from an older format and warns about ignored dependency build scripts.
+- `pnpm build` fails if `OPENAI_API_KEY` is unset because the server code imports it from `$env/static/private`.
+- Keep edits targeted. Do not modernize the whole app, upgrade SvelteKit, or rewrite the OpenAI integration unless the task explicitly asks for that.

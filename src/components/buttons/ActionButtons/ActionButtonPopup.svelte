@@ -1,13 +1,13 @@
 <script lang="ts">
-	import { afterUpdate } from "svelte"
+	import type { Snippet } from "svelte"
 	import { fade } from "svelte/transition"
 
-	export let show: boolean = false
+	let { show = false, children }: { show?: boolean; children?: Snippet } = $props()
 </script>
 
 {#if show}
 	<div class={`popup ${show ? "show" : "hide"}`} transition:fade>
-		<slot />
+		{@render children?.()}
 	</div>
 {/if}
 

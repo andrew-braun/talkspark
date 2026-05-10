@@ -1,9 +1,11 @@
 <script lang="ts">
-	export let link: string = "#"
+	import type { Snippet } from "svelte"
+
+	let { link = "#", children }: { link?: string; children?: Snippet } = $props()
 </script>
 
 <a href={link} class="nav-link">
-	<slot />
+	{@render children?.()}
 </a>
 
 <style lang="scss">

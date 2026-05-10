@@ -1,26 +1,34 @@
 <script lang="ts">
-	import type { SvelteComponent } from "svelte"
+	import type { Snippet } from "svelte"
 	import ActionButtonPopup from "./ActionButtonPopup.svelte"
 
-	// Props
-	export let onClick: () => void
-	export let title: string
-	export let type: "copy" | "save"
-	export let isPopupActive: boolean = false
+	let {
+		onClick,
+		title,
+		type,
+		isPopupActive = false,
+		children,
+		popup,
+	}: {
+		onClick: () => void
+		title: string
+		type: "copy" | "save"
+		isPopupActive?: boolean
+		children?: Snippet
+		popup?: Snippet
+	} = $props()
 </script>
 
 <button
 	class={`action ${type}`}
 	{title}
-	on:click={() => {
-		onClick()
-	}}
+	onclick={() => onClick()}
 >
-	<slot />
+	{@render children?.()}
 </button>
 
 <ActionButtonPopup show={isPopupActive}>
-	<slot name="popup" />
+	{@render popup?.()}
 </ActionButtonPopup>
 
 <style lang="scss">

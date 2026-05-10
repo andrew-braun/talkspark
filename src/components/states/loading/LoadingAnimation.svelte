@@ -1,10 +1,10 @@
 <script lang="ts">
 	import type { AnimationType } from "ts/animation"
 
-	export let animation: AnimationType = "bouncyBox"
+	let { animation = "bouncyBox" }: { animation?: AnimationType } = $props()
 </script>
 
-<span class={`loader ${animation}`} />
+<span class={`loader ${animation}`}></span>
 
 <style lang="scss">
 	.loader {
@@ -14,18 +14,6 @@
 		position: relative;
 
 		&.bouncyBox {
-			// &:before {
-			// 	content: "";
-			// 	width: 100%;
-			// 	height: 5px;
-			// 	background: var(--accent-color-4);
-			// 	opacity: 0.8;
-			// 	position: absolute;
-			// 	top: 40px;
-			// 	left: 0;
-			// 	border-radius: 50%;
-			// 	animation: shadow 0.5s linear infinite;
-			// }
 			&:after {
 				content: "";
 				width: 100%;

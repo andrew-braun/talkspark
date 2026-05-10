@@ -1,11 +1,9 @@
 <script lang="ts">
 	import type { SparkData } from "ts/sparks"
-
 	import CopyButton from "components/buttons/ActionButtons/CopyButton.svelte"
 	import BookmarkButton from "components/buttons/ActionButtons/BookmarkButton.svelte"
 
-	// Props
-	export let spark: SparkData
+	let { spark }: { spark: SparkData } = $props()
 </script>
 
 <div class="actions">

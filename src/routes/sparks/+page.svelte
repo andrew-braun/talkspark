@@ -1,31 +1,23 @@
 <script lang="ts">
-	import { page } from "$app/stores"
+	import { page } from "$app/state"
 	import { goto } from "$app/navigation"
 	import GenerateSparksButton from "components/buttons/GenerateSparksButton.svelte"
 	import Sparks from "components/sparks/Sparks.svelte"
-	import { saved_sparks } from "stores/sparks/saved-sparks"
-	import type { SparkData } from "ts/sparks"
-
-	let savedSparks: SparkData[] = []
-	saved_sparks.subscribe((sparks) => {
-		savedSparks = sparks
-	})
-
-	async function handleGenerateSparksClick() {
-		if ($page.data.pathname !== "/") {
-			await goto("/")
-		}
-	}
+	import { savedSparks } from "stores/sparks.svelte"
 </script>
 
 <h1>Sparks</h1>
 <div class="button-container">
 	<GenerateSparksButton
 		buttonText="More Random Sparks"
-		onClick={handleGenerateSparksClick}
+		onClick={async () => {
+			if (page.data.pathname !== "/") {
+				await goto("/")
+			}
+		}}
 	/>
 </div>
-<Sparks sparks={savedSparks} sparkStore={saved_sparks} />
+<Sparks sparks={savedSparks.items} sparkStore={savedSparks} />
 
 <style lang="scss">
 	.button-container {

@@ -1,69 +1,44 @@
 import initOpenAi from "lib/server/api/gpt/init"
-import type OpenAI from "openai"
-import type { ChatCompletionResponseChoice } from "ts/chat-gpt"
 
-interface ChatCompletionRequestMessage
-	extends OpenAI.Chat.CreateChatCompletionRequestMessage {}
+const SYSTEM_INSTRUCTIONS = `You are a conversation starter app. Your goal is to engage users by generating interesting conversation openers.
+You will provide conversation starters ONLY as a JSON object with a "sparks" array.
+Each spark object must have only a "content" key.
+Each conversation starter should be limited to 256 characters or less.
+Here is the required format: { "sparks": [{ "content": "Conversation starter 1" }, { "content": "Conversation starter 2" }] }`
 
-export async function fetchChatResponse({
-	message,
-	roles,
-}: {
-	message: string
-	roles?: ChatCompletionRequestMessage[]
-}) {
-	// Set default roles assuming that the user is asking for conversation starters
-	const defaultRoles: ChatCompletionRequestMessage[] = [
-		{
-			role: "system",
-			content:
-				"You are a conversation starter app. Your goal is to engage users by generating interesting conversation openers.",
+export async function fetchChatResponse({ message }: { message: string }) {
+	const openai = initOpenAi()
+
+	const response = await openai.responses.create({
+		model: "gpt-4o-mini",
+		instructions: SYSTEM_INSTRUCTIONS,
+		input: message,
+		text: {
+			format: {
+				type: "json_schema",
+				name: "sparks_response",
+				strict: true,
+				schema: {
+					type: "object",
+					properties: {
+						sparks: {
+							type: "array",
+							items: {
+								type: "object",
+								properties: {
+									content: { type: "string" },
+								},
+								required: ["content"],
+								additionalProperties: false,
+							},
+						},
+					},
+					required: ["sparks"],
+					additionalProperties: false,
+				},
+			},
 		},
-	]
+	})
 
-	// If default is overridden, use the provided roles
-	let apiRoles: ChatCompletionRequestMessage[] = roles ?? defaultRoles
-
-	if (!roles) {
-		apiRoles = defaultRoles
-	}
-
-	try {
-		const openai = initOpenAi()
-
-		const response = await openai.chat.completions.create({
-			model: "gpt-3.5-turbo",
-			messages: [...apiRoles, { role: "user", content: message ?? "" }],
-			max_tokens: 256,
-			temperature: 1.25,
-			frequency_penalty: 0.55,
-			presence_penalty: 0.8,
-		})
-
-		const parsedResponse = parseResponse(response)
-
-		console.log(`Results from calling ChatGPT API: ${parsedResponse}`)
-
-		return { chatResponse: parsedResponse }
-	} catch (error) {
-		console.error(error)
-
-		throw error
-	}
-}
-
-function parseResponse(response: any) {
-	const { choices } = response
-
-	console.log(choices)
-
-	const responseObjects: ChatCompletionResponseChoice[] = choices.map(
-		(choice: any) => choice.message
-	)
-
-	const contentArray: string[] = responseObjects.map(
-		(responseObject: any) => responseObject?.content
-	)
-
-	return contentArray
+	return { chatResponse: response.output_text }
 }

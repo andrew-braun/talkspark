@@ -1,22 +1,20 @@
 <script lang="ts">
-	import { fade, fly, slide } from "svelte/transition"
+	import { fade, slide } from "svelte/transition"
 	import type { SparkData } from "ts/sparks"
 	import SparkActions from "./SparkActions.svelte"
-	import { afterUpdate } from "svelte"
 
-	export let spark: SparkData
-	export let index: number
+	let { spark, index }: { spark: SparkData; index: number } = $props()
 
-	let visible = false
+	let visible = $state(false)
 
-	afterUpdate(() => {
+	$effect(() => {
 		visible = true
 	})
 </script>
 
 {#if spark && visible}
-	<article class={`spark`} transition:fade>
-		<span class={`gradient gradient-${index}`} transition:slide />
+	<article class="spark" transition:fade>
+		<span class={`gradient gradient-${index}`} transition:slide></span>
 		<div class="content">{spark.content}</div>
 		<SparkActions {spark} />
 	</article>

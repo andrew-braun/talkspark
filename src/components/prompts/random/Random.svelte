@@ -1,21 +1,14 @@
 <script lang="ts">
-	import { generated_sparks } from "stores/sparks/generated-sparks"
+	import { generatedSparks } from "stores/sparks.svelte"
 	import Sparks from "components/sparks/Sparks.svelte"
-
-	import type { SparkData } from "ts/sparks"
 	import GenerateSparksButton from "components/buttons/GenerateSparksButton.svelte"
-
-	let currentSparks: SparkData[] = []
-	generated_sparks.subscribe((sparks) => {
-		currentSparks = sparks
-	})
 </script>
 
 <div class="dialog-container">
 	<GenerateSparksButton />
 
 	<div class="sparks-container">
-		<Sparks sparks={currentSparks} clearButton={true} />
+		<Sparks sparks={generatedSparks.items} clearButton={true} />
 	</div>
 </div>
 

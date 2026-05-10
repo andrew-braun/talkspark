@@ -1,34 +1,21 @@
 <script lang="ts">
 	import ActionButton from "./ActionButton.svelte"
-
-	import { saved_sparks } from "stores/sparks/saved-sparks"
+	import { savedSparks } from "stores/sparks.svelte"
 	import type { SparkData } from "ts/sparks"
 
 	import BiBookmarkHeart from "lib/assets/icons/BiBookmarkHeart.svg?component"
 	import BiBookmarkHeartFill from "lib/assets/icons/BiBookmarkHeartFill.svg?component"
 
-	// Props
-	export let spark: SparkData
+	let { spark }: { spark: SparkData } = $props()
 
-	// Stores
-	let savedSparks: SparkData[] = []
-	saved_sparks.subscribe((sparks) => {
-		savedSparks = sparks
-	})
-
-	// Check if spark is in saved store
-	$: isSaved = savedSparks.some((savedSpark) => savedSpark.id === spark.id)
+	let isSaved = $derived(savedSparks.items.some((s) => s.id === spark.id))
 
 	const handleSaveClick = () => {
-		// If Spark currently exists in Saved store, remove it
-		saved_sparks.update((prev) => {
-			if (isSaved) {
-				return prev.filter((savedSpark) => savedSpark.id !== spark.id)
-			}
-
-			// Else, add it
-			return [...prev, spark]
-		})
+		if (isSaved) {
+			savedSparks.remove(spark.id)
+		} else {
+			savedSparks.add([spark])
+		}
 	}
 </script>
 

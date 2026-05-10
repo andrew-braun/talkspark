@@ -1,24 +1,23 @@
 <script lang="ts">
 	import type { SparkData } from "ts/sparks"
-	import { generated_sparks } from "stores/sparks/generated-sparks"
+	import { generatedSparks } from "stores/sparks.svelte"
 	import Spark from "components/sparks/Spark.svelte"
 	import { sortByDate } from "lib/utils/sort"
 	import Button from "components/buttons/Button.svelte"
-	import { fade } from "svelte/transition"
 
-	export let sparks: SparkData[] = []
-	export let sparkStore = generated_sparks
-	export let clearButton = false
+	let {
+		sparks = [],
+		sparkStore = generatedSparks,
+		clearButton = false,
+	}: {
+		sparks?: SparkData[]
+		sparkStore?: typeof generatedSparks
+		clearButton?: boolean
+	} = $props()
 
-	$: sortedSparks = sortByDate({
-		objects: sparks,
-		dateField: "created_at",
-		direction: "DESC",
-	})
-
-	const handleSparksClear = () => {
-		sparkStore.set([]) // clear all sparks
-	}
+	let sortedSparks = $derived(
+		sortByDate({ objects: sparks, dateField: "created_at", direction: "DESC" })
+	)
 </script>
 
 <div class="sparks">
@@ -29,7 +28,7 @@
 					type="reset"
 					style="basic"
 					classes="clear-button"
-					onClick={handleSparksClear}>Clear All</Button
+					onClick={() => sparkStore.clear()}>Clear All</Button
 				>
 			{/if}
 		</div>

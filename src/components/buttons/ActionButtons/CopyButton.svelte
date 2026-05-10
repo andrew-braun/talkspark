@@ -3,13 +3,10 @@
 	import ActionButton from "./ActionButton.svelte"
 	import CopyButtonPopup from "./CopyButtonPopup.svelte"
 
-	// Props
-	export let content: string
+	let { content }: { content: string } = $props()
 
-	// State
-	let isPopupActive: boolean = false
+	let isPopupActive = $state(false)
 
-	// Copy handler
 	const handleCopyClick = () => {
 		navigator.clipboard.writeText(content)
 		isPopupActive = true
@@ -33,7 +30,7 @@
 	{isPopupActive}
 >
 	<CopyIcon />
-	<span slot="popup">
+	{#snippet popup()}
 		<CopyButtonPopup />
-	</span>
+	{/snippet}
 </ActionButton>

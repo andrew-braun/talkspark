@@ -1,34 +1,49 @@
 <script lang="ts">
-	export let type: "button" | "submit" | "reset" = "button"
-	export let style:
-		| "basic"
-		| "primary"
-		| "secondary"
-		| "tertiary"
-		| "danger"
-		| "warning"
-		| "success"
-		| "info"
-		| "light"
-		| "dark" = "primary"
-	export let disabled: boolean = false
-	export let isLoading: boolean = false
-	export let loadingText: string = "Loading..."
-	export let onClick: () => void
+	import type { Snippet } from "svelte"
+
+	interface Props {
+		type?: "button" | "submit" | "reset"
+		style?:
+			| "basic"
+			| "primary"
+			| "secondary"
+			| "tertiary"
+			| "danger"
+			| "warning"
+			| "success"
+			| "info"
+			| "light"
+			| "dark"
+		disabled?: boolean
+		isLoading?: boolean
+		loadingText?: string
+		onClick?: () => void
+		classes?: string
+		children?: Snippet
+	}
+
+	let {
+		type = "button",
+		style = "primary",
+		disabled = false,
+		isLoading = false,
+		loadingText = "Loading...",
+		onClick,
+		classes = "",
+		children,
+	}: Props = $props()
 </script>
 
 <button
 	{type}
 	{disabled}
-	on:click={onClick}
-	class={`general-button style-${style} ${$$restProps.classes} ${
-		isLoading ? "loading" : ""
-	}`}
+	onclick={onClick}
+	class={`general-button style-${style} ${classes} ${isLoading ? "loading" : ""}`}
 >
 	{#if isLoading}
 		{loadingText}
-	{:else}
-		<slot />
+	{:else if children}
+		{@render children()}
 	{/if}
 </button>
 

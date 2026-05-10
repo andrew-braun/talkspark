@@ -1,25 +1,21 @@
 <script lang="ts">
+	import type { Snippet } from "svelte"
 	import Header from "components/layout/header/Header.svelte"
 	import Loading from "components/states/loading/Loading.svelte"
-	import { loadingState } from "stores/app-state/loading"
+	import { loadingState } from "stores/loading.svelte"
 	import { fly } from "svelte/transition"
 	import { cubicIn, cubicOut } from "svelte/easing"
 	import "styles/variables.css"
 	import "styles/globals.scss"
 	import "styles/animations.css"
 
-	export let data
-
-	let isLoading: boolean = false
-	loadingState.subscribe((state) => {
-		isLoading = state
-	})
+	let { data, children }: { data: { pathname: string }; children: Snippet } = $props()
 </script>
 
 <Header />
 
 <div class="loading">
-	<Loading {isLoading} animation="bouncyBox" />
+	<Loading isLoading={loadingState.isLoading} animation="bouncyBox" />
 </div>
 {#key data.pathname}
 	<main
@@ -32,10 +28,10 @@
 		}}
 		out:fly={{ easing: cubicIn, x: -100, duration: 300 }}
 	>
-		<slot />
+		{@render children()}
 	</main>
 {/key}
-<footer />
+<footer></footer>
 
 <style lang="scss">
 	.loading {

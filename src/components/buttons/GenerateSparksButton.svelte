@@ -1,38 +1,28 @@
 <script lang="ts">
-	import { generated_sparks } from "stores/sparks/generated-sparks"
-	import { loadingState } from "stores/app-state/loading"
-	import { getSpark, type GetSparkResponse } from "lib/client/gpt/chat"
-
+	import { generateSparks } from "$lib/generate.remote"
+	import { generatedSparks } from "stores/sparks.svelte"
+	import { loadingState } from "stores/loading.svelte"
 	import Button from "./Button.svelte"
 
-	export let buttonText: string = "Random Sparks"
-	export let onClick: () => Promise<void> = async () => {}
-
-	let generatingSparks: boolean = false
-	loadingState.subscribe((loading) => {
-		generatingSparks = loading
-	})
+	let {
+		buttonText = "Random Sparks",
+		onClick = async () => {},
+	}: {
+		buttonText?: string
+		onClick?: () => Promise<void>
+	} = $props()
 
 	const handleSparkGeneration = async () => {
-		loadingState.set(true)
+		loadingState.isLoading = true
 
 		try {
-			const promptResponse: GetSparkResponse = await getSpark({
-				type: "random",
-			})
-
-			const { sparks } = promptResponse
-
-			generated_sparks.update((currentSparks) => {
-				return [...currentSparks, ...sparks]
-			})
-
+			const { sparks } = await generateSparks({ type: "random" })
+			generatedSparks.add(sparks)
 			await onClick()
-
-			loadingState.set(false)
 		} catch (error) {
 			console.error(error)
-			loadingState.set(false)
+		} finally {
+			loadingState.isLoading = false
 		}
 	}
 </script>
@@ -41,8 +31,8 @@
 	style="primary"
 	onClick={handleSparkGeneration}
 	classes="spark-button"
-	disabled={generatingSparks}
-	isLoading={generatingSparks}
+	disabled={loadingState.isLoading}
+	isLoading={loadingState.isLoading}
 	loadingText="✨ Generating sparks..."
 >
 	{buttonText}
