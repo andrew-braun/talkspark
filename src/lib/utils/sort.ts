@@ -7,8 +7,7 @@ interface SortByDateArgs {
 export function sortByDate(args: SortByDateArgs) {
 	const { objects, dateField, direction } = args
 
-	// Use the sort() method with a custom comparator function
-	const sorted = objects.sort(function (a, b) {
+	const sorted = [...objects].sort(function (a, b) {
 		// Convert the 'created_at' strings to Date objects for comparison
 		const dateA = new Date(a[dateField])
 		const dateB = new Date(b[dateField])
@@ -25,7 +24,6 @@ export function sortByDate(args: SortByDateArgs) {
 		// Invert the comparison result if 'direction' is 'desc'
 		if (direction === "DESC") {
 			comparison = -comparison
-			console.log(comparison)
 		}
 
 		return comparison

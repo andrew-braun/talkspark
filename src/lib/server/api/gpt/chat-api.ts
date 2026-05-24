@@ -10,7 +10,7 @@ export async function fetchChatResponse({ message }: { message: string }) {
 	const openai = initOpenAi()
 
 	const response = await openai.responses.create({
-		model: "gpt-4o-mini",
+		model: "gpt-5.4-mini",
 		instructions: SYSTEM_INSTRUCTIONS,
 		input: message,
 		text: {
