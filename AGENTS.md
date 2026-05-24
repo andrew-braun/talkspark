@@ -2,78 +2,114 @@
 
 ## Project overview
 
-- TalkSpark is a SvelteKit app that generates short AI-powered conversation starters called sparks.
-- The app currently supports random spark generation through a server-side OpenAI call, then stores generated and saved sparks in browser localStorage.
-- Treat the README as outdated scaffold text. Use the codebase and this file as the source of truth for project behavior.
+TalkSpark is a SvelteKit app that generates short AI-powered conversation starters called sparks. The app supports random spark generation through a server-side OpenAI call, then stores generated and saved sparks in browser localStorage.
+
+Use the codebase and this file as the source of truth for project behavior. The README describes the product; this file describes how to work inside it.
 
 ## Working agreement
 
-- Prefer `pnpm` for all package management and script execution in this repo.
-- Keep changes minimal and consistent with the current code style: tabs in most TypeScript and Svelte files, concise helper functions, and no broad refactors unless the task requires them.
+- Prefer `pnpm` for all package management and script execution.
+- Keep changes minimal and consistent with the current code style: tabs in TypeScript and Svelte files, concise helper functions, no broad refactors unless the task requires them.
 - Preserve the existing SvelteKit structure and file-based routing. Do not introduce a new state library, CSS framework, or API layer unless the task explicitly requires it.
-- When touching browser persistence, guard browser-only APIs with `$app/environment` as this codebase already does.
-- When touching OpenAI integration, keep API-key usage server-only and avoid moving secret-dependent code into client files.
+- When touching browser persistence, guard browser-only APIs with `browser` from `$app/environment`, as this codebase already does.
+- When touching OpenAI integration, keep API-key usage server-only. Never move secret-dependent code into client files or public env variables.
 
 ## Setup and validated commands
 
-- Install dependencies with `pnpm install` from the repository root.
-- Verified local tool versions used while authoring these instructions: Node `v24.15.0`, pnpm `10.33.0`.
-- `pnpm install` succeeds, but pnpm `10.33.0` warns that the committed `pnpm-lock.yaml` is from an older lockfile format. Expect a lockfile update if you install with a newer pnpm.
-- `pnpm install` also warns about ignored dependency build scripts (`@parcel/watcher`, `@sveltejs/kit`, `esbuild`, `svelte-preprocess`). If local build behavior looks wrong, inspect pnpm's build-script approval state before assuming the app code is at fault.
-- Main validation commands:
-  - `pnpm check` runs `svelte-kit sync && svelte-check --tsconfig ./tsconfig.json`
-  - `pnpm build` runs the production Vite build
-  - `pnpm dev` starts the local dev server
-  - `pnpm preview` serves the production build locally
-- Verified command outcomes in the current baseline:
-  - `pnpm build` succeeds when `OPENAI_API_KEY` is defined, even as a dummy value for local packaging checks.
-  - `pnpm build` fails immediately if `OPENAI_API_KEY` is unset because `src/lib/server/api/gpt/init.ts` imports it from `$env/static/private`.
-  - `pnpm check` currently fails even with `OPENAI_API_KEY` set because of existing `openai` SDK type mismatches in `src/lib/server/api/gpt/chat-api.ts`.
-- Current validation noise to expect:
-  - Sass emits repeated `legacy-js-api` deprecation warnings during `pnpm check` and `pnpm build`.
-- There is currently no lint script and no test suite. Do not claim lint or test coverage unless you add the tooling.
+- Install dependencies with `pnpm install` from the repo root.
+- Verified tool versions: Node `v24.15.0`, pnpm `10.33.0` (pinned in `package.json` via Volta).
+- `pnpm install` warns that the lockfile was written by an older pnpm version. Expect a lockfile update when installing with a newer pnpm.
+- `pnpm install` also warns about ignored dependency build scripts (`@parcel/watcher`, `@sveltejs/kit`, `esbuild`, `svelte-preprocess`). Investigate pnpm's build-script approval state before assuming app code is at fault if the build behaves unexpectedly.
+
+Main validation commands:
+
+- `pnpm check` — runs `svelte-kit sync && svelte-check --tsconfig ./tsconfig.json`
+- `pnpm build` — production Vite build
+- `pnpm dev` — local dev server
+- `pnpm preview` — serve the production build locally
+
+Verified command outcomes:
+
+- `pnpm build` succeeds when `OPENAI_API_KEY` is defined (even a dummy value works for packaging checks).
+- `pnpm build` fails immediately without `OPENAI_API_KEY` because `src/lib/server/api/gpt/init.ts` imports it from `$env/static/private`.
+- Sass emits `legacy-js-api` deprecation warnings during `pnpm check` and `pnpm build` — expected noise, not a build failure.
+
+There is no lint script and no test suite. Do not claim lint or test coverage unless you add the tooling.
 
 ## Architecture map
 
-- `src/routes/+page.svelte` is the home page and mounts the random spark prompt UI.
-- `src/routes/api/generate/+server.ts` is the main POST endpoint for spark generation.
-- `src/lib/server/api/gpt/init.ts` creates the OpenAI client using `OPENAI_API_KEY` from `$env/static/private`.
-- `src/lib/server/api/gpt/chat-api.ts` wraps the OpenAI chat completion request and parses the response content.
-- `src/lib/client/gpt/chat.ts` is the client fetch wrapper for `/api/generate`.
-- `src/stores/sparks/generated-sparks.ts` and `src/stores/sparks/saved-sparks.ts` hold persisted spark state.
-- `src/stores/utils/local-storage.ts` contains the browser-guarded localStorage helpers.
-- `src/components/` contains the UI, especially spark cards, action buttons, loading states, and layout components.
-- `src/lib/data/random-topics.ts` provides the random topic seeds used to vary prompts.
-- `src/ts/` holds shared types for spark data and chat completion responses.
+### Generation flow
+
+```text
+UI button click
+  → GenerateSparksButton.handleSparkGeneration()
+  → generateSparks({ type: "random" })          ← remote function in src/lib/generate.remote.ts
+  → fetchChatResponse()                          ← src/lib/server/api/gpt/chat-api.ts
+  → OpenAI Responses API (gpt-5.4-mini)
+  → JSON parse structured output
+  → enrich sparks (UUID, type, index, timestamp)
+  → generatedSparks.add(sparks)                  ← src/stores/sparks.svelte.ts
+  → $effect syncs store → localStorage
+```
+
+### Key files
+
+| File | Role |
+| ---- | ---- |
+| `src/routes/+page.svelte` | Home page; mounts the random spark prompt UI |
+| `src/routes/sparks/+page.svelte` | Saved sparks page at `/sparks` |
+| `src/routes/+layout.svelte` | Root layout: Header, Loading indicator, page transitions |
+| `src/lib/generate.remote.ts` | `command()` remote function; owns prompt building and spark enrichment |
+| `src/lib/server/api/gpt/init.ts` | Creates the OpenAI client from `OPENAI_API_KEY` |
+| `src/lib/server/api/gpt/chat-api.ts` | Calls `openai.responses.create` with a strict JSON schema |
+| `src/lib/client/gpt/chat.ts` | Legacy client `fetch` wrapper for `/api/generate` (kept for reference) |
+| `src/stores/sparks.svelte.ts` | `generatedSparks` and `savedSparks` stores with localStorage sync |
+| `src/stores/loading.svelte.ts` | Global `loadingState.isLoading` flag |
+| `src/lib/data/random-topics.ts` | 432 random topic strings used as prompt seeds |
+| `src/ts/sparks.ts` | `SparkData` interface |
+| `src/components/` | All UI components (see `src/components/AGENTS.md`) |
+| `src/styles/` | CSS variables, global SCSS, keyframe animations |
+
+### Remote functions vs API routes
+
+SvelteKit's experimental `remoteFunctions` feature is enabled in `svelte.config.js`. Files named `*.remote.ts` in `src/lib/` export `command()` calls that act as typed server functions callable directly from client components — no `+server.ts` route needed. Do not add manual API routes for new AI features; use a `.remote.ts` file instead.
+
+### Persistence
+
+- `generatedSparks` → localStorage key `all_sparks`
+- `savedSparks` → localStorage key `saved_sparks`
+- Both stores initialize from localStorage on page load and write back reactively via `$effect`.
 
 ## Behavior details that matter
 
-- The generate flow is: UI button -> `getSpark()` -> `POST /api/generate` -> OpenAI chat completion -> JSON parse -> enrich sparks with UUID, type, index, and timestamp -> write to Svelte store -> sync to localStorage.
-- Generated sparks are stored under the `all_sparks` localStorage key; bookmarked sparks use `saved_sparks`.
-- The server currently expects the model response to be JSON text and parses `chatResponse[0]`. If you change prompt structure or model behavior, preserve or improve that contract deliberately.
-- The current model call is configured in `src/lib/server/api/gpt/chat-api.ts` with a creative prompt setup. Keep prompt and parsing changes coupled.
+- The three sparks per generation follow a fixed structure: one about the topic, one about its opposite, one funny/weird. Change the prompt only if you intend to change this structure.
+- The OpenAI call uses a strict `json_schema` format in the Responses API — not the legacy Chat Completions API. `chatResponse` is already parsed JSON text; calling `JSON.parse(chatResponse)` extracts `{ sparks: [{ content }] }`.
+- `SparkData` does not include `created_at` in its interface definition (`src/ts/sparks.ts`), but `generate.remote.ts` adds it at runtime. The sort utility in `Sparks.svelte` depends on this field being present.
+- `Sparks.svelte` sorts by `created_at` descending so new sparks appear at the top.
+- Gradient accents cycle through `gradient-1` to `gradient-4` using `index % 4` — there are only four gradient CSS variables for spark cards.
 
 ## Environment and secrets
 
 - `OPENAI_API_KEY` is required for server-side generation.
-- Keep secrets in environment files or deployment secret stores only. Never hardcode API keys or expose them through public env variables.
+- Use `.env.local` for local development. Never commit API keys or expose them through public environment variables.
 
 ## Change guidance
 
-- For UI work, prefer edits under `src/components/`, `src/routes/`, and `src/styles/` without changing unrelated server code.
-- For generation behavior, inspect both `src/routes/api/generate/+server.ts` and `src/lib/server/api/gpt/chat-api.ts`; one controls prompt/response shaping and the other controls model invocation.
-- For persistence changes, update both the store file and the localStorage helper expectations.
-- Add comments only when the code would otherwise be hard to follow.
+- **UI changes**: edit under `src/components/`, `src/routes/`, and `src/styles/` without touching server code.
+- **Generation behavior**: inspect both `src/lib/generate.remote.ts` (prompt structure, enrichment) and `src/lib/server/api/gpt/chat-api.ts` (model invocation, JSON schema). Keep them coupled — the schema must match what the prompt asks for.
+- **New spark types**: add a new `command()` in a new `.remote.ts` file; add a corresponding prompt UI under `src/components/prompts/`.
+- **Persistence changes**: update both the store factory in `sparks.svelte.ts` and any consumers that read from localStorage keys directly.
 
 ## Validation guidance
 
-- After code changes, always run the narrowest relevant command first.
-- For type, route, store, or Svelte component changes, start with `pnpm check`, but expect the current baseline to fail until the OpenAI typing issue is fixed.
-- For build-safety validation or route-level integration changes, run `OPENAI_API_KEY=dummy pnpm build` if you only need packaging validation and not a live API call.
-- If you change generation behavior and cannot execute the live OpenAI flow, say so explicitly and validate everything else you can locally.
+- After code changes, run the narrowest relevant command first.
+- For component, store, or type changes: `pnpm check`.
+- For build-safety validation: `OPENAI_API_KEY=dummy pnpm build`.
+- If you change generation behavior and cannot execute the live OpenAI flow, say so explicitly and validate everything else locally.
 
 ## Known gaps
 
-- The repository has no automated tests, no linter, and no CI configuration checked in.
-- The README does not describe the actual TalkSpark application.
-- The OpenAI integration still relies on prompt-only JSON formatting rather than structured output or tool/function calling.
+- No automated tests, no linter, no CI configuration.
+- `SparkData` in `src/ts/sparks.ts` does not declare `created_at`, but it is added at runtime in `generate.remote.ts`. This is a latent type gap.
+- `src/lib/client/gpt/chat.ts` (`getSpark`) is a legacy fetch wrapper that predates the remote functions implementation. It is unused in the current flow but kept in the repo.
+- `@lottiefiles/lottie-player` and `@popperjs/core` are listed as dependencies but do not appear to be actively used in current component code.
