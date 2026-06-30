@@ -1,6 +1,6 @@
 <script lang="ts">
-	import Nav from "components/layout/header/nav/Nav.svelte"
-	import Logo from "components/brand/Logo.svelte"
+	import Nav from "components/molecules/nav/Nav.svelte"
+	import Logo from "components/atoms/brand/Logo.svelte"
 </script>
 
 <header class="main-header page-spacing">

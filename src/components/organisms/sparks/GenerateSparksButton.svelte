@@ -2,7 +2,7 @@
 	import { generateSparks } from "$lib/generate.remote"
 	import { generatedSparks } from "stores/sparks.svelte"
 	import { loadingState } from "stores/loading.svelte"
-	import Button from "./Button.svelte"
+	import Button from "components/atoms/buttons/Button.svelte"
 
 	let {
 		buttonText = "Random Sparks",

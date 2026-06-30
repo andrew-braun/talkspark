@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { SparkData } from "ts/sparks"
-	import CopyButton from "components/buttons/ActionButtons/CopyButton.svelte"
-	import BookmarkButton from "components/buttons/ActionButtons/BookmarkButton.svelte"
+	import CopyButton from "components/molecules/actions/CopyButton.svelte"
+	import BookmarkButton from "components/molecules/actions/BookmarkButton.svelte"
 
 	let { spark }: { spark: SparkData } = $props()
 </script>

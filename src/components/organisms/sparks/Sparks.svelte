@@ -1,9 +1,9 @@
 <script lang="ts">
 	import type { SparkData } from "ts/sparks"
 	import { generatedSparks } from "stores/sparks.svelte"
-	import Spark from "components/sparks/Spark.svelte"
+	import Spark from "components/molecules/sparks/Spark.svelte"
 	import { sortByDate } from "lib/utils/sort"
-	import Button from "components/buttons/Button.svelte"
+	import Button from "components/atoms/buttons/Button.svelte"
 
 	let {
 		sparks = [],

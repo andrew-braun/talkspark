@@ -2,22 +2,48 @@
 
 ## Directory layout
 
-Components are grouped by domain:
+Components use **atomic design** with **functional subfolders**. Group by what a component *is*, not which page it appears on.
 
 ```text
 components/
-├── brand/               # Logo and brand identity
-├── buttons/
-│   ├── ActionButtons/   # Per-spark icon buttons (copy, bookmark)
-│   ├── Button.svelte    # Base button primitive
-│   └── GenerateSparksButton.svelte  # Orchestrates spark generation
-├── layout/
-│   └── header/          # Header, Nav, NavLink
-├── prompts/
-│   └── random/          # Random spark generator prompt UI
-├── sparks/              # Spark card (Spark), list (Sparks), action bar (SparkActions)
-└── states/
-    └── loading/         # Loading indicator and animation
+├── atoms/
+│   ├── buttons/         # Button.svelte
+│   ├── brand/           # Logo.svelte
+│   ├── nav/             # NavLink.svelte
+│   ├── actions/         # ActionButtonPopup.svelte
+│   └── loading/         # LoadingAnimation.svelte
+├── molecules/
+│   ├── actions/         # ActionButton, CopyButton, BookmarkButton, CopyButtonPopup
+│   ├── nav/             # Nav.svelte
+│   └── sparks/          # Spark.svelte (single card)
+├── organisms/
+│   ├── layout/          # Header.svelte
+│   ├── sparks/          # Sparks, SparkActions, GenerateSparksButton
+│   ├── prompts/         # RandomPrompt.svelte
+│   └── loading/         # Loading.svelte
+└── templates/
+    └── layout/          # PageShell.svelte (when needed)
+```
+
+## Layer rules
+
+| Layer | Definition | Examples |
+| ----- | ---------- | -------- |
+| **atoms** | Single-purpose; no store access; no business logic | Button, NavLink, LoadingAnimation |
+| **molecules** | Composes atoms; may have local state | CopyButton, Spark, Nav |
+| **organisms** | Full UI section; may use stores and remote functions | Header, Sparks, GenerateSparksButton |
+| **templates** | Page layout without real content | PageShell |
+
+**Composition:** organisms → molecules → atoms. Atoms never import from higher layers.
+
+## Import paths
+
+Use the `components` alias with full atomic path:
+
+```ts
+import Button from "components/atoms/buttons/Button.svelte"
+import Header from "components/organisms/layout/Header.svelte"
+import Spark from "components/molecules/sparks/Spark.svelte"
 ```
 
 ## Naming
@@ -45,7 +71,7 @@ Always type props explicitly — do not use `any` for prop types unless unavoida
 ## Styling
 
 - Each component uses `<style lang="scss">`. Styles are component-scoped by default.
-- Reference CSS custom properties from `src/styles/variables.css` for all colors, spacing, font sizes, border radii, and transitions. Never hardcode these values.
+- Reference CSS custom properties from `src/styles/variables.css` for colors, spacing, font sizes, border radii, and transitions. See `src/styles/DESIGN_SYSTEM.md` for semantics.
 - Use `:global()` only when a scoped selector genuinely cannot reach the target element.
 - Global keyframe animations are defined in `src/styles/animations.css`; reference them by name.
 
@@ -77,10 +103,10 @@ Use Svelte 5 snippets for injectable content — there are no `<slot>` patterns 
 
 ## Component responsibilities
 
-- `Button.svelte` — low-level button primitive accepting `style`, `type`, `disabled`, `isLoading`, `loadingText`, `classes`, and `onClick`. All other buttons compose this.
-- `GenerateSparksButton.svelte` — the only component that calls `generateSparks()` and writes to `generatedSparks`. Manages `loadingState.isLoading` for the duration of the request.
-- `Sparks.svelte` — renders a sorted list of `SparkData` items. Accepts a `sparkStore` prop (defaults to `generatedSparks`) so it can display either generated or saved sparks.
-- `Spark.svelte` — single spark card. Receives `spark: SparkData` and a 1-based `index` (used to select a gradient accent, cycling `% 4`).
-- `SparkActions.svelte` — copy and bookmark buttons for a single spark.
-- `CopyButton.svelte` — writes `spark.content` to the clipboard, shows a popup for 1300 ms.
-- `BookmarkButton.svelte` — toggles the spark in/out of `savedSparks`; uses `$derived` to compute `isSaved`.
+- `atoms/buttons/Button.svelte` — low-level button primitive. All feature buttons compose this.
+- `organisms/sparks/GenerateSparksButton.svelte` — only component that calls `generateSparks()` and writes to `generatedSparks`.
+- `organisms/sparks/Sparks.svelte` — sorted list of `SparkData`; accepts `sparkStore` prop.
+- `molecules/sparks/Spark.svelte` — single spark card; `index` selects gradient accent (`% 4`).
+- `organisms/sparks/SparkActions.svelte` — copy and bookmark for one spark.
+- `molecules/actions/CopyButton.svelte` — clipboard copy with 1300 ms popup.
+- `molecules/actions/BookmarkButton.svelte` — toggles spark in `savedSparks`.

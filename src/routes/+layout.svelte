@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Snippet } from "svelte"
-	import Header from "components/layout/header/Header.svelte"
-	import Loading from "components/states/loading/Loading.svelte"
+	import Header from "components/organisms/layout/Header.svelte"
+	import Loading from "components/organisms/loading/Loading.svelte"
 	import { loadingState } from "stores/loading.svelte"
 	import { fly } from "svelte/transition"
 	import { cubicIn, cubicOut } from "svelte/easing"

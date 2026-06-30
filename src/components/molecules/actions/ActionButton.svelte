@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Snippet } from "svelte"
-	import ActionButtonPopup from "./ActionButtonPopup.svelte"
+	import ActionButtonPopup from "components/atoms/actions/ActionButtonPopup.svelte"
 
 	let {
 		onClick,

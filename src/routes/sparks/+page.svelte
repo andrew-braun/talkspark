@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { page } from "$app/state"
 	import { goto } from "$app/navigation"
-	import GenerateSparksButton from "components/buttons/GenerateSparksButton.svelte"
-	import Sparks from "components/sparks/Sparks.svelte"
+	import GenerateSparksButton from "components/organisms/sparks/GenerateSparksButton.svelte"
+	import Sparks from "components/organisms/sparks/Sparks.svelte"
 	import { savedSparks } from "stores/sparks.svelte"
 </script>
 

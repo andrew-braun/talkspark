@@ -24,7 +24,7 @@ Pages slide in/out using Svelte `fly` transitions with `cubicOut`/`cubicIn` easi
 ## Adding a new page
 
 1. Create `src/routes/<name>/+page.svelte`.
-2. If it needs a nav entry, add a `NavLink` in `src/components/layout/header/nav/Nav.svelte`.
+2. If it needs a nav entry, add a `NavLink` in `src/components/molecules/nav/Nav.svelte`.
 3. Add server data with `+page.ts` (universal) or `+page.server.ts` (server-only) alongside the page if needed.
 4. Add a `+layout.svelte` at that route level only if the new page needs a different layout from the root.
 

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { fade, slide } from "svelte/transition"
 	import type { SparkData } from "ts/sparks"
-	import SparkActions from "./SparkActions.svelte"
+	import SparkActions from "components/organisms/sparks/SparkActions.svelte"
 
 	let { spark, index }: { spark: SparkData; index: number } = $props()
 

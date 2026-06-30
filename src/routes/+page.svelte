@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Random from "components/prompts/random/Random.svelte"
+	import RandomPrompt from "components/organisms/prompts/RandomPrompt.svelte"
 </script>
 
 <section class="home-page-container">
@@ -8,7 +8,7 @@
 		Press a button to generate conversation starters through the power of AI.
 	</p>
 	<div class="conversation-container">
-		<Random />
+		<RandomPrompt />
 	</div>
 </section>
 
