@@ -1,6 +1,6 @@
 # TalkSpark Product Philosophy
 
-> Source of truth for *what TalkSpark is and why*. For the spark/topic data shapes,
+> Source of truth for _what TalkSpark is and why_. For the spark/topic data shapes,
 > quality rubric, and anti-patterns, see [spark-taxonomy.md](./spark-taxonomy.md).
 > For the evidence base, see [../research/conversation-research.md](../research/conversation-research.md).
 
@@ -30,13 +30,13 @@ TalkSpark generates two complementary things from one engine:
 - **Asking** — individual **sparks** (questions / conversational moves). Atomic: one
   prompt, answered, then you move on. The job is to break the ice or deepen a moment.
 - **Topics** — **territories** to explore. A topic is a bundle (an angle, a fact or two,
-  opener questions, follow-up ideas, things to avoid) that gives someone *something to
-  talk about* and the confidence to sustain it. The job is preparation and momentum.
+  opener questions, follow-up ideas, things to avoid) that gives someone _something to
+  talk about_ and the confidence to sustain it. The job is preparation and momentum.
 
 Both are produced by the same generation engine and judged by the same review
 discipline; only their output shape and critique emphasis differ. Both support an
 on-demand **"follow-ups"** action that generates deeper questions relative to the spark
-or topic in front of you — operationalizing the research finding that the *second*
+or topic in front of you — operationalizing the research finding that the _second_
 question is where connection comes from.
 
 See [topics.md](../features/topics.md) and
@@ -51,7 +51,7 @@ combines all four. AI tools generate but don't sequence or ground in research; t
 research-backed couples apps don't generate and are locked to romantic dyads; decks are fixed and
 single-context. Three commitments follow from owning that corner, and they shape principles 2–4:
 
-1. **Sequencing is the moat, not a nicety.** The warm-up → depth → reflection *arc* — beginning
+1. **Sequencing is the moat, not a nicety.** The warm-up → depth → reflection _arc_ — beginning
    with on-demand follow-ups — is the single thing no incumbent does. It is a core differentiator,
    not a late-stage extra.
 2. **The depth/safety dial is a marquee, demonstrable feature.** Only one competitor (YourMove,
@@ -64,7 +64,7 @@ single-context. Three commitments follow from owning that corner, and they shape
 
 ## Generate-First Stance
 
-The earlier plan was "curate before generate," which assumed the hard part was *having* a
+The earlier plan was "curate before generate," which assumed the hard part was _having_ a
 library. We've inverted this: the hard part is **generation quality**, and once that is
 high, the generator becomes the content factory and the human becomes the curator.
 
@@ -73,8 +73,8 @@ build an excellent generator, generate deliberately, and keep the best. Every ke
 is both a library entry and a training signal for what "good" means.
 
 Important boundary that survives the inversion: **generate-first is not
-generate-on-every-click-forever.** The product still ends up serving *vetted* sparks. What
-changed is that the vetting *input* is now our own generator's output rather than
+generate-on-every-click-forever.** The product still ends up serving _vetted_ sparks. What
+changed is that the vetting _input_ is now our own generator's output rather than
 hand-written or imported material. A lightweight keep/discard judgment is present from the
 very first build so the quality dataset accumulates from day one.
 
@@ -105,17 +105,17 @@ very first build so the quality dataset accumulates from day one.
 
 ## Interaction Boundary
 
-| Phase | What TalkSpark does |
-| ----- | ------------------- |
-| **Before** | Choose context; get sparks, topics, prep briefs, topic banks, lightweight tips, pocket-mode reminders. |
-| **At kickoff** | Show the prompt and maybe one or two follow-up ideas. |
-| **During games** | Actively facilitate — the app is part of the game container. |
-| **After** | Offer optional reflection, saving, rating, learning. |
+| Phase            | What TalkSpark does                                                                                    |
+| ---------------- | ------------------------------------------------------------------------------------------------------ |
+| **Before**       | Choose context; get sparks, topics, prep briefs, topic banks, lightweight tips, pocket-mode reminders. |
+| **At kickoff**   | Show the prompt and maybe one or two follow-up ideas.                                                  |
+| **During games** | Actively facilitate — the app is part of the game container.                                           |
+| **After**        | Offer optional reflection, saving, rating, learning.                                                   |
 
 **Disallowed core shape:** real-time guidance while users are actively having a non-game
 conversation. No live next-line suggestions, real-time coaching, transcript analysis, or
-step-by-step steering. Anything that requires users to keep checking the app *while
-talking* is out of bounds outside game modes.
+step-by-step steering. Anything that requires users to keep checking the app _while
+talking_ is out of bounds outside game modes.
 
 ## What TalkSpark Is Not
 

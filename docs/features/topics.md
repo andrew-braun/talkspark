@@ -6,18 +6,18 @@
 
 ## Asking vs. Topics
 
-A **spark/question** is a single conversational *move* — one prompt, answered, then you
-move on. A **topic** is a *territory* — a subject you can explore for minutes, with
+A **spark/question** is a single conversational _move_ — one prompt, answered, then you
+move on. A **topic** is a _territory_ — a subject you can explore for minutes, with
 multiple angles, a fact or two, opener questions, and follow-ups.
 
-| | Asking (sparks) | Topics |
-| --- | --------------- | ------ |
-| **Lifespan** | one exchange | sustained, minutes |
-| **Structure** | atomic prompt | a bundle: angle + facts + openers + follow-ups + avoid-list |
-| **Job** | break ice / deepen a moment | give you *something to talk about* + confidence to sustain it |
-| **Vulnerability** | can run high | usually low |
-| **Best for** | dates, deepening, games | weak ties, networking, "what do I even bring up?" |
-| **Shareability** | medium | high — it's a prep packet |
+|                   | Asking (sparks)             | Topics                                                        |
+| ----------------- | --------------------------- | ------------------------------------------------------------- |
+| **Lifespan**      | one exchange                | sustained, minutes                                            |
+| **Structure**     | atomic prompt               | a bundle: angle + facts + openers + follow-ups + avoid-list   |
+| **Job**           | break ice / deepen a moment | give you _something to talk about_ + confidence to sustain it |
+| **Vulnerability** | can run high                | usually low                                                   |
+| **Best for**      | dates, deepening, games     | weak ties, networking, "what do I even bring up?"             |
+| **Shareability**  | medium                      | high — it's a prep packet                                     |
 
 This maps directly to Brooks' **Topics** maxim (prepare subjects in advance) and to the
 Prep Partner. Topics are the answer to the most common real-world conversation problem,
@@ -55,9 +55,9 @@ A topic is essentially a mini prep-brief:
 
 ## Open Questions for Deeper Work
 
-- What makes a topic *sustainable* — able to carry several minutes of conversation rather
+- What makes a topic _sustainable_ — able to carry several minutes of conversation rather
   than dead-ending? This is a distinct quality dimension from spark answerability.
-- What makes a topic *shareable* — screenshot-and-send worthy?
+- What makes a topic _shareable_ — screenshot-and-send worthy?
 - How much enrichment (facts/links) helps before a topic feels like homework?
 - How do topic critique criteria differ from the spark rubric? (Likely: breadth of angles,
   sustain potential, low-pressure entry, freshness.)

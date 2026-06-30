@@ -1,7 +1,7 @@
 # Shared Game Mode
 
 > Multiplayer conversation games powered by sparks. A later-phase feature (host-led,
-> realtime). Game modes are the one place the app *actively facilitates* during a live
+> realtime). Game modes are the one place the app _actively facilitates_ during a live
 > conversation, because the app is part of the game container — see the interaction
 > boundary in [../philosophy/product-philosophy.md](../philosophy/product-philosophy.md).
 > Game modes are also a likely growth engine (see

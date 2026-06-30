@@ -1,13 +1,13 @@
 # Conversation Prep Partner
 
-> Makes TalkSpark useful *before* a conversation starts. Built on the Topics pillar
+> Makes TalkSpark useful _before_ a conversation starts. Built on the Topics pillar
 > ([topics.md](./topics.md)) and the generation engine. A later-phase feature, not part of
 > slice 1.
 
 ## Product Goal
 
-A user should be able to say *"I have a first date tonight,"* *"I'm going to a networking
-dinner,"* or *"I'm seeing my cousins for the first time in years,"* and get a compact prep
+A user should be able to say _"I have a first date tonight,"_ _"I'm going to a networking
+dinner,"_ or _"I'm seeing my cousins for the first time in years,"_ and get a compact prep
 brief: topics, sparks, follow-ups, things to avoid, and optional material to skim.
 
 Recipes are reusable packs; **prep is a generated or assembled plan for one upcoming
@@ -71,6 +71,6 @@ conversation transcripts by default. User notes are opt-in, private, and deletab
 
 ## Why This Could Be Special
 
-Most conversation apps start when people are already stuck. Prep helps *before* that
+Most conversation apps start when people are already stuck. Prep helps _before_ that
 moment — users feel calmer, more curious, and less performative because they're not
 memorizing lines, just bringing a few live possibilities into the room.

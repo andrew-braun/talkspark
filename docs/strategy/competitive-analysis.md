@@ -48,10 +48,10 @@ The two hardest substitutes, which every analysis must answer:
 - **"Research-backed" is widely claimed but thinly substantiated.** The genuinely research-anchored
   players are the couples apps (Paired, Lasting, Connected, Gottman — Gottman Method / EFT /
   attachment theory) and the validated **36 Questions** (Aron, Melinat, Aron, Vallone & Bator,
-  1997, *Personality and Social Psychology Bulletin*, 23(4), 363–377). Decks and team tools mostly
+  1997, _Personality and Social Psychology Bulletin_, 23(4), 363–377). Decks and team tools mostly
   assert "expert-designed" without citations. Nuance: **TableTopics** appears in real published
   research — but as the **control arm**, not the validated intervention (Arm 3 attention-control in
-  Penn State's Project Talk Trial, NCT04612738; *Trials* 2022, doi:10.1186/s13063-022-06746-3).
+  Penn State's Project Talk Trial, NCT04612738; _Trials_ 2022, doi:10.1186/s13063-022-06746-3).
 - **Depth/safety controls barely exist as an explicit feature.** Most decks use implicit "levels"
   (WNRS 1–3; Esther Perel's color-coding for office-safe play). Almost no AI tool offers a
   deliberate intensity/vulnerability dial — the rare exception is **YourMove AI's "intensity
@@ -62,7 +62,7 @@ The two hardest substitutes, which every analysis must answer:
 
 ## The White Space (positioning map)
 
-**Axis X: Generated ↔ Curated.   Axis Y: Single-move/one-off ↔ Prepared-arc/sequenced.**
+**Axis X: Generated ↔ Curated. Axis Y: Single-move/one-off ↔ Prepared-arc/sequenced.**
 
 - **Curated + One-off (bottom-right):** TableTopics, {THE AND}, Heads Up!, Psych!, Donut prompts,
   Water Cooler Trivia. Fixed content, dip-in/dip-out. **Most crowded quadrant.**
@@ -72,7 +72,7 @@ The two hardest substitutes, which every analysis must answer:
 - **Generated + One-off (bottom-left):** ChatGPT, Rizz, YourMove, AI icebreaker generators.
   Infinite novelty, zero structure, no arc.
 - **Generated + Sequenced (top-left): NEARLY EMPTY — TalkSpark's target.** AI-generated,
-  context-fit questions that also carry a *designed sequence* (warm-up → depth → follow-ups) with
+  context-fit questions that also carry a _designed sequence_ (warm-up → depth → follow-ups) with
   explicit depth/safety controls, grounded in how disclosure escalates (Aron's reciprocal
   self-disclosure; Gottman's open-ended questions).
 
@@ -87,77 +87,79 @@ family + work + friends with an intensity dial).
 
 ### Category 1 — Physical card decks (the dinner-table / date ritual)
 
-| Name | Curated/Gen | Science | Depth/Safety | Prep | Group | Pricing | Medium | Context | Popularity |
-|---|---|---|---|---|---|---|---|---|---|
-| We're Not Really Strangers | Curated | No (founder-designed) | Implicit 3 levels + 2 "Dig Deeper" | In-moment | 2–6 | $25 base; expansions $12–30 | Physical (+some digital) | Multi | ~4.7★, 2,000+ Amazon; 4.7M IG |
-| TableTopics | Curated | Partial — Penn State RCT **control** arm | None explicit | In-moment | Group | ~$20–25/set | Physical (+app) | Multi | "millions"; 20+ yrs |
-| Esther Perel — Where Should We Begin? | Curated (therapist) | Soft | Yes — color-coded filtering | In-moment | 2–6 | ~$40 | Physical | Multi (+ "At Work") | NYT bestseller; 20M+ TED views |
-| {THE AND} (The Skin Deep) | Curated | Soft (Emmy doc basis) | "Pass" option; per-relationship editions | In-moment | 2 + group | ~$20/deck; 12 editions | Physical + app | Multi (12 editions) | 120M+ views; Emmy |
-| Gottman Card Decks (app) | Curated | **Yes** — 40+ yrs research | Topic decks | In-moment | Couple | Free | App | Single (couples) | Most-recommended *free* tool |
-| BestSelf / Intelligent Change | Curated | No | Light tiering | In-moment | 2 + group | ~$15–25 | Physical | Multi | Mid-tier Amazon |
+| Name                                  | Curated/Gen         | Science                                  | Depth/Safety                             | Prep      | Group     | Pricing                     | Medium                   | Context             | Popularity                     |
+| ------------------------------------- | ------------------- | ---------------------------------------- | ---------------------------------------- | --------- | --------- | --------------------------- | ------------------------ | ------------------- | ------------------------------ |
+| We're Not Really Strangers            | Curated             | No (founder-designed)                    | Implicit 3 levels + 2 "Dig Deeper"       | In-moment | 2–6       | $25 base; expansions $12–30 | Physical (+some digital) | Multi               | ~4.7★, 2,000+ Amazon; 4.7M IG  |
+| TableTopics                           | Curated             | Partial — Penn State RCT **control** arm | None explicit                            | In-moment | Group     | ~$20–25/set                 | Physical (+app)          | Multi               | "millions"; 20+ yrs            |
+| Esther Perel — Where Should We Begin? | Curated (therapist) | Soft                                     | Yes — color-coded filtering              | In-moment | 2–6       | ~$40                        | Physical                 | Multi (+ "At Work") | NYT bestseller; 20M+ TED views |
+| {THE AND} (The Skin Deep)             | Curated             | Soft (Emmy doc basis)                    | "Pass" option; per-relationship editions | In-moment | 2 + group | ~$20/deck; 12 editions      | Physical + app           | Multi (12 editions) | 120M+ views; Emmy              |
+| Gottman Card Decks (app)              | Curated             | **Yes** — 40+ yrs research               | Topic decks                              | In-moment | Couple    | Free                        | App                      | Single (couples)    | Most-recommended _free_ tool   |
+| BestSelf / Intelligent Change         | Curated             | No                                       | Light tiering                            | In-moment | 2 + group | ~$15–25                     | Physical                 | Multi               | Mid-tier Amazon                |
 
 ### Category 2 — AI prompt / "ask me" apps (incl. the ChatGPT substitute)
 
-| Name | Curated/Gen | Science | Depth/Safety | Prep | Group | Pricing | Medium | Context | Popularity |
-|---|---|---|---|---|---|---|---|---|---|
-| **ChatGPT (lazy substitute)** | Generated | No | Only if user prompts | Both (if asked) | Single | Free / $20+/mo | Online | Infinite | **900M WAU (2026-02-27), 2× YoY**; Pew ~34% US adults |
-| AI Icebreaker generators (PH/Beekast) | Generated | No | No | Prep (meetings) | Group | Free | Online | Multi | Niche |
-| LogicBalls / NavioHQ generators | Generated | No | Tone selectors | Prep | Single | Free + upgrade | Online | Multi | SEO traffic |
-| Rizz (#1 AI dating assistant) | Generated | No | Tone control | Prep (openers) | Single | Free wk1, ~$7/wk | Online | Single (dating) | 7.5M users; 4.8★ (23k+ iOS) |
-| YourMove AI | Generated | No | **Yes — "intensity dial"** | Prep (openers) | Single | $1.50–3.75/wk | Online | Single (dating) | 4.4★ both stores |
-| Longwalks / Gather | Curated | No | Category filters | Both | Single/social | Free + sub | Online | Multi | Longwalks Oprah-rec'd |
+| Name                                  | Curated/Gen | Science | Depth/Safety               | Prep            | Group         | Pricing          | Medium | Context         | Popularity                                            |
+| ------------------------------------- | ----------- | ------- | -------------------------- | --------------- | ------------- | ---------------- | ------ | --------------- | ----------------------------------------------------- |
+| **ChatGPT (lazy substitute)**         | Generated   | No      | Only if user prompts       | Both (if asked) | Single        | Free / $20+/mo   | Online | Infinite        | **900M WAU (2026-02-27), 2× YoY**; Pew ~34% US adults |
+| AI Icebreaker generators (PH/Beekast) | Generated   | No      | No                         | Prep (meetings) | Group         | Free             | Online | Multi           | Niche                                                 |
+| LogicBalls / NavioHQ generators       | Generated   | No      | Tone selectors             | Prep            | Single        | Free + upgrade   | Online | Multi           | SEO traffic                                           |
+| Rizz (#1 AI dating assistant)         | Generated   | No      | Tone control               | Prep (openers)  | Single        | Free wk1, ~$7/wk | Online | Single (dating) | 7.5M users; 4.8★ (23k+ iOS)                           |
+| YourMove AI                           | Generated   | No      | **Yes — "intensity dial"** | Prep (openers)  | Single        | $1.50–3.75/wk    | Online | Single (dating) | 4.4★ both stores                                      |
+| Longwalks / Gather                    | Curated     | No      | Category filters           | Both            | Single/social | Free + sub       | Online | Multi           | Longwalks Oprah-rec'd                                 |
 
 ### Category 3 — Party / group game apps (group fun)
 
-| Name | Curated/Gen | Science | Depth/Safety | Prep | Group | Pricing | Medium | Context | Popularity |
-|---|---|---|---|---|---|---|---|---|---|
-| Jackbox Party Pack | Curated | No | Family-filter toggles | In-moment | 8 active + 10k audience | ~$30/pack | Digital (multi-platform) | Multi | 11 packs; Pack 12 in 2026 |
-| Psych! (WB) | Curated + UGC | No | Adult decks separable | In-moment | Group | Free + IAP | Mobile | Multi | Mass-market |
-| Heads Up! | Curated | No | Category choice | In-moment | Group | ~$0.99 + IAP | Mobile | Multi | 100+ decks |
-| Slides With Friends | Curated + custom | No | Office-appropriate sets | Prep (host) | 10 free, more paid | Freemium | Online | Multi | Jackbox-alt roundups |
+| Name                | Curated/Gen      | Science | Depth/Safety            | Prep        | Group                   | Pricing      | Medium                   | Context | Popularity                |
+| ------------------- | ---------------- | ------- | ----------------------- | ----------- | ----------------------- | ------------ | ------------------------ | ------- | ------------------------- |
+| Jackbox Party Pack  | Curated          | No      | Family-filter toggles   | In-moment   | 8 active + 10k audience | ~$30/pack    | Digital (multi-platform) | Multi   | 11 packs; Pack 12 in 2026 |
+| Psych! (WB)         | Curated + UGC    | No      | Adult decks separable   | In-moment   | Group                   | Free + IAP   | Mobile                   | Multi   | Mass-market               |
+| Heads Up!           | Curated          | No      | Category choice         | In-moment   | Group                   | ~$0.99 + IAP | Mobile                   | Multi   | 100+ decks                |
+| Slides With Friends | Curated + custom | No      | Office-appropriate sets | Prep (host) | 10 free, more paid      | Freemium     | Online                   | Multi   | Jackbox-alt roundups      |
 
 ### Category 4 — Dating / social prep tools (prep before a date)
 
-| Name | Curated/Gen | Science | Depth/Safety | Prep | Group | Pricing | Medium | Context | Popularity |
-|---|---|---|---|---|---|---|---|---|---|
-| Paired | Curated (therapists) | **Yes** | Topic packs | Both (daily) | Couple | Free + ~$14.99/mo, $69.99/yr | App | Single (couples) | "millions" |
-| Connected | Curated + AI coaching | **Yes** — Gottman/EFT/attachment | 700+ Qs, Deep Talk→Conflict | Both | Couple | Free + premium | App | Single (couples) | 30+ tools; active 2026 |
-| Lasting | Curated (clinical) | **Yes** — Gottman/EFT | Structured programs | Prep | Couple | $29.99/mo / $89.99 6-mo | App | Single (couples) | "most clinical" |
-| Lovewick | Curated + community | Soft | Comfort-level menus | Both | Couple | Free | App | Single (couples) | 750+ idea library |
-| Cupla | Curated + AI dates | No | N/A | Prep (calendar) | Couple | Free + premium | App | Single (couples) | 500k+ couples, 4.7★ |
-| Couply | Curated + AI | Soft | Topic packs | Both | Couple | Freemium | App | Single (couples) | Active |
+| Name      | Curated/Gen           | Science                          | Depth/Safety                | Prep            | Group  | Pricing                      | Medium | Context          | Popularity             |
+| --------- | --------------------- | -------------------------------- | --------------------------- | --------------- | ------ | ---------------------------- | ------ | ---------------- | ---------------------- |
+| Paired    | Curated (therapists)  | **Yes**                          | Topic packs                 | Both (daily)    | Couple | Free + ~$14.99/mo, $69.99/yr | App    | Single (couples) | "millions"             |
+| Connected | Curated + AI coaching | **Yes** — Gottman/EFT/attachment | 700+ Qs, Deep Talk→Conflict | Both            | Couple | Free + premium               | App    | Single (couples) | 30+ tools; active 2026 |
+| Lasting   | Curated (clinical)    | **Yes** — Gottman/EFT            | Structured programs         | Prep            | Couple | $29.99/mo / $89.99 6-mo      | App    | Single (couples) | "most clinical"        |
+| Lovewick  | Curated + community   | Soft                             | Comfort-level menus         | Both            | Couple | Free                         | App    | Single (couples) | 750+ idea library      |
+| Cupla     | Curated + AI dates    | No                               | N/A                         | Prep (calendar) | Couple | Free + premium               | App    | Single (couples) | 500k+ couples, 4.7★    |
+| Couply    | Curated + AI          | Soft                             | Topic packs                 | Both            | Couple | Freemium                     | App    | Single (couples) | Active                 |
 
 ### Category 5 — Team / workplace icebreaker tools (team warmups)
 
-| Name | Curated/Gen | Science | Depth/Safety | Prep | Group | Pricing | Medium | Context | Popularity |
-|---|---|---|---|---|---|---|---|---|---|
-| Donut (Slack) | Curated | No | Topic-pack selection | Prep (auto pairings) | Org pairs/groups | Free tier; ~$89–299/mo bands | Slack | Workplace | Millions of intros |
-| QuizBreaker | Curated + AI | Soft (occ. psychologist) | Custom Q sets | Prep (scheduled) | 3→1000+ | $99/mo flat, unlimited | Online + Slack | Workplace | Thin G2 footprint |
-| Water Cooler Trivia | Curated (human) | No | Difficulty selection | Prep (weekly) | Whole team | ~$1/user tiered | Slack/Teams/email | Workplace | G2-listed |
-| CultureBot | Curated + AI | No | Prompt/ritual selection | Prep (daily) | Org-wide | $100/$200/$300/mo | Slack/Teams | Workplace | ~4.7–4.8★ G2 (incentivized) |
-| Parabol | Curated (200+) | No | Facilitator-customizable | Prep (retro) | Agile teams | Free ≤2 teams; $6/user/mo | Online (OSS) | Workplace | 92% "improves meetings" |
-| Matter / EngageWith | Curated | "People science" framing | Value-tagged prompts | Prep | Org-wide | ~$4/user/mo | Slack/Teams | Workplace | Matter ~4.7★, 1,181+ G2 |
+| Name                | Curated/Gen     | Science                  | Depth/Safety             | Prep                 | Group            | Pricing                      | Medium            | Context   | Popularity                  |
+| ------------------- | --------------- | ------------------------ | ------------------------ | -------------------- | ---------------- | ---------------------------- | ----------------- | --------- | --------------------------- |
+| Donut (Slack)       | Curated         | No                       | Topic-pack selection     | Prep (auto pairings) | Org pairs/groups | Free tier; ~$89–299/mo bands | Slack             | Workplace | Millions of intros          |
+| QuizBreaker         | Curated + AI    | Soft (occ. psychologist) | Custom Q sets            | Prep (scheduled)     | 3→1000+          | $99/mo flat, unlimited       | Online + Slack    | Workplace | Thin G2 footprint           |
+| Water Cooler Trivia | Curated (human) | No                       | Difficulty selection     | Prep (weekly)        | Whole team       | ~$1/user tiered              | Slack/Teams/email | Workplace | G2-listed                   |
+| CultureBot          | Curated + AI    | No                       | Prompt/ritual selection  | Prep (daily)         | Org-wide         | $100/$200/$300/mo            | Slack/Teams       | Workplace | ~4.7–4.8★ G2 (incentivized) |
+| Parabol             | Curated (200+)  | No                       | Facilitator-customizable | Prep (retro)         | Agile teams      | Free ≤2 teams; $6/user/mo    | Online (OSS)      | Workplace | 92% "improves meetings"     |
+| Matter / EngageWith | Curated         | "People science" framing | Value-tagged prompts     | Prep                 | Org-wide         | ~$4/user/mo                  | Slack/Teams       | Workplace | Matter ~4.7★, 1,181+ G2     |
 
 ## Why TalkSpark Over the Obvious Substitute (per category)
 
 ### 1. Physical card decks (hardest) — out-flex, don't out-ritual
+
 The deck competes on **ritual**, not questions: a tactile, phones-down, giftable object with brand
 identity and a built-in excuse to be vulnerable. TalkSpark can't beat that on tactility and
 shouldn't try. It wins on four axes the deck structurally can't: **(a) context-fit generation** —
-a deck is fixed at 135–250 cards for one relationship type, so you buy a *new* box per context;
+a deck is fixed at 135–250 cards for one relationship type, so you buy a _new_ box per context;
 TalkSpark collapses a shelf of decks into one app; **(b) freshness** — reviewers' top complaint is
 repeats/limited replayability; generation never runs dry; **(c) follow-ups + depth control** — a
-card is a dead-end; TalkSpark generates the *next* question and dials intensity; **(d) prep** — you
+card is a dead-end; TalkSpark generates the _next_ question and dials intensity; **(d) prep** — you
 can't rehearse with a deck you crack open cold. **Concession:** for a one-time gift or a
 deliberately phones-down ritual, the deck still wins — so frame TalkSpark as the everyday,
-every-context tool (even *complementary* to a beloved deck), not the gift.
+every-context tool (even _complementary_ to a beloved deck), not the gift.
 
 ### 2. Free ChatGPT (hardest) — make the structure gap visible
+
 Most dangerous because it's free, infinitely flexible, and on 900M phones. Defensibility rests on
 everything ChatGPT makes the user do themselves: **(a) the blank-prompt problem** — generic output
-unless you engineer context/escalation/tone; TalkSpark bakes that in so the *first* output is right;
+unless you engineer context/escalation/tone; TalkSpark bakes that in so the _first_ output is right;
 **(b) no sequencing** — ChatGPT hands a flat list; TalkSpark's research-backed warm-up→depth→
-reflection arc *is* the product; **(c) no depth/safety guardrails** — ChatGPT will happily generate
+reflection arc _is_ the product; **(c) no depth/safety guardrails** — ChatGPT will happily generate
 something far too intense for a second date or work lunch; **(d) in-the-moment friction + social
 signaling** — pulling up ChatGPT mid-date and typing a paragraph is awkward and visibly outsources
 effort; **(e) quality floor** — unvetted vs. drawn from validated frameworks. **Concession:** for
@@ -165,6 +167,7 @@ power users who already prompt well, ChatGPT is "good enough and free" — so ma
 (structure, safety, zero-effort context fit) and let pricing respect that the floor costs nothing.
 
 ### 3. Party / group game apps — own "meaningful + safe," not "funny"
+
 Jackbox/Psych!/Heads Up! own group laughter but optimize for comedy and competition, with no way to
 steer toward meaningful or safe territory. TalkSpark's planned group mode competes for the same
 "get the room talking" occasion with a different promise: questions that deepen connection, dialable
@@ -172,21 +175,23 @@ light→meaningful, no winners/losers, no IAP-deck friction. Don't out-funny Jac
 actually got to know each other" outcome.
 
 ### 4. Dating / social prep tools — stage- and context-agnostic, generated, prep-first
+
 Couples apps (Paired, Lasting, Connected, Gottman) are the most credibly research-backed
-competitors but are locked to *established romantic dyads* with both partners enrolled. They don't
-help the single person prepping a *first* date, the friend reconnecting, or any non-romantic
+competitors but are locked to _established romantic dyads_ with both partners enrolled. They don't
+help the single person prepping a _first_ date, the friend reconnecting, or any non-romantic
 context. AI dating assistants (Rizz, YourMove) help with openers but are romance-only, unvetted,
 and stop at the first message. TalkSpark is relationship-stage- and context-agnostic, research-
-backed *and* generated *and* prep-oriented, with depth controls neither side combines. **Caveat:**
+backed _and_ generated _and_ prep-oriented, with depth controls neither side combines. **Caveat:**
 do **not** position as a couples-therapy substitute — that's Paired/Lasting/Gottman's turf and
 edges into the therapy space TalkSpark disclaims.
 
 ### 5. Team / workplace icebreaker tools — facilitation prep, not automation
+
 Donut, QuizBreaker, Water Cooler Trivia, CultureBot, and Parabol win the recurring, automated,
 in-Slack ritual — embedded in workflow on autopilot. But content is curated/fixed, science-backing
-is weak, and they're built for ambient engagement, not for an individual preparing to *lead* a
+is weak, and they're built for ambient engagement, not for an individual preparing to _lead_ a
 specific meeting, 1:1, or offsite. TalkSpark serves the manager/facilitator who wants research-
-backed, context-fit prompts for a *particular* moment, with depth control — complementary to the
+backed, context-fit prompts for a _particular_ moment, with depth control — complementary to the
 always-on bots. **Concession:** for pure automated watercooler pairing, Donut's integration is hard
 to displace; TalkSpark's wedge is facilitation prep and content quality, not automation.
 
@@ -194,7 +199,7 @@ to displace; TalkSpark's wedge is facilitation prep and content quality, not aut
 
 1. **Anchor positioning on the empty quadrant.** Lead with "research-backed + generated-for-your-
    context + sequenced with depth control." Don't be perceived as "another question app" or "a
-   ChatGPT wrapper." *Change course if* user testing shows people don't value sequencing over a
+   ChatGPT wrapper." _Change course if_ user testing shows people don't value sequencing over a
    flat list — then pivot emphasis to context-fit + depth control.
 2. **Ship a generous free tier** — the floor competitor (ChatGPT) is free. Mirror the couples-app
    model: free core value, premium for depth packs, multi-context, and prep-saving. Track free→paid
@@ -211,7 +216,7 @@ to displace; TalkSpark's wedge is facilitation prep and content quality, not aut
 6. **Don't fight on the deck's or therapy apps' home turf.** Concede ritual/gift to WNRS/Esther
    Perel and clinical depth to Lasting/Gottman. Consider explicit "pairs well with your favorite
    deck" and "not a substitute for therapy" framing to reinforce the product's disclaimers.
-7. **For group mode, target "meaningful + safe," not "funny,"** and stage it *after* the core
+7. **For group mode, target "meaningful + safe," not "funny,"** and stage it _after_ the core
    single/2-person prep experience proves retention.
 
 ## Caveats
@@ -225,7 +230,7 @@ to displace; TalkSpark's wedge is facilitation prep and content quality, not aut
   without citations. TableTopics' role in the Penn State trial is real but as the **control arm**.
 - **Popularity signals aren't apples-to-apples.** Amazon reviews, App Store ratings, user-count
   claims, and G2 reviews measure different things; some vendors incentivize reviews (CultureBot
-  reportedly pays ~$30/G2 review). Matter's 1,181+ G2 reviews is the largest *verified* count in the
+  reportedly pays ~$30/G2 review). Matter's 1,181+ G2 reviews is the largest _verified_ count in the
   team set.
 - **Some products may be discontinued or pivoting.** This space churns fast; several PH generators
   and smaller apps may already be defunct, and ChatGPT's substitute role keeps shifting.
@@ -239,7 +244,7 @@ Reusable for the next re-run. Find competitors from the market, not memory:
 - **App stores** — "conversation starters," "icebreakers," "questions for couples," "deep talk,"
   "party questions." Record top results + ratings + install counts.
 - **Product Hunt** — "AI conversation," "icebreaker," "conversation" tags; note traction.
-- **Reddit / forums** — what people *actually recommend* in r/dating, r/socialskills, team-building
+- **Reddit / forums** — what people _actually recommend_ in r/dating, r/socialskills, team-building
   threads. Captures real substitutes, including non-app ones.
 - **Amazon best-sellers** — conversation card decks. Reveals the offline market and its marketing
   language.

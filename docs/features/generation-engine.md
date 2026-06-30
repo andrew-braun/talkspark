@@ -10,7 +10,7 @@
 We are building **generate-first**: an excellent generator is the content factory, and the
 human is the curator. This dissolves the cold-start problem — we don't hand-write or scrape
 a seed library, we generate deliberately and keep the best. The first build slice is
-therefore *the generation engine plus a way to measure its quality*, with no database.
+therefore _the generation engine plus a way to measure its quality_, with no database.
 
 The non-negotiable companion to "generate-first": **you cannot maximize generation quality
 without measuring it.** So the engine ships with evaluation built in, not bolted on later.
@@ -52,11 +52,11 @@ with the parent as context and returns deeper questions that build on it.
   "does this deepen without interrogating," not on standing alone.
 - Generated follow-ups are **keep-able**, which seeds the follow-up library exactly like
   kept sparks seed the spark library.
-- This operationalizes the strongest research finding (the *second* question is where
+- This operationalizes the strongest research finding (the _second_ question is where
   connection comes from) as a literal product action.
 - **Follow-ups are step one toward sequencing — our strategic moat.** The competitive pass
   ([../strategy/competitive-analysis.md](../strategy/competitive-analysis.md)) found that the
-  warm-up → depth → reflection *arc* is the single thing no incumbent does. On-demand follow-ups
+  warm-up → depth → reflection _arc_ is the single thing no incumbent does. On-demand follow-ups
   are the first, simplest expression of that arc; the full sequencer builds on this primitive
   rather than replacing it.
 
@@ -72,7 +72,7 @@ Kept items accumulate in localStorage and export to JSON.
 
 ## Evaluation (built in from day one)
 
-We must be able to tell whether a prompt change *actually* improved quality, not eyeball
+We must be able to tell whether a prompt change _actually_ improved quality, not eyeball
 it. Two mechanisms:
 
 - **LLM critique pass.** Each generated item is scored against the rubric (the fast 4-gate
@@ -99,7 +99,7 @@ Respect the selected safety boundaries.
 Return strict JSON matching the schema.
 ```
 
-```text  # critique
+```text # critique
 Evaluate whether this spark is clear, answerable, context-fit, safe, reciprocal,
 story-friendly, and follow-up friendly.
 Flag any risk of social mismatch, over-disclosure, controversy, therapy framing,
@@ -107,7 +107,7 @@ boomerasking, or generic wording.
 Suggest a rewrite only if the spark is promising.
 ```
 
-```text  # classification
+```text # classification
 Classify the spark by topic, relationship context, conversation goal, motive, vibe,
 depth, controversy, answer shape, reciprocity mode, group fit, conversation skill,
 and safety boundaries. Use conservative depth and controversy labels.
