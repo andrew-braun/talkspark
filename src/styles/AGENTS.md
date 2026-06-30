@@ -2,78 +2,30 @@
 
 ## Files
 
-| File             | Purpose                                          |
-| ---------------- | ------------------------------------------------ |
-| `variables.css`  | All CSS custom properties (design tokens)        |
-| `globals.scss`   | Global resets, base typography, shared utilities |
-| `animations.css` | Named `@keyframes` animations                    |
+| File               | Purpose                                                   |
+| ------------------ | --------------------------------------------------------- |
+| `variables.css`    | **SSOT for all token values** (`--*` custom properties)   |
+| `globals.scss`     | Global resets, base typography, `.page-spacing`           |
+| `animations.css`   | Named `@keyframes` (`fadeIn`, `gradientMotion`, `bxSpin`) |
+| `DESIGN_SYSTEM.md` | **SSOT for rules and semantics** (no values)              |
 
-All three are imported once in `src/routes/+layout.svelte`. Do not import them again in individual components.
+All three CSS/SCSS files are imported once in `src/routes/+layout.svelte`. Do not import them in components.
 
-## Design tokens
+## Before writing styles
 
-All colors, spacing, font sizes, border radii, and transitions are CSS custom properties defined in `variables.css`. Never use raw hex, hsl, or rem literals in component styles — reference the token instead.
+1. Read [`DESIGN_SYSTEM.md`](DESIGN_SYSTEM.md) for rules and token semantics
+2. Read [`variables.css`](variables.css) when you need actual values
+3. Run `pnpm lint:style` on changed files
 
-### Colors
+## Quick rules
 
-| Token                      | Value                    | Use                           |
-| -------------------------- | ------------------------ | ----------------------------- |
-| `--primary-color`          | `hsl(234, 61%, 13%)`     | App background (dark navy)    |
-| `--spark-background-color` | `hsla(234, 45%, 17%, 1)` | Spark card fill               |
-| `--accent-color-1`         | Yellow                   | Gradient building block       |
-| `--accent-color-2`         | Red                      | Gradient building block       |
-| `--accent-color-3`         | Pink                     | Gradient building block       |
-| `--accent-color-4`         | Purple                   | Gradient building block       |
-| `--accent-color-5`         | Blue                     | Gradient building block       |
-| `--accent-color-6`         | Teal                     | Gradient building block       |
-| `--text-color-light`       | White                    | Body text on dark backgrounds |
-| `--text-color-dark`        | Black                    | Text on light backgrounds     |
+- Use `var(--*)` for colors, spacing, typography, radii, transitions
+- Pick the nearest spacing/font-size token; do not invent ad-hoc rem values
+- Spark cards: `gradient-${(index % 4) + 1}` maps to `--gradient-1`–`--gradient-4`
+- `@keyframes` live in `animations.css` only
+- Component styles: `<style lang="scss">`, deep nesting mirroring DOM, one root class
+- `:global()` only when scoped selectors cannot reach the target
 
-### Gradients
+## On-demand token lookup
 
-`--gradient-1` through `--gradient-5` are predefined linear gradients built from accent colors. Spark cards use `gradient-1` through `gradient-4` cyclically (index `% 4`). `--gradient-5` spans all six accent colors.
-
-### Spacing
-
-Seven steps using multiples of 0.4 rem from a 62.5% root:
-
-| Token           | Value   |
-| --------------- | ------- |
-| `--spacing-xs`  | 0.6 rem |
-| `--spacing-sm`  | 0.8 rem |
-| `--spacing-md`  | 1.2 rem |
-| `--spacing-lg`  | 1.6 rem |
-| `--spacing-xl`  | 2.4 rem |
-| `--spacing-xxl` | 4 rem   |
-
-Always use the nearest spacing token. Do not invent ad-hoc rem values.
-
-### Typography
-
-Font family: Roboto (body and headings). Root font size is 62.5% (≈ 10 px base), dropping to 50% on screens narrower than 768 px so all `rem` values scale proportionally.
-
-Font size tokens run `--font-size-xs` (1 rem) through `--font-size-xxl` (3.2 rem).
-
-### Border radii and transitions
-
-| Token                | Value                  |
-| -------------------- | ---------------------- |
-| `--border-radius-sm` | 2 px                   |
-| `--border-radius-md` | 4 px                   |
-| `--border-radius-lg` | 8 px                   |
-| `--border-radius-xl` | 16 px                  |
-| `--transition-std`   | `all 0.3s ease-in-out` |
-
-## Keyframe animations
-
-`animations.css` defines:
-
-- `fadeIn` — opacity 0 → 1; used by spark card gradient accents (delayed 0.1 s after card appears)
-- `gradientMotion` — animates `background-position` for moving gradient effects
-- `bxSpin` — bouncy rotating box used by `LoadingAnimation.svelte`
-
-Reference animations by `animation-name` in component SCSS. Do not duplicate `@keyframes` definitions inside component style blocks.
-
-## SCSS in components
-
-Components use `<style lang="scss">`. Sass nesting and `&` selectors are available. Keep styles tightly scoped to the component. Use `:global()` only when a scoped selector cannot reach the target element (e.g. when applying a class to a child component's root element).
+Compact name → category table (no values): [`.agents/skills/talkspark-design-system/references/design-tokens.md`](../../.agents/skills/talkspark-design-system/references/design-tokens.md)

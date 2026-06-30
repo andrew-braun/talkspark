@@ -1,0 +1,14 @@
+---
+description: Composition hierarchy enforcement for atomic components
+globs: src/components/**/*.svelte
+alwaysApply: false
+---
+
+# Composition hierarchy
+
+- **Atoms** must not import molecules, organisms, or stores
+- **Molecules** compose atoms only — no organism imports
+- **Organisms** may compose molecules and atoms; may access stores
+- Do not skip layers (e.g. organism importing an atom for something a molecule should wrap)
+
+When adding a component, pick the lowest layer that fits. See [src/components/AGENTS.md](src/components/AGENTS.md).

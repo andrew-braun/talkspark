@@ -1,0 +1,12 @@
+---
+description: Server-only import boundary for TalkSpark lib code
+globs: src/lib/**/*.{ts,svelte}
+alwaysApply: false
+---
+
+# Server boundary
+
+- `src/lib/server/` is **server-only** — never import from client components, stores, or route pages
+- `OPENAI_API_KEY` and OpenAI client code stay in `src/lib/server/`
+- New AI features: `src/lib/*.remote.ts` with `command()`, not `+server.ts` routes
+- Client calls server via remote functions or SvelteKit server modules only

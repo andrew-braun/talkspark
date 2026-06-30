@@ -23,9 +23,11 @@ TalkSpark generates short AI-powered conversation starters — called **sparks**
 
 ## Prerequisites
 
-- Node.js ≥ 24
-- pnpm ≥ 10
+- Node.js `24.15.0` (Volta-pinned)
+- pnpm `11.x` (Volta-pinned)
 - An OpenAI API key
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for validation and commit conventions.
 
 ## Getting started
 
@@ -51,6 +53,9 @@ The app runs at `http://localhost:5173` by default.
 | `pnpm preview`     | Serve the production build locally           |
 | `pnpm check`       | Type-check all Svelte and TypeScript files   |
 | `pnpm check:watch` | Type-check in watch mode                     |
+| `pnpm validate`    | Full lint + format + knip + test gate        |
+| `pnpm test`        | Vitest unit/component tests                  |
+| `pnpm test:e2e`    | Playwright smoke tests                       |
 
 > `pnpm build` fails if `OPENAI_API_KEY` is unset because `src/lib/server/api/gpt/init.ts` imports it from `$env/static/private`. Use `OPENAI_API_KEY=dummy pnpm build` for packaging checks that don't need a live key.
 
@@ -58,15 +63,8 @@ The app runs at `http://localhost:5173` by default.
 
 ```text
 src/
-├── components/       # All Svelte UI components
-│   ├── brand/        # Logo
-│   ├── buttons/      # Button primitives and action buttons
-│   ├── layout/       # Header, nav
-│   ├── prompts/      # Spark prompt UIs (random generator)
-│   ├── sparks/       # Spark card, list, and per-spark actions
-│   └── states/       # Loading indicator
+├── components/       # Atomic-design UI (atoms → molecules → organisms)
 ├── lib/
-│   ├── client/       # Client-side fetch wrappers
 │   ├── data/         # Static data (random topics)
 │   ├── server/       # Server-only modules (OpenAI client, chat API)
 │   ├── utils/        # Shared utility functions
@@ -77,9 +75,11 @@ src/
 │   └── sparks/
 │       └── +page.svelte   # Saved sparks collection
 ├── stores/           # Svelte 5 reactive state + localStorage sync
-├── styles/           # Global CSS variables, SCSS, keyframe animations
+├── styles/           # variables.css, globals.scss, animations.css, DESIGN_SYSTEM.md
 └── ts/               # Shared TypeScript type definitions
 ```
+
+Agent and design-system docs: [AGENTS.md](AGENTS.md), [src/styles/DESIGN_SYSTEM.md](src/styles/DESIGN_SYSTEM.md).
 
 ## How it works
 

@@ -1,0 +1,20 @@
+---
+description: Atomic design layer rules for TalkSpark components
+globs: src/components/**/*.svelte
+alwaysApply: false
+---
+
+# Component architecture
+
+Place components in the correct atomic layer with functional subfolders:
+
+| Layer | Path | Rules |
+|-------|------|-------|
+| atoms | `atoms/{buttons,brand,nav,actions,loading}/` | Single-purpose; no store access |
+| molecules | `molecules/{actions,nav,sparks}/` | Compose atoms only |
+| organisms | `organisms/{layout,sparks,prompts,loading}/` | Distinct UI sections; may use stores |
+| templates | `templates/layout/` | Page-level layout shells |
+
+Import pattern: `import Button from 'components/atoms/buttons/Button.svelte'`
+
+See [src/components/AGENTS.md](src/components/AGENTS.md) for details.

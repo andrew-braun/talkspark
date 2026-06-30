@@ -16,7 +16,6 @@
 		"lib/*": ["src/lib/*"],
 	},
 	"ignore": [
-		"src/lib/client/gpt/chat.ts",
 		"src/lib/index.ts",
 		"src/ts/topic.ts",
 		"src/ts/followup.ts",
@@ -26,6 +25,8 @@
 	"ignoreIssues": {
 		"src/ts/spark.ts": ["types", "exports"],
 		"src/ts/sparks.ts": ["types"],
+		"src/lib/server/api/llm/index.ts": ["types"],
+		"src/lib/server/api/llm/provider.ts": ["types"],
 	},
-	"ignoreDependencies": ["@lottiefiles/lottie-player", "@popperjs/core", "postcss-scss", "tslib"],
+	"ignoreDependencies": ["postcss-scss", "tslib"],
 }

@@ -1,9 +1,9 @@
 import Anthropic from '@anthropic-ai/sdk';
-import { ANTHROPIC_API_KEY } from '$env/static/private';
+import { env } from '$env/dynamic/private';
 import type { LLMProvider, GenerateStructuredParams } from './provider';
 
 export class AnthropicAdapter implements LLMProvider {
-	private client = new Anthropic({ apiKey: ANTHROPIC_API_KEY });
+	private client = new Anthropic({ apiKey: env.ANTHROPIC_API_KEY });
 
 	async generateStructured<T>({ system, prompt, schema }: GenerateStructuredParams): Promise<T> {
 		const response = await this.client.messages.create({

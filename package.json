@@ -69,8 +69,6 @@
 	},
 	"dependencies": {
 		"@anthropic-ai/sdk": "^0.107.0",
-		"@lottiefiles/lottie-player": "^2.0.12",
-		"@popperjs/core": "^2.11.8",
 		"openai": "^6.37.0",
 		"valibot": "^1.4.0"
 	}

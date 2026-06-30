@@ -13,12 +13,14 @@ Use the codebase and this file as the source of truth for project behavior. The 
 - Preserve the existing SvelteKit structure and file-based routing. Do not introduce a new state library, CSS framework, or API layer unless the task explicitly requires it.
 - When touching browser persistence, guard browser-only APIs with `browser` from `$app/environment`, as this codebase already does.
 - When touching OpenAI integration, keep API-key usage server-only. Never move secret-dependent code into client files or public env variables.
+- **Design system (mandatory for UI):** token values in [`src/styles/variables.css`](src/styles/variables.css); semantics and rules in [`src/styles/DESIGN_SYSTEM.md`](src/styles/DESIGN_SYSTEM.md). Never duplicate token values in markdown.
+- **Atomic design:** components live in `atoms/`, `molecules/`, `organisms/`, `templates/` with functional subfolders (`nav/`, `actions/`, `sparks/`, `layout/`).
+- **Token efficiency:** read `DESIGN_SYSTEM.md` once per task; cite paths instead of pasting file contents; use [`.agents/skills/`](.agents/skills/) for workflows.
 
 ## Setup and validated commands
 
 - Install dependencies with `pnpm install` from the repo root.
 - Verified tool versions: Node `v24.15.0`, pnpm `11.9.0` (pinned in `package.json` via Volta).
-- `pnpm install` warns that the lockfile was written by an older pnpm version. Expect a lockfile update when installing with a newer pnpm.
 - `pnpm install` also warns about ignored dependency build scripts (`@parcel/watcher`, `@sveltejs/kit`, `esbuild`, `svelte-preprocess`). Investigate pnpm's build-script approval state before assuming app code is at fault if the build behaves unexpectedly.
 
 Main validation commands:
@@ -69,11 +71,12 @@ UI button click
 | `src/lib/generate.remote.ts`         | `command()` remote function; owns prompt building and spark enrichment |
 | `src/lib/server/api/gpt/init.ts`     | Creates the OpenAI client from `OPENAI_API_KEY`                        |
 | `src/lib/server/api/gpt/chat-api.ts` | Calls `openai.responses.create` with a strict JSON schema              |
-| `src/lib/client/gpt/chat.ts`         | Legacy client `fetch` wrapper for `/api/generate` (kept for reference) |
 | `src/stores/sparks.svelte.ts`        | `generatedSparks` and `savedSparks` stores with localStorage sync      |
 | `src/stores/loading.svelte.ts`       | Global `loadingState.isLoading` flag                                   |
 | `src/lib/data/random-topics.ts`      | 432 random topic strings used as prompt seeds                          |
-| `src/ts/sparks.ts`                   | `SparkData` interface                                                  |
+| `src/ts/sparks.ts`                   | `SparkData` type (alias for `Spark` in `spark.ts`)                     |
+| `src/styles/DESIGN_SYSTEM.md`        | Design system rules and semantics (no values)                          |
+| `src/styles/variables.css`           | Design token values (SSOT)                                             |
 | `src/components/`                    | All UI components (see `src/components/AGENTS.md`)                     |
 | `src/styles/`                        | CSS variables, global SCSS, keyframe animations                        |
 
@@ -91,7 +94,7 @@ SvelteKit's experimental `remoteFunctions` feature is enabled in `svelte.config.
 
 - The three sparks per generation follow a fixed structure: one about the topic, one about its opposite, one funny/weird. Change the prompt only if you intend to change this structure.
 - The OpenAI call uses a strict `json_schema` format in the Responses API — not the legacy Chat Completions API. `chatResponse` is already parsed JSON text; calling `JSON.parse(chatResponse)` extracts `{ sparks: [{ content }] }`.
-- `SparkData` does not include `created_at` in its interface definition (`src/ts/sparks.ts`), but `generate.remote.ts` adds it at runtime. The sort utility in `Sparks.svelte` depends on this field being present.
+- `SparkData` includes `created_at` via the `Spark` interface in `src/ts/spark.ts`; `generate.remote.ts` sets it at enrichment time.
 - `Sparks.svelte` sorts by `created_at` descending so new sparks appear at the top.
 - Gradient accents cycle through `gradient-1` to `gradient-4` using `index % 4` — there are only four gradient CSS variables for spark cards.
 
@@ -104,7 +107,7 @@ SvelteKit's experimental `remoteFunctions` feature is enabled in `svelte.config.
 
 - **UI changes**: edit under `src/components/`, `src/routes/`, and `src/styles/` without touching server code.
 - **Generation behavior**: inspect both `src/lib/generate.remote.ts` (prompt structure, enrichment) and `src/lib/server/api/gpt/chat-api.ts` (model invocation, JSON schema). Keep them coupled — the schema must match what the prompt asks for.
-- **New spark types**: add a new `command()` in a new `.remote.ts` file; add a corresponding prompt UI under `src/components/prompts/`.
+- **New spark types**: add a new `command()` in a new `.remote.ts` file; add a corresponding prompt UI under `src/components/organisms/prompts/`.
 - **Persistence changes**: update both the store factory in `sparks.svelte.ts` and any consumers that read from localStorage keys directly.
 
 ## Validation guidance
@@ -117,9 +120,29 @@ SvelteKit's experimental `remoteFunctions` feature is enabled in `svelte.config.
 - Before opening a PR or after large changes: `pnpm validate` and `OPENAI_API_KEY=dummy pnpm build`.
 - If you change generation behavior and cannot execute the live OpenAI flow, say so explicitly and validate everything else locally.
 
+## Agent skills
+
+Project skills live in [`.agents/skills/`](.agents/skills/). Optional: symlink `.cursor/skills` → `.agents/skills` for Cursor discovery.
+
+| Skill                         | When to use                                     |
+| ----------------------------- | ----------------------------------------------- |
+| `talkspark-design-system`     | **Mandatory** before editing styles             |
+| `talkspark-validate`          | Before claiming a task is done                  |
+| `talkspark-sveltekit`         | Routes, stores, remote functions, runes         |
+| `talkspark-openai-generation` | Generation prompt/schema changes                |
+| `talkspark-token-discipline`  | Multi-file tasks; avoid token waste             |
+| `karpathy-guidelines`         | Any implementation — simplicity, surgical diffs |
+| `systematic-debugging`        | Generation/store/persistence bugs               |
+| `token-budget-discipline`     | Long sessions; parallel reads                   |
+
+Optional external install (not vendored):
+
+```bash
+npx skills add JuliusBrussee/caveman -a cursor
+```
+
 ## Known gaps
 
 - Smoke tests only — generation flow is not covered by E2E tests (requires live OpenAI).
-- Legacy `getSpark` client wrapper and unused taxonomy types in `src/ts/` are intentionally ignored by Knip until cleanup (checkpoint 7).
-- `src/lib/client/gpt/chat.ts` (`getSpark`) is a legacy fetch wrapper that predates the remote functions implementation. It is unused in the current flow but kept in the repo.
-- `@lottiefiles/lottie-player` and `@popperjs/core` are listed as dependencies but do not appear to be actively used in current component code.
+- Taxonomy types in `src/ts/spark.ts` and reserved files (`topic.ts`, etc.) are for future game modes.
+- Stylelint token literal rules are warnings only (Phase A) — not CI-blocking.

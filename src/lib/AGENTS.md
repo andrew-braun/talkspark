@@ -44,10 +44,6 @@ The system prompt instructs the model to return only that JSON structure. `respo
 
 If you change the JSON schema, update both the schema object in `chat-api.ts` and the destructure in `generate.remote.ts` together.
 
-## Client fetch wrapper
-
-`src/lib/client/gpt/chat.ts` exports `getSpark()`, a `fetch`-based wrapper for `/api/generate`. This predates the remote functions implementation and is currently unused. Keep it for reference but do not build new features on top of it.
-
 ## Data
 
 `src/lib/data/random-topics.ts` exports an array of 432 topic strings. One is selected at random per generation in `generate.remote.ts`. To expand topic coverage, append to the array — no other changes needed.
