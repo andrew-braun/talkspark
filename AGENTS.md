@@ -17,7 +17,7 @@ Use the codebase and this file as the source of truth for project behavior. The 
 ## Setup and validated commands
 
 - Install dependencies with `pnpm install` from the repo root.
-- Verified tool versions: Node `v24.15.0`, pnpm `10.33.0` (pinned in `package.json` via Volta).
+- Verified tool versions: Node `v24.15.0`, pnpm `11.9.0` (pinned in `package.json` via Volta).
 - `pnpm install` warns that the lockfile was written by an older pnpm version. Expect a lockfile update when installing with a newer pnpm.
 - `pnpm install` also warns about ignored dependency build scripts (`@parcel/watcher`, `@sveltejs/kit`, `esbuild`, `svelte-preprocess`). Investigate pnpm's build-script approval state before assuming app code is at fault if the build behaves unexpectedly.
 

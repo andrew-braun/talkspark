@@ -25,7 +25,7 @@
 	"type": "module",
 	"volta": {
 		"node": "24.15.0",
-		"pnpm": "10.33.0"
+		"pnpm": "11.9.0"
 	},
 	"dependencies": {
 		"@lottiefiles/lottie-player": "^2.0.12",
