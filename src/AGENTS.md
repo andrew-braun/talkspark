@@ -4,13 +4,13 @@
 
 `svelte.config.js` registers these path aliases (no `$` prefix, no `src/` prefix needed):
 
-| Alias | Resolves to |
-| ----- | ----------- |
+| Alias        | Resolves to      |
+| ------------ | ---------------- |
 | `components` | `src/components` |
-| `stores` | `src/stores` |
-| `styles` | `src/styles` |
-| `ts` | `src/ts` |
-| `lib` | `src/lib` |
+| `stores`     | `src/stores`     |
+| `styles`     | `src/styles`     |
+| `ts`         | `src/ts`         |
+| `lib`        | `src/lib`        |
 
 `$lib` (SvelteKit built-in) also resolves to `src/lib`. The bare aliases above are preferred throughout the codebase for consistency.
 
@@ -26,13 +26,13 @@ Server-only SvelteKit modules (`$env/static/private`, `$app/server`) must stay i
 
 All reactive code uses Svelte 5 runes. Do not use Svelte 4 patterns (`export let` for props, `$:` for reactivity, `<slot>` for injectable content).
 
-| Pattern | Rune |
-| ------- | ---- |
-| Component props | `let { foo, bar } = $props()` |
-| Local reactive state | `let x = $state(initial)` |
-| Derived value | `let y = $derived(expression)` |
-| Side effect | `$effect(() => { ... })` |
-| Injectable content | `{#snippet name()}` / `{@render name()}` |
+| Pattern              | Rune                                     |
+| -------------------- | ---------------------------------------- |
+| Component props      | `let { foo, bar } = $props()`            |
+| Local reactive state | `let x = $state(initial)`                |
+| Derived value        | `let y = $derived(expression)`           |
+| Side effect          | `$effect(() => { ... })`                 |
+| Injectable content   | `{#snippet name()}` / `{@render name()}` |
 
 ## Modules
 

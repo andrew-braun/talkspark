@@ -1,12 +1,12 @@
 <script lang="ts">
-	import type { Snippet } from "svelte"
-	import { fade } from "svelte/transition"
+	import type { Snippet } from 'svelte';
+	import { fade } from 'svelte/transition';
 
-	let { show = false, children }: { show?: boolean; children?: Snippet } = $props()
+	let { show = false, children }: { show?: boolean; children?: Snippet } = $props();
 </script>
 
 {#if show}
-	<div class={`popup ${show ? "show" : "hide"}`} transition:fade>
+	<div class={`popup ${show ? 'show' : 'hide'}`} transition:fade>
 		{@render children?.()}
 	</div>
 {/if}

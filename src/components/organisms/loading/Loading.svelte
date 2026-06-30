@@ -1,9 +1,9 @@
 <script lang="ts">
-	import type { AnimationType } from "ts/animation"
-	import LoadingAnimation from "components/atoms/loading/LoadingAnimation.svelte"
+	import type { AnimationType } from 'ts/animation';
+	import LoadingAnimation from 'components/atoms/loading/LoadingAnimation.svelte';
 
 	let { isLoading = false, animation }: { isLoading?: boolean; animation: AnimationType } =
-		$props()
+		$props();
 </script>
 
 <div class="loading-container">

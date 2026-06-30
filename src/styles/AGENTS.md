@@ -2,11 +2,11 @@
 
 ## Files
 
-| File | Purpose |
-| ---- | ------- |
-| `variables.css` | All CSS custom properties (design tokens) |
-| `globals.scss` | Global resets, base typography, shared utilities |
-| `animations.css` | Named `@keyframes` animations |
+| File             | Purpose                                          |
+| ---------------- | ------------------------------------------------ |
+| `variables.css`  | All CSS custom properties (design tokens)        |
+| `globals.scss`   | Global resets, base typography, shared utilities |
+| `animations.css` | Named `@keyframes` animations                    |
 
 All three are imported once in `src/routes/+layout.svelte`. Do not import them again in individual components.
 
@@ -16,18 +16,18 @@ All colors, spacing, font sizes, border radii, and transitions are CSS custom pr
 
 ### Colors
 
-| Token | Value | Use |
-| ----- | ----- | --- |
-| `--primary-color` | `hsl(234, 61%, 13%)` | App background (dark navy) |
-| `--spark-background-color` | `hsla(234, 45%, 17%, 1)` | Spark card fill |
-| `--accent-color-1` | Yellow | Gradient building block |
-| `--accent-color-2` | Red | Gradient building block |
-| `--accent-color-3` | Pink | Gradient building block |
-| `--accent-color-4` | Purple | Gradient building block |
-| `--accent-color-5` | Blue | Gradient building block |
-| `--accent-color-6` | Teal | Gradient building block |
-| `--text-color-light` | White | Body text on dark backgrounds |
-| `--text-color-dark` | Black | Text on light backgrounds |
+| Token                      | Value                    | Use                           |
+| -------------------------- | ------------------------ | ----------------------------- |
+| `--primary-color`          | `hsl(234, 61%, 13%)`     | App background (dark navy)    |
+| `--spark-background-color` | `hsla(234, 45%, 17%, 1)` | Spark card fill               |
+| `--accent-color-1`         | Yellow                   | Gradient building block       |
+| `--accent-color-2`         | Red                      | Gradient building block       |
+| `--accent-color-3`         | Pink                     | Gradient building block       |
+| `--accent-color-4`         | Purple                   | Gradient building block       |
+| `--accent-color-5`         | Blue                     | Gradient building block       |
+| `--accent-color-6`         | Teal                     | Gradient building block       |
+| `--text-color-light`       | White                    | Body text on dark backgrounds |
+| `--text-color-dark`        | Black                    | Text on light backgrounds     |
 
 ### Gradients
 
@@ -37,14 +37,14 @@ All colors, spacing, font sizes, border radii, and transitions are CSS custom pr
 
 Seven steps using multiples of 0.4 rem from a 62.5% root:
 
-| Token | Value |
-| ----- | ----- |
-| `--spacing-xs` | 0.6 rem |
-| `--spacing-sm` | 0.8 rem |
-| `--spacing-md` | 1.2 rem |
-| `--spacing-lg` | 1.6 rem |
-| `--spacing-xl` | 2.4 rem |
-| `--spacing-xxl` | 4 rem |
+| Token           | Value   |
+| --------------- | ------- |
+| `--spacing-xs`  | 0.6 rem |
+| `--spacing-sm`  | 0.8 rem |
+| `--spacing-md`  | 1.2 rem |
+| `--spacing-lg`  | 1.6 rem |
+| `--spacing-xl`  | 2.4 rem |
+| `--spacing-xxl` | 4 rem   |
 
 Always use the nearest spacing token. Do not invent ad-hoc rem values.
 
@@ -56,13 +56,13 @@ Font size tokens run `--font-size-xs` (1 rem) through `--font-size-xxl` (3.2 rem
 
 ### Border radii and transitions
 
-| Token | Value |
-| ----- | ----- |
-| `--border-radius-sm` | 2 px |
-| `--border-radius-md` | 4 px |
-| `--border-radius-lg` | 8 px |
-| `--border-radius-xl` | 16 px |
-| `--transition-std` | `all 0.3s ease-in-out` |
+| Token                | Value                  |
+| -------------------- | ---------------------- |
+| `--border-radius-sm` | 2 px                   |
+| `--border-radius-md` | 4 px                   |
+| `--border-radius-lg` | 8 px                   |
+| `--border-radius-xl` | 16 px                  |
+| `--transition-std`   | `all 0.3s ease-in-out` |
 
 ## Keyframe animations
 

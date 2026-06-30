@@ -1,33 +1,30 @@
-interface SortByDateArgs {
-	objects: any[]
-	dateField: string
-	direction: "ASC" | "DESC"
+interface SortByDateArgs<T> {
+	objects: T[];
+	dateField: keyof T & string;
+	direction: 'ASC' | 'DESC';
 }
 
-export function sortByDate(args: SortByDateArgs) {
-	const { objects, dateField, direction } = args
+export function sortByDate<T>(args: SortByDateArgs<T>) {
+	const { objects, dateField, direction } = args;
 
 	const sorted = [...objects].sort(function (a, b) {
-		// Convert the 'created_at' strings to Date objects for comparison
-		const dateA = new Date(a[dateField])
-		const dateB = new Date(b[dateField])
+		const dateA = new Date(a[dateField] as string | number | Date);
+		const dateB = new Date(b[dateField] as string | number | Date);
 
-		// Determine the sorting direction based on the 'direction' argument
-		let comparison = 0
+		let comparison = 0;
 
 		if (dateA < dateB) {
-			comparison = -1
+			comparison = -1;
 		} else if (dateA > dateB) {
-			comparison = 1
+			comparison = 1;
 		}
 
-		// Invert the comparison result if 'direction' is 'desc'
-		if (direction === "DESC") {
-			comparison = -comparison
+		if (direction === 'DESC') {
+			comparison = -comparison;
 		}
 
-		return comparison
-	})
+		return comparison;
+	});
 
-	return sorted
+	return sorted;
 }

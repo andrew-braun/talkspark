@@ -1,39 +1,26 @@
 :root {
-	--primary-color: hsl(234, 61%, 13%);
+	--primary-color: hsl(234deg 61% 13%);
 	--secondary-color: #e0e0e0;
 	--tertiary-color: #bdbdbd;
-
 	--background-color: var(--primary-color);
-
-	--spark-background-color: hsla(234, 45%, 17%, 1);
+	--spark-background-color: hsl(234deg 45% 17% / 100%);
 	--spark-border: 1px solid var(--secondary-color);
-
-	--text-color-light: hsl(0, 0%, 100%);
-	--text-color-dark: hsl(0, 0%, 0%);
-
-	--accent-color-1: hsla(46, 97%, 53%, 1);
-	--accent-color-2: hsla(353, 100%, 64%, 1);
-	--accent-color-3: hsla(325, 87%, 54%, 1);
-	--accent-color-4: hsla(285, 76%, 59%, 1);
-	--accent-color-5: hsla(209, 92%, 60%, 1);
-	--accent-color-6: hsla(169, 79%, 57%, 1);
-
+	--text-color-light: hsl(0deg 0% 100%);
+	--text-color-dark: hsl(0deg 0% 0%);
+	--accent-color-1: hsl(46deg 97% 53% / 100%);
+	--accent-color-2: hsl(353deg 100% 64% / 100%);
+	--accent-color-3: hsl(325deg 87% 54% / 100%);
+	--accent-color-4: hsl(285deg 76% 59% / 100%);
+	--accent-color-5: hsl(209deg 92% 60% / 100%);
+	--accent-color-6: hsl(169deg 79% 57% / 100%);
 	--gradient-1: linear-gradient(
 		90deg,
 		var(--accent-color-2),
 		var(--accent-color-3),
 		var(--accent-color-4)
 	);
-	--gradient-2: linear-gradient(
-		90deg,
-		var(--accent-color-6),
-		var(--accent-color-5)
-	);
-	--gradient-3: linear-gradient(
-		90deg,
-		var(--accent-color-1),
-		var(--accent-color-2)
-	);
+	--gradient-2: linear-gradient(90deg, var(--accent-color-6), var(--accent-color-5));
+	--gradient-3: linear-gradient(90deg, var(--accent-color-1), var(--accent-color-2));
 	--gradient-4: linear-gradient(
 		90deg,
 		var(--accent-color-6),
@@ -49,10 +36,8 @@
 		var(--accent-color-5),
 		var(--accent-color-6)
 	);
-
-	--body-font-family: "Roboto", sans-serif;
-	--heading-font-family: "Roboto", sans-serif;
-
+	--body-font-family: 'Roboto', sans-serif;
+	--heading-font-family: 'Roboto', sans-serif;
 	--font-size-xs: 1rem;
 	--font-size-sm: 1.2rem;
 	--font-size-md-sm: 1.4rem;
@@ -61,18 +46,15 @@
 	--font-size-lg: 2.2rem;
 	--font-size-xl: 2.6rem;
 	--font-size-xxl: 3.2rem;
-
 	--spacing-xs: 0.6rem;
 	--spacing-sm: 0.8rem;
 	--spacing-md: 1.2rem;
 	--spacing-lg: 1.6rem;
 	--spacing-xl: 2.4rem;
 	--spacing-xxl: 4rem;
-
 	--border-radius-sm: 2px;
 	--border-radius-md: 4px;
 	--border-radius-lg: 8px;
 	--border-radius-xl: 16px;
-
 	--transition-std: all 0.3s ease-in-out;
 }

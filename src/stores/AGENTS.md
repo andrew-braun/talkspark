@@ -2,10 +2,10 @@
 
 ## Files
 
-| File | Exports | Purpose |
-| ---- | ------- | ------- |
-| `sparks.svelte.ts` | `generatedSparks`, `savedSparks` | Spark collections with localStorage sync |
-| `loading.svelte.ts` | `loadingState` | Global loading flag |
+| File                | Exports                          | Purpose                                  |
+| ------------------- | -------------------------------- | ---------------------------------------- |
+| `sparks.svelte.ts`  | `generatedSparks`, `savedSparks` | Spark collections with localStorage sync |
+| `loading.svelte.ts` | `loadingState`                   | Global loading flag                      |
 
 ## Module-level reactive state
 
@@ -16,7 +16,7 @@ Store files use the `.svelte.ts` extension because they contain Svelte 5 rune-ba
 A plain `$state` object with a single flag:
 
 ```ts
-export const loadingState = $state({ isLoading: false })
+export const loadingState = $state({ isLoading: false });
 ```
 
 Mutate it directly from any component: `loadingState.isLoading = true`. Read it with `loadingState.isLoading`.
@@ -29,10 +29,10 @@ Mutate it directly from any component: `loadingState.isLoading = true`. Read it 
 2. Registers a `$effect.root` / `$effect` that writes `items` back to `localStorage` whenever it changes.
 3. Returns a reactive object with a `items` getter and `add`, `remove`, and `clear` methods.
 
-| Store | localStorage key | Contents |
-| ----- | ---------------- | -------- |
-| `generatedSparks` | `all_sparks` | Every spark generated in this browser session |
-| `savedSparks` | `saved_sparks` | Sparks the user has bookmarked |
+| Store             | localStorage key | Contents                                      |
+| ----------------- | ---------------- | --------------------------------------------- |
+| `generatedSparks` | `all_sparks`     | Every spark generated in this browser session |
+| `savedSparks`     | `saved_sparks`   | Sparks the user has bookmarked                |
 
 ## Rules
 

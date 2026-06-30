@@ -1,6 +1,6 @@
 <script lang="ts">
-	import type { Snippet } from "svelte"
-	import ActionButtonPopup from "components/atoms/actions/ActionButtonPopup.svelte"
+	import type { Snippet } from 'svelte';
+	import ActionButtonPopup from 'components/atoms/actions/ActionButtonPopup.svelte';
 
 	let {
 		onClick,
@@ -10,20 +10,16 @@
 		children,
 		popup,
 	}: {
-		onClick: () => void
-		title: string
-		type: "copy" | "save"
-		isPopupActive?: boolean
-		children?: Snippet
-		popup?: Snippet
-	} = $props()
+		onClick: () => void;
+		title: string;
+		type: 'copy' | 'save';
+		isPopupActive?: boolean;
+		children?: Snippet;
+		popup?: Snippet;
+	} = $props();
 </script>
 
-<button
-	class={`action ${type}`}
-	{title}
-	onclick={() => onClick()}
->
+<button class={`action ${type}`} {title} onclick={() => onClick()}>
 	{@render children?.()}
 </button>
 
@@ -42,6 +38,7 @@
 		&:hover {
 			cursor: pointer;
 		}
+
 		&:active {
 			transform: scale(0.9);
 		}

@@ -1,1 +1,1 @@
-export type AnimationType = "default" | "bouncyBox"
+export type AnimationType = 'default' | 'bouncyBox';

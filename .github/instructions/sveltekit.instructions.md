@@ -1,5 +1,5 @@
 ---
-applyTo: "src/routes/**/*.svelte,src/routes/**/*.ts,src/components/**/*.svelte,src/stores/**/*.ts,src/lib/client/**/*.ts,src/styles/**/*,src/ts/**/*.ts"
+applyTo: 'src/routes/**/*.svelte,src/routes/**/*.ts,src/components/**/*.svelte,src/stores/**/*.ts,src/lib/client/**/*.ts,src/styles/**/*,src/ts/**/*.ts'
 ---
 
 # SvelteKit frontend instructions

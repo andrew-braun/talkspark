@@ -5,11 +5,11 @@
 - This repository is a SvelteKit app for generating conversation starters with a server-side OpenAI call and browser-side localStorage persistence.
 - The README is default scaffold content and is not reliable project documentation.
 - The most important paths are:
-  - `src/routes/api/generate/+server.ts` for spark-generation request handling and JSON response shaping
-  - `src/lib/server/api/gpt/` for OpenAI client setup and chat completion calls
-  - `src/lib/client/gpt/chat.ts` for the client request wrapper
-  - `src/stores/sparks/` and `src/stores/utils/local-storage.ts` for persisted client state
-  - `src/components/` and `src/routes/+page.svelte` for the UI
+    - `src/routes/api/generate/+server.ts` for spark-generation request handling and JSON response shaping
+    - `src/lib/server/api/gpt/` for OpenAI client setup and chat completion calls
+    - `src/lib/client/gpt/chat.ts` for the client request wrapper
+    - `src/stores/sparks/` and `src/stores/utils/local-storage.ts` for persisted client state
+    - `src/components/` and `src/routes/+page.svelte` for the UI
 - Keep `OPENAI_API_KEY` server-only. Do not move secret-dependent code into client bundles.
 - Use the repo's existing import style and aliases from `tsconfig.json`, including `$lib`, `$components`, `$styles`, and `$ts`.
 - For Svelte, TypeScript, or store changes, validate with `pnpm check`.

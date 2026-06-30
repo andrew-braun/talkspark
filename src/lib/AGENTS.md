@@ -13,19 +13,19 @@ Client-accessible code lives outside `server/`.
 ```ts
 // lib/generate.remote.ts
 export const generateSparks = command(
-  v.object({ type: v.string() }),  // Valibot input schema (validated on the server)
-  async ({ type }) => {
-    // runs server-side only
-    return { sparks }
-  }
-)
+	v.object({ type: v.string() }), // Valibot input schema (validated on the server)
+	async ({ type }) => {
+		// runs server-side only
+		return { sparks };
+	}
+);
 ```
 
 Client components import and call it like a regular async function:
 
 ```ts
-import { generateSparks } from "$lib/generate.remote"
-const { sparks } = await generateSparks({ type: "random" })
+import { generateSparks } from '$lib/generate.remote';
+const { sparks } = await generateSparks({ type: 'random' });
 ```
 
 SvelteKit handles serialization and the server/client boundary automatically. For any new AI or server-side feature, prefer a `.remote.ts` file over a manual `+server.ts` route.

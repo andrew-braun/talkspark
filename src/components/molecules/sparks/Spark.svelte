@@ -1,18 +1,12 @@
 <script lang="ts">
-	import { fade, slide } from "svelte/transition"
-	import type { SparkData } from "ts/sparks"
-	import SparkActions from "components/organisms/sparks/SparkActions.svelte"
+	import { fade, slide } from 'svelte/transition';
+	import type { SparkData } from 'ts/sparks';
+	import SparkActions from 'components/organisms/sparks/SparkActions.svelte';
 
-	let { spark, index }: { spark: SparkData; index: number } = $props()
-
-	let visible = $state(false)
-
-	$effect(() => {
-		visible = true
-	})
+	let { spark, index }: { spark: SparkData; index: number } = $props();
 </script>
 
-{#if spark && visible}
+{#if spark}
 	<article class="spark" transition:fade>
 		<span class={`gradient gradient-${index}`} transition:slide></span>
 		<div class="content">{spark.content}</div>
@@ -43,7 +37,7 @@
 			position: absolute;
 			top: 6px;
 			left: 6px;
-			content: "";
+			content: '';
 			width: 100%;
 			height: 101%;
 			border-radius: var(--border-radius-sm);
@@ -59,14 +53,17 @@
 				background: var(--gradient-1);
 				z-index: -1;
 			}
+
 			&.gradient-2 {
 				background: var(--gradient-2);
 				z-index: -1;
 			}
+
 			&.gradient-3 {
 				background: var(--gradient-3);
 				z-index: -1;
 			}
+
 			&.gradient-4 {
 				background: var(--gradient-4);
 				z-index: -1;

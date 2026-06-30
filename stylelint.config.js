@@ -1,10 +1,34 @@
 /** @type {import('stylelint').Config} */
 export default {
-	extends: ['stylelint-config-recommended-scss', 'stylelint-config-html/svelte'],
+	extends: ['stylelint-config-standard-scss', 'stylelint-config-html'],
 	ignoreFiles: ['**/.svelte-kit/**', '**/build/**', '**/node_modules/**'],
+	overrides: [
+		{
+			files: ['**/*.svelte'],
+			customSyntax: 'postcss-html',
+			rules: {
+				'selector-pseudo-class-no-unknown': [
+					true,
+					{ ignorePseudoClasses: ['global', 'deep'] },
+				],
+				'selector-class-pattern': null,
+				'keyframes-name-pattern': null,
+			},
+		},
+		{
+			files: [
+				'src/styles/variables.css',
+				'src/styles/globals.scss',
+				'src/styles/animations.css',
+			],
+			rules: {
+				'declaration-property-value-disallowed-list': null,
+				'keyframes-name-pattern': null,
+			},
+		},
+	],
 	rules: {
 		'declaration-empty-line-before': null,
-		// Phase A: warnings only — not CI-blocking (see plan)
 		'declaration-property-value-disallowed-list': [
 			{
 				'/^(color|background|background-color|fill|stroke)$/': [
@@ -15,20 +39,4 @@ export default {
 			{ severity: 'warning' },
 		],
 	},
-	overrides: [
-		{
-			files: ['src/styles/variables.css', 'src/styles/globals.scss', 'src/styles/animations.css'],
-			rules: {
-				'declaration-property-value-disallowed-list': null,
-			},
-		},
-		// postcss-html treats Button `style="primary"` props as inline CSS (false positive).
-		// Component <style> blocks are enabled in checkpoint 4 after prop rename or custom syntax.
-		{
-			files: ['**/*.svelte'],
-			rules: {
-				'declaration-property-value-disallowed-list': null,
-			},
-		},
-	],
 };

@@ -1,7 +1,8 @@
 export interface SparkData {
-	id: string
-	index: number
-	type: string
-	options?: any
-	content: string
+	id: string;
+	index: number;
+	type: string;
+	options?: unknown;
+	content: string;
+	created_at: number;
 }

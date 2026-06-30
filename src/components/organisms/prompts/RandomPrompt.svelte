@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { generatedSparks } from "stores/sparks.svelte"
-	import Sparks from "components/organisms/sparks/Sparks.svelte"
-	import GenerateSparksButton from "components/organisms/sparks/GenerateSparksButton.svelte"
+	import { generatedSparks } from 'stores/sparks.svelte';
+	import Sparks from 'components/organisms/sparks/Sparks.svelte';
+	import GenerateSparksButton from 'components/organisms/sparks/GenerateSparksButton.svelte';
 </script>
 
 <div class="dialog-container">

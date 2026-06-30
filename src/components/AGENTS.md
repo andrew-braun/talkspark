@@ -2,7 +2,7 @@
 
 ## Directory layout
 
-Components use **atomic design** with **functional subfolders**. Group by what a component *is*, not which page it appears on.
+Components use **atomic design** with **functional subfolders**. Group by what a component _is_, not which page it appears on.
 
 ```text
 components/
@@ -27,12 +27,12 @@ components/
 
 ## Layer rules
 
-| Layer | Definition | Examples |
-| ----- | ---------- | -------- |
-| **atoms** | Single-purpose; no store access; no business logic | Button, NavLink, LoadingAnimation |
-| **molecules** | Composes atoms; may have local state | CopyButton, Spark, Nav |
+| Layer         | Definition                                           | Examples                             |
+| ------------- | ---------------------------------------------------- | ------------------------------------ |
+| **atoms**     | Single-purpose; no store access; no business logic   | Button, NavLink, LoadingAnimation    |
+| **molecules** | Composes atoms; may have local state                 | CopyButton, Spark, Nav               |
 | **organisms** | Full UI section; may use stores and remote functions | Header, Sparks, GenerateSparksButton |
-| **templates** | Page layout without real content | PageShell |
+| **templates** | Page layout without real content                     | PageShell                            |
 
 **Composition:** organisms → molecules → atoms. Atoms never import from higher layers.
 
@@ -41,9 +41,9 @@ components/
 Use the `components` alias with full atomic path:
 
 ```ts
-import Button from "components/atoms/buttons/Button.svelte"
-import Header from "components/organisms/layout/Header.svelte"
-import Spark from "components/molecules/sparks/Spark.svelte"
+import Button from 'components/atoms/buttons/Button.svelte';
+import Header from 'components/organisms/layout/Header.svelte';
+import Spark from 'components/molecules/sparks/Spark.svelte';
 ```
 
 ## Naming
@@ -58,12 +58,12 @@ Use Svelte 5 `$props()` with an inline TypeScript type. Provide defaults at the 
 
 ```ts
 let {
-  buttonText = "Random Sparks",
-  onClick = async () => {},
+	buttonText = 'Random Sparks',
+	onClick = async () => {},
 }: {
-  buttonText?: string
-  onClick?: () => Promise<void>
-} = $props()
+	buttonText?: string;
+	onClick?: () => Promise<void>;
+} = $props();
 ```
 
 Always type props explicitly — do not use `any` for prop types unless unavoidable.
@@ -80,7 +80,7 @@ Always type props explicitly — do not use `any` for prop types unless unavoida
 Icons in `src/lib/assets/icons/` are imported as Svelte components using the `?component` query:
 
 ```ts
-import CopyIcon from "lib/assets/icons/copy.svg?component"
+import CopyIcon from 'lib/assets/icons/copy.svg?component';
 ```
 
 Then used as `<CopyIcon />`. This is handled by the `@poppanator/sveltekit-svg` Vite plugin configured in `vite.config.ts`.
@@ -92,9 +92,9 @@ Use Svelte 5 snippets for injectable content — there are no `<slot>` patterns 
 ```svelte
 <!-- parent -->
 <ActionButton>
-  {#snippet popup()}
-    <CopyButtonPopup />
-  {/snippet}
+	{#snippet popup()}
+		<CopyButtonPopup />
+	{/snippet}
 </ActionButton>
 
 <!-- ActionButton renders it with -->

@@ -12,14 +12,14 @@ TalkSpark generates short AI-powered conversation starters — called **sparks**
 
 ## Tech stack
 
-| Layer | Technology |
-| ----- | ---------- |
-| Framework | SvelteKit 2 + Svelte 5 (runes) |
-| Language | TypeScript (strict) |
-| Styling | Sass (component-scoped SCSS) + CSS custom properties |
-| AI | OpenAI Responses API (`gpt-5.4-mini`, structured output) |
-| Build | Vite 8 |
-| Package manager | pnpm |
+| Layer           | Technology                                               |
+| --------------- | -------------------------------------------------------- |
+| Framework       | SvelteKit 2 + Svelte 5 (runes)                           |
+| Language        | TypeScript (strict)                                      |
+| Styling         | Sass (component-scoped SCSS) + CSS custom properties     |
+| AI              | OpenAI Responses API (`gpt-5.4-mini`, structured output) |
+| Build           | Vite 8                                                   |
+| Package manager | pnpm                                                     |
 
 ## Prerequisites
 
@@ -44,13 +44,13 @@ The app runs at `http://localhost:5173` by default.
 
 ## Commands
 
-| Command | Purpose |
-| ------- | ------- |
-| `pnpm dev` | Start dev server with hot reload |
-| `pnpm build` | Production build (requires `OPENAI_API_KEY`) |
-| `pnpm preview` | Serve the production build locally |
-| `pnpm check` | Type-check all Svelte and TypeScript files |
-| `pnpm check:watch` | Type-check in watch mode |
+| Command            | Purpose                                      |
+| ------------------ | -------------------------------------------- |
+| `pnpm dev`         | Start dev server with hot reload             |
+| `pnpm build`       | Production build (requires `OPENAI_API_KEY`) |
+| `pnpm preview`     | Serve the production build locally           |
+| `pnpm check`       | Type-check all Svelte and TypeScript files   |
+| `pnpm check:watch` | Type-check in watch mode                     |
 
 > `pnpm build` fails if `OPENAI_API_KEY` is unset because `src/lib/server/api/gpt/init.ts` imports it from `$env/static/private`. Use `OPENAI_API_KEY=dummy pnpm build` for packaging checks that don't need a live key.
 

@@ -2,10 +2,10 @@
 
 ## Pages
 
-| Route | File | Purpose |
-| ----- | ---- | ------- |
-| `/` | `+page.svelte` | Home — random spark generator |
-| `/sparks` | `sparks/+page.svelte` | Saved sparks collection |
+| Route     | File                  | Purpose                       |
+| --------- | --------------------- | ----------------------------- |
+| `/`       | `+page.svelte`        | Home — random spark generator |
+| `/sparks` | `sparks/+page.svelte` | Saved sparks collection       |
 
 ## Root layout
 

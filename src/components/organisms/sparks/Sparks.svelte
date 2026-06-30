@@ -1,23 +1,23 @@
 <script lang="ts">
-	import type { SparkData } from "ts/sparks"
-	import { generatedSparks } from "stores/sparks.svelte"
-	import Spark from "components/molecules/sparks/Spark.svelte"
-	import { sortByDate } from "lib/utils/sort"
-	import Button from "components/atoms/buttons/Button.svelte"
+	import type { SparkData } from 'ts/sparks';
+	import { generatedSparks } from 'stores/sparks.svelte';
+	import Spark from 'components/molecules/sparks/Spark.svelte';
+	import { sortByDate } from 'lib/utils/sort';
+	import Button from 'components/atoms/buttons/Button.svelte';
 
 	let {
 		sparks = [],
 		sparkStore = generatedSparks,
 		clearButton = false,
 	}: {
-		sparks?: SparkData[]
-		sparkStore?: typeof generatedSparks
-		clearButton?: boolean
-	} = $props()
+		sparks?: SparkData[];
+		sparkStore?: typeof generatedSparks;
+		clearButton?: boolean;
+	} = $props();
 
 	let sortedSparks = $derived(
-		sortByDate({ objects: sparks, dateField: "created_at", direction: "DESC" })
-	)
+		sortByDate({ objects: sparks, dateField: 'created_at', direction: 'DESC' })
+	);
 </script>
 
 <div class="sparks">
@@ -26,14 +26,14 @@
 			{#if clearButton}
 				<Button
 					type="reset"
-					style="basic"
+					variant="basic"
 					classes="clear-button"
 					onClick={() => sparkStore.clear()}>Clear All</Button
 				>
 			{/if}
 		</div>
 
-		{#each sortedSparks as spark, index}
+		{#each sortedSparks as spark, index (spark.id)}
 			<Spark {spark} index={(Math.floor(index) % 4) + 1} />
 		{/each}
 	</div>
@@ -46,9 +46,11 @@
 		justify-content: center;
 		width: 100%;
 		margin-top: var(--spacing-md);
+
 		&:global(.clear-button) {
 			margin-left: auto;
 		}
+
 		.response-container {
 			display: flex;
 			flex-direction: column;

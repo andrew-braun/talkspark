@@ -1,5 +1,5 @@
 <script lang="ts">
-	import RandomPrompt from "components/organisms/prompts/RandomPrompt.svelte"
+	import RandomPrompt from 'components/organisms/prompts/RandomPrompt.svelte';
 </script>
 
 <section class="home-page-container">

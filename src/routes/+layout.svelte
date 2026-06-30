@@ -1,15 +1,15 @@
 <script lang="ts">
-	import type { Snippet } from "svelte"
-	import Header from "components/organisms/layout/Header.svelte"
-	import Loading from "components/organisms/loading/Loading.svelte"
-	import { loadingState } from "stores/loading.svelte"
-	import { fly } from "svelte/transition"
-	import { cubicIn, cubicOut } from "svelte/easing"
-	import "styles/variables.css"
-	import "styles/globals.scss"
-	import "styles/animations.css"
+	import type { Snippet } from 'svelte';
+	import Header from 'components/organisms/layout/Header.svelte';
+	import Loading from 'components/organisms/loading/Loading.svelte';
+	import { loadingState } from 'stores/loading.svelte';
+	import { fly } from 'svelte/transition';
+	import { cubicIn, cubicOut } from 'svelte/easing';
+	import 'styles/variables.css';
+	import 'styles/globals.scss';
+	import 'styles/animations.css';
 
-	let { data, children }: { data: { pathname: string }; children: Snippet } = $props()
+	let { data, children }: { data: { pathname: string }; children: Snippet } = $props();
 </script>
 
 <Header />

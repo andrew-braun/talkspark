@@ -1,5 +1,5 @@
 ---
-applyTo: "src/routes/api/**/*.ts,src/lib/server/**/*.ts"
+applyTo: 'src/routes/api/**/*.ts,src/lib/server/**/*.ts'
 ---
 
 # Server and OpenAI instructions

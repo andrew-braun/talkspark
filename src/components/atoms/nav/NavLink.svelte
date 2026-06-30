@@ -1,10 +1,11 @@
 <script lang="ts">
 	import type { Snippet } from "svelte"
+	import { resolve } from "$app/paths"
 
-	let { link = "#", children }: { link?: string; children?: Snippet } = $props()
+	let { link, children }: { link: '/sparks'; children?: Snippet } = $props()
 </script>
 
-<a href={link} class="nav-link">
+<a href={resolve(link)} class="nav-link">
 	{@render children?.()}
 </a>
 

@@ -1,0 +1,6 @@
+{
+	"css.validate": false,
+	"scss.validate": false,
+	"stylelint.validate": ["css", "scss", "svelte"],
+	"eslint.validate": ["javascript", "typescript", "svelte"]
+}

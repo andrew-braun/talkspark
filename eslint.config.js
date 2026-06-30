@@ -33,5 +33,5 @@ export default defineConfig(
 	},
 	{
 		ignores: ['.svelte-kit/**', 'build/**', 'node_modules/**'],
-	},
+	}
 );

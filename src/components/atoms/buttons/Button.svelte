@@ -1,44 +1,44 @@
 <script lang="ts">
-	import type { Snippet } from "svelte"
+	import type { Snippet } from 'svelte';
 
 	interface Props {
-		type?: "button" | "submit" | "reset"
-		style?:
-			| "basic"
-			| "primary"
-			| "secondary"
-			| "tertiary"
-			| "danger"
-			| "warning"
-			| "success"
-			| "info"
-			| "light"
-			| "dark"
-		disabled?: boolean
-		isLoading?: boolean
-		loadingText?: string
-		onClick?: () => void
-		classes?: string
-		children?: Snippet
+		type?: 'button' | 'submit' | 'reset';
+		variant?:
+			| 'basic'
+			| 'primary'
+			| 'secondary'
+			| 'tertiary'
+			| 'danger'
+			| 'warning'
+			| 'success'
+			| 'info'
+			| 'light'
+			| 'dark';
+		disabled?: boolean;
+		isLoading?: boolean;
+		loadingText?: string;
+		onClick?: () => void;
+		classes?: string;
+		children?: Snippet;
 	}
 
 	let {
-		type = "button",
-		style = "primary",
+		type = 'button',
+		variant = 'primary',
 		disabled = false,
 		isLoading = false,
-		loadingText = "Loading...",
+		loadingText = 'Loading...',
 		onClick,
-		classes = "",
+		classes = '',
 		children,
-	}: Props = $props()
+	}: Props = $props();
 </script>
 
 <button
 	{type}
 	{disabled}
 	onclick={onClick}
-	class={`general-button style-${style} ${classes} ${isLoading ? "loading" : ""}`}
+	class={`general-button variant-${variant} ${classes} ${isLoading ? 'loading' : ''}`}
 >
 	{#if isLoading}
 		{loadingText}
@@ -73,11 +73,11 @@
 			color: var(--text-color-dark);
 		}
 
-		&.style-primary {
+		&.variant-primary {
 			background: var(--gradient-1);
 		}
 
-		&.style-basic {
+		&.variant-basic {
 			width: max-content;
 			min-height: 24px;
 			background: transparent;

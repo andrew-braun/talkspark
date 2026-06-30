@@ -54,21 +54,21 @@ UI button click
 
 ### Key files
 
-| File | Role |
-| ---- | ---- |
-| `src/routes/+page.svelte` | Home page; mounts the random spark prompt UI |
-| `src/routes/sparks/+page.svelte` | Saved sparks page at `/sparks` |
-| `src/routes/+layout.svelte` | Root layout: Header, Loading indicator, page transitions |
-| `src/lib/generate.remote.ts` | `command()` remote function; owns prompt building and spark enrichment |
-| `src/lib/server/api/gpt/init.ts` | Creates the OpenAI client from `OPENAI_API_KEY` |
-| `src/lib/server/api/gpt/chat-api.ts` | Calls `openai.responses.create` with a strict JSON schema |
-| `src/lib/client/gpt/chat.ts` | Legacy client `fetch` wrapper for `/api/generate` (kept for reference) |
-| `src/stores/sparks.svelte.ts` | `generatedSparks` and `savedSparks` stores with localStorage sync |
-| `src/stores/loading.svelte.ts` | Global `loadingState.isLoading` flag |
-| `src/lib/data/random-topics.ts` | 432 random topic strings used as prompt seeds |
-| `src/ts/sparks.ts` | `SparkData` interface |
-| `src/components/` | All UI components (see `src/components/AGENTS.md`) |
-| `src/styles/` | CSS variables, global SCSS, keyframe animations |
+| File                                 | Role                                                                   |
+| ------------------------------------ | ---------------------------------------------------------------------- |
+| `src/routes/+page.svelte`            | Home page; mounts the random spark prompt UI                           |
+| `src/routes/sparks/+page.svelte`     | Saved sparks page at `/sparks`                                         |
+| `src/routes/+layout.svelte`          | Root layout: Header, Loading indicator, page transitions               |
+| `src/lib/generate.remote.ts`         | `command()` remote function; owns prompt building and spark enrichment |
+| `src/lib/server/api/gpt/init.ts`     | Creates the OpenAI client from `OPENAI_API_KEY`                        |
+| `src/lib/server/api/gpt/chat-api.ts` | Calls `openai.responses.create` with a strict JSON schema              |
+| `src/lib/client/gpt/chat.ts`         | Legacy client `fetch` wrapper for `/api/generate` (kept for reference) |
+| `src/stores/sparks.svelte.ts`        | `generatedSparks` and `savedSparks` stores with localStorage sync      |
+| `src/stores/loading.svelte.ts`       | Global `loadingState.isLoading` flag                                   |
+| `src/lib/data/random-topics.ts`      | 432 random topic strings used as prompt seeds                          |
+| `src/ts/sparks.ts`                   | `SparkData` interface                                                  |
+| `src/components/`                    | All UI components (see `src/components/AGENTS.md`)                     |
+| `src/styles/`                        | CSS variables, global SCSS, keyframe animations                        |
 
 ### Remote functions vs API routes
 

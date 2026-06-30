@@ -5,14 +5,14 @@ html {
 	color: var(--text-color-light);
 	box-sizing: border-box;
 
-	@media (max-width: 768px) {
+	@media (width <= 768px) {
 		font-size: 50%;
 	}
 }
 
 *,
-*:before,
-*:after {
+*::before,
+*::after {
 	box-sizing: inherit;
 }
 
