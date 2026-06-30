@@ -1,8 +1,8 @@
 <script lang="ts">
-	import type { Snippet } from "svelte"
-	import { resolve } from "$app/paths"
+	import type { Snippet } from 'svelte';
+	import { resolve } from '$app/paths';
 
-	let { link, children }: { link: '/sparks'; children?: Snippet } = $props()
+	let { link, children }: { link: '/sparks'; children?: Snippet } = $props();
 </script>
 
 <a href={resolve(link)} class="nav-link">

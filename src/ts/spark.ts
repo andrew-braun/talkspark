@@ -1,80 +1,34 @@
 // Categorical union types — match the taxonomy in docs/philosophy/spark-taxonomy.md
 
 export type RelationshipContext =
-	| 'first_date'
-	| 'partner'
-	| 'family'
-	| 'close_friend'
-	| 'coworker'
-	| 'team'
-	| 'stranger';
+	'first_date' | 'partner' | 'family' | 'close_friend' | 'coworker' | 'team' | 'stranger';
 
-export type Setting =
-	| 'dinner'
-	| 'road_trip'
-	| 'meeting'
-	| 'classroom'
-	| 'party'
-	| 'online_chat';
+export type Setting = 'dinner' | 'road_trip' | 'meeting' | 'classroom' | 'party' | 'online_chat';
 
 export type ConversationGoal =
-	| 'break_ice'
-	| 'reconnect'
-	| 'laugh'
-	| 'reflect'
-	| 'repair'
-	| 'debate'
-	| 'brainstorm';
+	'break_ice' | 'reconnect' | 'laugh' | 'reflect' | 'repair' | 'debate' | 'brainstorm';
 
 export type ConversationMotive =
-	| 'learn'
-	| 'affiliate'
-	| 'coordinate'
-	| 'persuade'
-	| 'play'
-	| 'support';
+	'learn' | 'affiliate' | 'coordinate' | 'persuade' | 'play' | 'support';
 
 export type Vibe = 'playful' | 'warm' | 'thoughtful' | 'weird' | 'romantic' | 'nostalgic';
 
 export type AnswerShape =
-	| 'story'
-	| 'memory'
-	| 'ranking'
-	| 'tradeoff'
-	| 'recommendation'
-	| 'prediction';
+	'story' | 'memory' | 'ranking' | 'tradeoff' | 'recommendation' | 'prediction';
 
 export type ReciprocityMode =
-	| 'one_person'
-	| 'everyone_answers'
-	| 'answer_then_ask'
-	| 'pass_the_question';
+	'one_person' | 'everyone_answers' | 'answer_then_ask' | 'pass_the_question';
 
 export type VulnerabilityRamp = 'steady' | 'escalating' | 'capped' | 'random_within_bounds';
 
 export type ConversationSkill =
-	| 'follow_up'
-	| 'listen'
-	| 'callback'
-	| 'perspective_get'
-	| 'common_ground'
-	| 'repair';
+	'follow_up' | 'listen' | 'callback' | 'perspective_get' | 'common_ground' | 'repair';
 
 export type SourceType =
-	| 'ai_generated'
-	| 'human_written'
-	| 'imported'
-	| 'user_submitted'
-	| 'remixed';
+	'ai_generated' | 'human_written' | 'imported' | 'user_submitted' | 'remixed';
 
 export type Status =
-	| 'draft'
-	| 'candidate'
-	| 'needs_revision'
-	| 'approved'
-	| 'featured'
-	| 'retired'
-	| 'rejected';
+	'draft' | 'candidate' | 'needs_revision' | 'approved' | 'featured' | 'retired' | 'rejected';
 
 export type Visibility = 'public' | 'private' | 'unlisted';
 

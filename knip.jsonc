@@ -1,0 +1,31 @@
+{
+	"$schema": "https://unpkg.com/knip@6/schema.json",
+	"svelte": true,
+	"entry": [
+		"src/routes/**/+{page,layout,server,error}.{js,ts,svelte}",
+		"src/app.html",
+		"src/lib/generate.remote.ts",
+		"e2e/**/*.ts",
+	],
+	"project": ["src/**/*.{js,ts,svelte}"],
+	"paths": {
+		"components/*": ["src/components/*"],
+		"stores/*": ["src/stores/*"],
+		"styles/*": ["src/styles/*"],
+		"ts/*": ["src/ts/*"],
+		"lib/*": ["src/lib/*"],
+	},
+	"ignore": [
+		"src/lib/client/gpt/chat.ts",
+		"src/lib/index.ts",
+		"src/ts/topic.ts",
+		"src/ts/followup.ts",
+		"src/ts/critique.ts",
+		"src/ts/params.ts",
+	],
+	"ignoreIssues": {
+		"src/ts/spark.ts": ["types", "exports"],
+		"src/ts/sparks.ts": ["types"],
+	},
+	"ignoreDependencies": ["@lottiefiles/lottie-player", "@popperjs/core", "postcss-scss", "tslib"],
+}

@@ -32,6 +32,8 @@ Main validation commands:
 - `pnpm format:check` — Prettier
 - `pnpm test` — Vitest unit/component tests
 - `pnpm test:e2e` — Playwright smoke tests (builds + previews the app first)
+- `pnpm knip` — unused files, exports, and dependencies
+- `pnpm validate` — full gate: `check` + `lint` + `lint:style` + `format:check` + `knip` + `test` (CI runs this, then `build`)
 
 Verified command outcomes:
 
@@ -39,6 +41,7 @@ Verified command outcomes:
 - `pnpm build` fails immediately without `OPENAI_API_KEY` because `src/lib/server/api/gpt/init.ts` imports it from `$env/static/private`.
 - Sass emits `legacy-js-api` deprecation warnings during `pnpm check` and `pnpm build` — expected noise, not a build failure.
 - `pnpm test:e2e` requires Playwright browsers (`pnpm exec playwright install chromium` after first install).
+- Husky runs `lint-staged` on pre-commit and `commitlint` on commit-msg. Use [Conventional Commits](https://www.conventionalcommits.org/) subjects.
 
 ## Architecture map
 
@@ -111,11 +114,12 @@ SvelteKit's experimental `remoteFunctions` feature is enabled in `svelte.config.
 - For build-safety validation: `OPENAI_API_KEY=dummy pnpm build`.
 - For utility or component behavior changes: `pnpm test`.
 - For routing or page-level UI changes: `pnpm test:e2e`.
+- Before opening a PR or after large changes: `pnpm validate` and `OPENAI_API_KEY=dummy pnpm build`.
 - If you change generation behavior and cannot execute the live OpenAI flow, say so explicitly and validate everything else locally.
 
 ## Known gaps
 
-- No CI configuration or git hooks yet (checkpoint 6).
 - Smoke tests only — generation flow is not covered by E2E tests (requires live OpenAI).
+- Legacy `getSpark` client wrapper and unused taxonomy types in `src/ts/` are intentionally ignored by Knip until cleanup (checkpoint 7).
 - `src/lib/client/gpt/chat.ts` (`getSpark`) is a legacy fetch wrapper that predates the remote functions implementation. It is unused in the current flow but kept in the repo.
 - `@lottiefiles/lottie-player` and `@popperjs/core` are listed as dependencies but do not appear to be actively used in current component code.

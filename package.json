@@ -16,9 +16,19 @@
 		"format:check": "prettier --check .",
 		"test": "vitest run",
 		"test:watch": "vitest",
-		"test:e2e": "playwright test"
+		"test:e2e": "playwright test",
+		"knip": "svelte-kit sync && knip",
+		"validate": "pnpm check && pnpm lint && pnpm lint:style && pnpm format:check && pnpm knip && pnpm test",
+		"prepare": "husky"
+	},
+	"lint-staged": {
+		"*.{js,ts,svelte}": "eslint --fix",
+		"*.{css,scss,svelte}": "stylelint --fix",
+		"*.{js,ts,svelte,css,scss,json,md,html,yml,yaml}": "prettier --write"
 	},
 	"devDependencies": {
+		"@commitlint/cli": "^21.1.0",
+		"@commitlint/config-conventional": "^21.1.0",
 		"@eslint/js": "^10.0.1",
 		"@playwright/test": "^1.61.1",
 		"@poppanator/sveltekit-svg": "^7.0.0",
@@ -32,7 +42,10 @@
 		"eslint-config-prettier": "^10.1.8",
 		"eslint-plugin-svelte": "^3.20.0",
 		"globals": "^17.7.0",
+		"husky": "^9.1.7",
 		"jsdom": "^29.1.1",
+		"knip": "^6.23.0",
+		"lint-staged": "^17.0.8",
 		"postcss-html": "^1.8.1",
 		"postcss-scss": "^4.0.9",
 		"prettier": "^3.9.3",
@@ -55,6 +68,7 @@
 		"pnpm": "11.9.0"
 	},
 	"dependencies": {
+		"@anthropic-ai/sdk": "^0.107.0",
 		"@lottiefiles/lottie-player": "^2.0.12",
 		"@popperjs/core": "^2.11.8",
 		"openai": "^6.37.0",
