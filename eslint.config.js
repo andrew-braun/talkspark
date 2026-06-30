@@ -32,6 +32,12 @@ export default defineConfig(
 		},
 	},
 	{
-		ignores: ['.svelte-kit/**', 'build/**', 'node_modules/**'],
+		ignores: [
+			'.svelte-kit/**',
+			'build/**',
+			'node_modules/**',
+			'test-results/**',
+			'playwright-report/**',
+		],
 	}
 );

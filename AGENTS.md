@@ -27,14 +27,18 @@ Main validation commands:
 - `pnpm build` — production Vite build
 - `pnpm dev` — local dev server
 - `pnpm preview` — serve the production build locally
+- `pnpm lint` — ESLint
+- `pnpm lint:style` — Stylelint (CSS, SCSS, Svelte `<style>` blocks)
+- `pnpm format:check` — Prettier
+- `pnpm test` — Vitest unit/component tests
+- `pnpm test:e2e` — Playwright smoke tests (builds + previews the app first)
 
 Verified command outcomes:
 
 - `pnpm build` succeeds when `OPENAI_API_KEY` is defined (even a dummy value works for packaging checks).
 - `pnpm build` fails immediately without `OPENAI_API_KEY` because `src/lib/server/api/gpt/init.ts` imports it from `$env/static/private`.
 - Sass emits `legacy-js-api` deprecation warnings during `pnpm check` and `pnpm build` — expected noise, not a build failure.
-
-There is no lint script and no test suite. Do not claim lint or test coverage unless you add the tooling.
+- `pnpm test:e2e` requires Playwright browsers (`pnpm exec playwright install chromium` after first install).
 
 ## Architecture map
 
@@ -105,11 +109,13 @@ SvelteKit's experimental `remoteFunctions` feature is enabled in `svelte.config.
 - After code changes, run the narrowest relevant command first.
 - For component, store, or type changes: `pnpm check`.
 - For build-safety validation: `OPENAI_API_KEY=dummy pnpm build`.
+- For utility or component behavior changes: `pnpm test`.
+- For routing or page-level UI changes: `pnpm test:e2e`.
 - If you change generation behavior and cannot execute the live OpenAI flow, say so explicitly and validate everything else locally.
 
 ## Known gaps
 
-- No automated tests, no linter, no CI configuration.
-- `SparkData` in `src/ts/sparks.ts` does not declare `created_at`, but it is added at runtime in `generate.remote.ts`. This is a latent type gap.
+- No CI configuration or git hooks yet (checkpoint 6).
+- Smoke tests only — generation flow is not covered by E2E tests (requires live OpenAI).
 - `src/lib/client/gpt/chat.ts` (`getSpark`) is a legacy fetch wrapper that predates the remote functions implementation. It is unused in the current flow but kept in the repo.
 - `@lottiefiles/lottie-player` and `@popperjs/core` are listed as dependencies but do not appear to be actively used in current component code.
