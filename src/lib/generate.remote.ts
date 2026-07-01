@@ -9,6 +9,7 @@ import {
 	SPARKS_RESPONSE_SCHEMA,
 	type SparksResponse,
 } from 'lib/server/api/llm/schemas/spark.schema';
+import { critiqueSpark } from 'lib/server/critique';
 import { enrichSpark } from 'lib/server/generation/enrich-spark';
 import { resolveGenerationParams } from 'lib/server/generation/resolve-params';
 import { CONVERSATION_GOALS, RELATIONSHIP_CONTEXTS, SETTINGS, VIBES } from 'ts/spark';
@@ -39,11 +40,18 @@ export const generateSparks = command(generationParamsSchema, async (params) => 
 	});
 
 	const now = Date.now();
-	const sparks: SparkData[] = generatedSparks.map((generated) =>
+	const enriched = generatedSparks.map((generated) =>
 		enrichSpark(generated, resolved, {
 			id: globalThis.crypto.randomUUID(),
 			now,
 		})
+	);
+
+	const sparks: SparkData[] = await Promise.all(
+		enriched.map(async (spark) => ({
+			...spark,
+			critique: await critiqueSpark(spark),
+		}))
 	);
 
 	return { sparks };

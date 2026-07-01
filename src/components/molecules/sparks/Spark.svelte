@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { fade, slide } from 'svelte/transition';
 	import type { SparkData } from 'ts/sparks';
+	import CritiqueBadge from 'components/molecules/sparks/CritiqueBadge.svelte';
 	import SparkActions from 'components/organisms/sparks/SparkActions.svelte';
 
 	let { spark, index }: { spark: SparkData; index: number } = $props();
@@ -9,7 +10,12 @@
 {#if spark}
 	<article class="spark" transition:fade>
 		<span class={`gradient gradient-${index}`} transition:slide></span>
-		<div class="content">{spark.content}</div>
+		<div class="body">
+			{#if spark.critique}
+				<CritiqueBadge critique={spark.critique} gradientIndex={index} />
+			{/if}
+			<div class="content">{spark.content}</div>
+		</div>
 		<SparkActions {spark} />
 	</article>
 {/if}
@@ -32,6 +38,15 @@
 		background: var(--spark-background-color);
 		text-align: left;
 		line-height: 1.4;
+
+		.body {
+			flex: 1 1 auto;
+			min-width: 0;
+		}
+
+		.content {
+			line-height: 1.4;
+		}
 
 		.gradient {
 			position: absolute;

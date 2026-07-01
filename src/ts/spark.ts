@@ -1,3 +1,5 @@
+import type { CritiqueResult } from './critique';
+
 // Categorical union types — match the taxonomy in docs/philosophy/spark-taxonomy.md
 
 export type RelationshipContext =
@@ -137,6 +139,7 @@ export interface Spark {
 	status?: Status;
 	visibility?: Visibility;
 	quality_score?: number;
+	critique?: CritiqueResult;
 	created_at: number; // ms since epoch (Date.now())
 	updated_at?: number;
 
