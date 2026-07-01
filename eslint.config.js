@@ -34,6 +34,7 @@ export default defineConfig(
 	{
 		ignores: [
 			'.svelte-kit/**',
+			'.vercel/**',
 			'build/**',
 			'node_modules/**',
 			'test-results/**',

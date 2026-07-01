@@ -1,26 +1,47 @@
 <script lang="ts">
 	import { fade, slide } from 'svelte/transition';
 	import type { SparkData } from 'ts/sparks';
+	import { parentFollowups } from 'stores/followups.svelte';
 	import CritiqueBadge from 'components/molecules/sparks/CritiqueBadge.svelte';
+	import Followup from 'components/molecules/sparks/Followup.svelte';
 	import SparkActions from 'components/organisms/sparks/SparkActions.svelte';
 
 	let { spark, index }: { spark: SparkData; index: number } = $props();
+
+	let followups = $derived(parentFollowups.getForParent(spark.id));
 </script>
 
 {#if spark}
-	<article class="spark" transition:fade>
-		<span class={`gradient gradient-${index}`} transition:slide></span>
-		<div class="body">
-			{#if spark.critique}
-				<CritiqueBadge critique={spark.critique} gradientIndex={index} />
-			{/if}
-			<div class="content">{spark.content}</div>
-		</div>
-		<SparkActions {spark} />
-	</article>
+	<div class="spark-group">
+		<article class="spark" transition:fade>
+			<span class={`gradient gradient-${index}`} transition:slide></span>
+			<div class="body">
+				{#if spark.critique}
+					<CritiqueBadge critique={spark.critique} gradientIndex={index} />
+				{/if}
+				<div class="content">{spark.content}</div>
+			</div>
+			<SparkActions {spark} />
+		</article>
+
+		{#if followups.length > 0}
+			<ul class="followups" transition:fade>
+				{#each followups as followup (followup.id)}
+					<Followup {followup} gradientIndex={index} />
+				{/each}
+			</ul>
+		{/if}
+	</div>
 {/if}
 
 <style lang="scss">
+	.spark-group {
+		width: 100%;
+		max-width: 600px;
+		margin: var(--spacing-xl) 0;
+		margin-left: -6px;
+	}
+
 	.spark {
 		flex: 1 1 auto;
 		position: relative;
@@ -28,10 +49,6 @@
 		align-items: center;
 		justify-content: space-between;
 		width: 100%;
-		max-width: 600px;
-		max-height: 140px;
-		margin: var(--spacing-xl) 0;
-		margin-left: -6px;
 		padding: var(--spacing-md);
 		border: var(--spark-border);
 		border-radius: var(--border-radius-md);
@@ -84,5 +101,10 @@
 				z-index: -1;
 			}
 		}
+	}
+
+	.followups {
+		margin: var(--spacing-sm) 0 0 var(--spacing-lg);
+		padding: 0;
 	}
 </style>

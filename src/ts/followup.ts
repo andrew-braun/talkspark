@@ -1,3 +1,4 @@
+import type { CritiqueResult } from './critique';
 import type { ConversationSkill } from './spark';
 
 // Generated on demand relative to a parent spark or topic.
@@ -9,6 +10,7 @@ export interface Followup {
 	depth_delta?: number; // how much deeper than parent (e.g. +1)
 	position?: number; // order in a ladder
 	skill?: ConversationSkill;
+	critique?: CritiqueResult;
 	created_at: number;
 	metadata?: Record<string, unknown>;
 }

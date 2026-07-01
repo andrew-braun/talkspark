@@ -1,7 +1,7 @@
 /** @type {import('stylelint').Config} */
 export default {
 	extends: ['stylelint-config-standard-scss', 'stylelint-config-html'],
-	ignoreFiles: ['**/.svelte-kit/**', '**/build/**', '**/node_modules/**'],
+	ignoreFiles: ['**/.svelte-kit/**', '**/.vercel/**', '**/build/**', '**/node_modules/**'],
 	overrides: [
 		{
 			files: ['**/*.svelte'],

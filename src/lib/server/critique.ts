@@ -1,5 +1,9 @@
 import { getProvider } from 'lib/server/api/llm';
 import {
+	FOLLOWUP_CRITIQUE_SYSTEM_INSTRUCTION,
+	buildFollowupCritiquePrompt,
+} from 'lib/server/api/llm/prompts/followup-critique-prompt';
+import {
 	CRITIQUE_SYSTEM_INSTRUCTION,
 	buildBatchCritiquePrompt,
 	buildCritiquePrompt,
@@ -12,7 +16,9 @@ import {
 	type GeneratedCritique,
 } from 'lib/server/api/llm/schemas/critique.schema';
 import type { CritiqueResult, FastGateScores } from 'ts/critique';
+import type { Followup } from 'ts/followup';
 import type { Spark, SparkVariant } from 'ts/spark';
+import type { FollowupParent } from 'lib/server/api/llm/prompts/followup-prompt';
 
 const PASS_THRESHOLD = 4;
 
@@ -87,4 +93,18 @@ export async function critiqueSparks(sparks: Spark[]): Promise<CritiqueResult[]>
 	});
 
 	return mapBatchCritiquesToSparks(sparks, critiques);
+}
+
+export async function critiqueFollowup(
+	followup: Followup,
+	parent: FollowupParent
+): Promise<CritiqueResult> {
+	const generated = await getProvider().generateStructured<GeneratedCritique>({
+		system: FOLLOWUP_CRITIQUE_SYSTEM_INSTRUCTION,
+		prompt: buildFollowupCritiquePrompt(followup, parent),
+		schema: CRITIQUE_RESPONSE_SCHEMA,
+		schemaName: 'followup_critique_response',
+	});
+
+	return toCritiqueResult(generated);
 }
