@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { buildCritiquePrompt } from './critique-prompt';
+import { buildBatchCritiquePrompt, buildCritiquePrompt } from './critique-prompt';
 import type { Spark } from 'ts/spark';
 
 const sampleSpark: Spark = {
@@ -28,5 +28,33 @@ describe('buildCritiquePrompt', () => {
 		expect(prompt).toContain('playful');
 		expect(prompt).toContain('Depth level: 2');
 		expect(prompt).toContain('What detail do you still remember?');
+	});
+});
+
+describe('buildBatchCritiquePrompt', () => {
+	it('includes each spark and asks for independent scoring', () => {
+		const sparks: Spark[] = [
+			{
+				...sampleSpark,
+				id: 'spark-1',
+				content: 'Primary question?',
+				metadata: { spark_variant: 'primary' },
+			},
+			{
+				...sampleSpark,
+				id: 'spark-2',
+				content: 'Contrast question?',
+				metadata: { spark_variant: 'contrast' },
+			},
+		];
+
+		const prompt = buildBatchCritiquePrompt(sparks);
+
+		expect(prompt).toContain('Primary question?');
+		expect(prompt).toContain('Contrast question?');
+		expect(prompt).toContain('spark_variant: "primary"');
+		expect(prompt).toContain('spark_variant: "contrast"');
+		expect(prompt).toContain('independently');
+		expect(prompt).toContain('do not rank or compare');
 	});
 });

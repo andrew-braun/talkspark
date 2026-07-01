@@ -1,4 +1,4 @@
-import type { Spark } from 'ts/spark';
+import type { Spark, SparkVariant } from 'ts/spark';
 
 export const CRITIQUE_SYSTEM_INSTRUCTION = `You are TalkSpark's quality reviewer. Score conversation sparks on the fast 4-gate rubric using integers 1–5.
 
@@ -17,7 +17,7 @@ Use an empty flags array when none apply. Suggest a rewrite only when the spark 
 
 Return only valid JSON matching the schema — no markdown or commentary.`;
 
-export function buildCritiquePrompt(spark: Spark): string {
+function formatSparkLines(spark: Spark): string[] {
 	const lines = [
 		`Content: ${spark.content}`,
 		`Relationship: ${spark.relationship_context ?? 'unspecified'}`,
@@ -37,7 +37,31 @@ export function buildCritiquePrompt(spark: Spark): string {
 		lines.push(`Seed follow-up: ${spark.metadata.seed_follow_up}`);
 	}
 
+	return lines;
+}
+
+function sparkVariantLabel(spark: Spark): SparkVariant | 'unknown' {
+	const variant = spark.metadata?.spark_variant;
+	return typeof variant === 'string' ? (variant as SparkVariant) : 'unknown';
+}
+
+export function buildCritiquePrompt(spark: Spark): string {
 	return `Evaluate this spark on the fast 4-gate rubric.
 
-${lines.join('\n')}`;
+${formatSparkLines(spark).join('\n')}`;
+}
+
+export function buildBatchCritiquePrompt(sparks: Spark[]): string {
+	const sections = sparks.map((spark, index) => {
+		const variant = sparkVariantLabel(spark);
+		return `### Spark ${index + 1} (spark_variant: "${variant}")
+${formatSparkLines(spark).join('\n')}`;
+	});
+
+	return `Evaluate each spark below independently on the fast 4-gate rubric.
+Score each against the rubric on its own merits — do not rank or compare sparks relative to each other.
+
+${sections.join('\n\n')}
+
+Return one critique per spark. Each critique must include the matching spark_variant.`;
 }
