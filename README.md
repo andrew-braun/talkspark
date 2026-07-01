@@ -17,6 +17,7 @@ TalkSpark generates short AI-powered conversation starters — called **sparks**
 | Framework       | SvelteKit 2 + Svelte 5 (runes)                           |
 | Language        | TypeScript (strict)                                      |
 | Styling         | Sass (component-scoped SCSS) + CSS custom properties     |
+| Interactive UI  | Zag headless (`@zag-js/svelte` + `@zag-js/*` machines)   |
 | AI              | OpenAI Responses API (`gpt-5.4-mini`, structured output) |
 | Build           | Vite 8                                                   |
 | Package manager | pnpm                                                     |

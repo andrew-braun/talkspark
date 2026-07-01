@@ -2,6 +2,7 @@
 	import { generateSparks } from '$lib/generate.remote';
 	import { generatedSparks } from 'stores/sparks.svelte';
 	import { loadingState } from 'stores/loading.svelte';
+	import { generationParams } from 'stores/generation.svelte';
 	import Button from 'components/atoms/buttons/Button.svelte';
 
 	let {
@@ -16,7 +17,7 @@
 		loadingState.isLoading = true;
 
 		try {
-			const { sparks } = await generateSparks({ type: 'random' });
+			const { sparks } = await generateSparks(generationParams);
 			generatedSparks.add(sparks);
 			await onClick();
 		} catch (error) {

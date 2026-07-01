@@ -68,6 +68,16 @@ let {
 
 Always type props explicitly — do not use `any` for prop types unless unavoidable.
 
+## Interactive UI (Zag)
+
+**Before** adding or changing popovers, dropdowns, modals, drawers, toggles, tooltips, menus, or any overlay/focus-trap pattern:
+
+1. Read [`.agents/skills/talkspark-interactive-ui/SKILL.md`](../../.agents/skills/talkspark-interactive-ui/SKILL.md).
+2. Use [@zag-js/svelte](https://zagjs.com/) with the matching `@zag-js/<machine>` package — not custom open/close logic or another headless library.
+3. Style Zag-rendered elements with design tokens from `variables.css`.
+
+`@zag-js/svelte` and machine packages (e.g. `@zag-js/popover`) are the approved stack. Legacy custom overlays should migrate to Zag when their behavior is next touched.
+
 ## Styling
 
 - Each component uses `<style lang="scss">`. Styles are component-scoped by default.

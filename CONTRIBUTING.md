@@ -49,7 +49,10 @@ OPENAI_API_KEY=dummy pnpm build
 - [AGENTS.md](AGENTS.md) — project SSOT for agents and contributors
 - [src/styles/DESIGN_SYSTEM.md](src/styles/DESIGN_SYSTEM.md) — design system rules (semantics)
 - [src/styles/variables.css](src/styles/variables.css) — design token values
+- [.agents/skills/talkspark-interactive-ui/SKILL.md](.agents/skills/talkspark-interactive-ui/SKILL.md) — Zag for interactive UI
 
 ## UI changes
 
 Read `DESIGN_SYSTEM.md` before editing styles. Token values live in `variables.css` only.
+
+For interactive components (popovers, modals, dropdowns, drawers, toggles, menus, etc.), use **[Zag](https://zagjs.com/)** via `@zag-js/svelte` — see [`.agents/skills/talkspark-interactive-ui/SKILL.md`](.agents/skills/talkspark-interactive-ui/SKILL.md). Check Zag before writing custom interaction logic or adding another UI library.

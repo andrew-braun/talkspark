@@ -11,6 +11,7 @@ Use the codebase and this file as the source of truth for project behavior. The 
 - Prefer `pnpm` for all package management and script execution.
 - Keep changes minimal and consistent with the current code style: tabs in TypeScript and Svelte files, concise helper functions, no broad refactors unless the task requires them.
 - Preserve the existing SvelteKit structure and file-based routing. Do not introduce a new state library, CSS framework, or API layer unless the task explicitly requires it.
+- **Interactive UI (mandatory):** popovers, dropdowns, modals, drawers, toggles, menus, tooltips, and similar patterns use **[Zag](https://zagjs.com/)** via `@zag-js/svelte` plus per-machine `@zag-js/*` packages. Check Zag before custom interaction code or another UI library. See [`talkspark-interactive-ui`](.agents/skills/talkspark-interactive-ui/SKILL.md).
 - When touching browser persistence, guard browser-only APIs with `browser` from `$app/environment`, as this codebase already does.
 - When touching OpenAI integration, keep API-key usage server-only. Never move secret-dependent code into client files or public env variables.
 - **Design system (mandatory for UI):** token values in [`src/styles/variables.css`](src/styles/variables.css); semantics and rules in [`src/styles/DESIGN_SYSTEM.md`](src/styles/DESIGN_SYSTEM.md). Never duplicate token values in markdown.
@@ -63,22 +64,23 @@ UI button click
 
 ### Key files
 
-| File                                 | Role                                                                   |
-| ------------------------------------ | ---------------------------------------------------------------------- |
-| `src/routes/+page.svelte`            | Home page; mounts the random spark prompt UI                           |
-| `src/routes/sparks/+page.svelte`     | Saved sparks page at `/sparks`                                         |
-| `src/routes/+layout.svelte`          | Root layout: Header, Loading indicator, page transitions               |
-| `src/lib/generate.remote.ts`         | `command()` remote function; owns prompt building and spark enrichment |
-| `src/lib/server/api/gpt/init.ts`     | Creates the OpenAI client from `OPENAI_API_KEY`                        |
-| `src/lib/server/api/gpt/chat-api.ts` | Calls `openai.responses.create` with a strict JSON schema              |
-| `src/stores/sparks.svelte.ts`        | `generatedSparks` and `savedSparks` stores with localStorage sync      |
-| `src/stores/loading.svelte.ts`       | Global `loadingState.isLoading` flag                                   |
-| `src/lib/data/random-topics.ts`      | 432 random topic strings used as prompt seeds                          |
-| `src/ts/sparks.ts`                   | `SparkData` type (alias for `Spark` in `spark.ts`)                     |
-| `src/styles/DESIGN_SYSTEM.md`        | Design system rules and semantics (no values)                          |
-| `src/styles/variables.css`           | Design token values (SSOT)                                             |
-| `src/components/`                    | All UI components (see `src/components/AGENTS.md`)                     |
-| `src/styles/`                        | CSS variables, global SCSS, keyframe animations                        |
+| File                                       | Role                                                                   |
+| ------------------------------------------ | ---------------------------------------------------------------------- |
+| `src/routes/+page.svelte`                  | Home page; mounts the random spark prompt UI                           |
+| `src/routes/sparks/+page.svelte`           | Saved sparks page at `/sparks`                                         |
+| `src/routes/+layout.svelte`                | Root layout: Header, Loading indicator, page transitions               |
+| `src/lib/generate.remote.ts`               | `command()` remote function; owns prompt building and spark enrichment |
+| `src/lib/server/api/gpt/init.ts`           | Creates the OpenAI client from `OPENAI_API_KEY`                        |
+| `src/lib/server/api/gpt/chat-api.ts`       | Calls `openai.responses.create` with a strict JSON schema              |
+| `src/stores/sparks.svelte.ts`              | `generatedSparks` and `savedSparks` stores with localStorage sync      |
+| `src/stores/loading.svelte.ts`             | Global `loadingState.isLoading` flag                                   |
+| `src/lib/data/random-topics.ts`            | 432 random topic strings used as prompt seeds                          |
+| `src/ts/sparks.ts`                         | `SparkData` type (alias for `Spark` in `spark.ts`)                     |
+| `src/styles/DESIGN_SYSTEM.md`              | Design system rules and semantics (no values)                          |
+| `src/styles/variables.css`                 | Design token values (SSOT)                                             |
+| `src/components/`                          | All UI components (see `src/components/AGENTS.md`)                     |
+| `.agents/skills/talkspark-interactive-ui/` | Zag workflow for popovers, modals, toggles, menus, etc.                |
+| `src/styles/`                              | CSS variables, global SCSS, keyframe animations                        |
 
 ### Remote functions vs API routes
 
@@ -106,6 +108,7 @@ SvelteKit's experimental `remoteFunctions` feature is enabled in `svelte.config.
 ## Change guidance
 
 - **UI changes**: edit under `src/components/`, `src/routes/`, and `src/styles/` without touching server code.
+- **New interactive components**: read [`talkspark-interactive-ui`](.agents/skills/talkspark-interactive-ui/SKILL.md) first; implement with Zag, style with design tokens.
 - **Generation behavior**: inspect both `src/lib/generate.remote.ts` (prompt structure, enrichment) and `src/lib/server/api/gpt/chat-api.ts` (model invocation, JSON schema). Keep them coupled — the schema must match what the prompt asks for.
 - **New spark types**: add a new `command()` in a new `.remote.ts` file; add a corresponding prompt UI under `src/components/organisms/prompts/`.
 - **Persistence changes**: update both the store factory in `sparks.svelte.ts` and any consumers that read from localStorage keys directly.
@@ -124,16 +127,17 @@ SvelteKit's experimental `remoteFunctions` feature is enabled in `svelte.config.
 
 Project skills live in [`.agents/skills/`](.agents/skills/). Optional: symlink `.cursor/skills` → `.agents/skills` for Cursor discovery.
 
-| Skill                         | When to use                                     |
-| ----------------------------- | ----------------------------------------------- |
-| `talkspark-design-system`     | **Mandatory** before editing styles             |
-| `talkspark-validate`          | Before claiming a task is done                  |
-| `talkspark-sveltekit`         | Routes, stores, remote functions, runes         |
-| `talkspark-openai-generation` | Generation prompt/schema changes                |
-| `talkspark-token-discipline`  | Multi-file tasks; avoid token waste             |
-| `karpathy-guidelines`         | Any implementation — simplicity, surgical diffs |
-| `systematic-debugging`        | Generation/store/persistence bugs               |
-| `token-budget-discipline`     | Long sessions; parallel reads                   |
+| Skill                         | When to use                                                          |
+| ----------------------------- | -------------------------------------------------------------------- |
+| `talkspark-design-system`     | **Mandatory** before editing styles                                  |
+| `talkspark-interactive-ui`    | **Mandatory** before popovers, modals, toggles, menus, drawers, etc. |
+| `talkspark-validate`          | Before claiming a task is done                                       |
+| `talkspark-sveltekit`         | Routes, stores, remote functions, runes                              |
+| `talkspark-openai-generation` | Generation prompt/schema changes                                     |
+| `talkspark-token-discipline`  | Multi-file tasks; avoid token waste                                  |
+| `karpathy-guidelines`         | Any implementation — simplicity, surgical diffs                      |
+| `systematic-debugging`        | Generation/store/persistence bugs                                    |
+| `token-budget-discipline`     | Long sessions; parallel reads                                        |
 
 Optional external install (not vendored):
 

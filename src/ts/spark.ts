@@ -32,6 +32,83 @@ export type Status =
 
 export type Visibility = 'public' | 'private' | 'unlisted';
 
+// Generation-time variant for the three-spark structure (primary / contrast / playful-weird).
+export const SPARK_VARIANTS = ['primary', 'contrast', 'playful_weird'] as const;
+export type SparkVariant = (typeof SPARK_VARIANTS)[number];
+
+// Const arrays shared by Valibot input validation and LLM JSON Schema enums.
+export const RELATIONSHIP_CONTEXTS = [
+	'first_date',
+	'partner',
+	'family',
+	'close_friend',
+	'coworker',
+	'team',
+	'stranger',
+] as const satisfies readonly RelationshipContext[];
+
+export const SETTINGS = [
+	'dinner',
+	'road_trip',
+	'meeting',
+	'classroom',
+	'party',
+	'online_chat',
+] as const satisfies readonly Setting[];
+
+export const CONVERSATION_GOALS = [
+	'break_ice',
+	'reconnect',
+	'laugh',
+	'reflect',
+	'repair',
+	'debate',
+	'brainstorm',
+] as const satisfies readonly ConversationGoal[];
+
+export const CONVERSATION_MOTIVES = [
+	'learn',
+	'affiliate',
+	'coordinate',
+	'persuade',
+	'play',
+	'support',
+] as const satisfies readonly ConversationMotive[];
+
+export const VIBES = [
+	'playful',
+	'warm',
+	'thoughtful',
+	'weird',
+	'romantic',
+	'nostalgic',
+] as const satisfies readonly Vibe[];
+
+export const ANSWER_SHAPES = [
+	'story',
+	'memory',
+	'ranking',
+	'tradeoff',
+	'recommendation',
+	'prediction',
+] as const satisfies readonly AnswerShape[];
+
+export const RECIPROCITY_MODES = [
+	'one_person',
+	'everyone_answers',
+	'answer_then_ask',
+	'pass_the_question',
+] as const satisfies readonly ReciprocityMode[];
+
+export const CONVERSATION_SKILLS = [
+	'follow_up',
+	'listen',
+	'callback',
+	'perspective_get',
+	'common_ground',
+	'repair',
+] as const satisfies readonly ConversationSkill[];
+
 // Full spark object — flat typed interface mapping 1:1 to future DB columns + one metadata bag.
 // Fields without ? are required by the enrichment step in generate.remote.ts.
 export interface Spark {
@@ -63,7 +140,7 @@ export interface Spark {
 	created_at: number; // ms since epoch (Date.now())
 	updated_at?: number;
 
-	// Legacy fields from the original SparkData shape — will move to metadata in T3
+	// Legacy fields from pre-T3 sparks in localStorage — no longer set on new generations
 	index?: number;
 	type?: string;
 	options?: unknown;

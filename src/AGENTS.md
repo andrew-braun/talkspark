@@ -44,3 +44,7 @@ All reactive code uses Svelte 5 runes. Do not use Svelte 4 patterns (`export let
 - TypeScript modules: kebab-case (`chat-api.ts`, `random-topics.ts`)
 - Store files: kebab-case with `.svelte.ts` extension when they contain rune-based module state (`sparks.svelte.ts`, `loading.svelte.ts`)
 - Remote function files: kebab-case with `.remote.ts` extension (`generate.remote.ts`)
+
+## Components
+
+See [`components/AGENTS.md`](components/AGENTS.md). Interactive UI (popovers, modals, toggles, etc.) uses Zag — [`.agents/skills/talkspark-interactive-ui/SKILL.md`](../.agents/skills/talkspark-interactive-ui/SKILL.md).

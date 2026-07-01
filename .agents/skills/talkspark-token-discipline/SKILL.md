@@ -10,6 +10,7 @@ description: >-
 ## Rules
 
 - Read `DESIGN_SYSTEM.md` once per task, not per component
+- Read `talkspark-interactive-ui` once per task when adding overlays, menus, modals, or toggles
 - Cite file paths; do not dump full file contents into responses
 - Batch independent `Read`/`Grep` calls in parallel
 - Subagent prompts: goal + file paths only

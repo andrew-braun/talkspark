@@ -1,29 +1,50 @@
 import { command } from '$app/server';
 import * as v from 'valibot';
-import { fetchChatResponse } from '$lib/server/api/gpt/chat-api';
-import { topics } from '$lib/data/random-topics';
+import { getProvider } from 'lib/server/api/llm';
+import {
+	SPARK_SYSTEM_INSTRUCTION,
+	buildSparkPrompt,
+} from 'lib/server/api/llm/prompts/spark-prompt';
+import {
+	SPARKS_RESPONSE_SCHEMA,
+	type SparksResponse,
+} from 'lib/server/api/llm/schemas/spark.schema';
+import { enrichSpark } from 'lib/server/generation/enrich-spark';
+import { resolveGenerationParams } from 'lib/server/generation/resolve-params';
+import { CONVERSATION_GOALS, RELATIONSHIP_CONTEXTS, SETTINGS, VIBES } from 'ts/spark';
 import type { SparkData } from 'ts/sparks';
 
-export const generateSparks = command(v.object({ type: v.string() }), async ({ type }) => {
-	const randomTopic = topics[Math.floor(Math.random() * topics.length)];
+const depthAndSafetySchema = v.object({
+	depth_level: v.pipe(v.number(), v.minValue(1), v.maxValue(5)),
+	controversy_level: v.pipe(v.number(), v.minValue(0), v.maxValue(5)),
+});
 
-	const { chatResponse } = await fetchChatResponse({
-		message: `Give me a list of three random conversation starters. Try to create conversations loosely based on the topic of ${randomTopic}, but do not make all the questions center on this single topic.
-			One question should be about the topic,
-			the second question should be about the opposite of the topic,
-			and the third question should be funny or weird, something people normally wouldn't connect with this idea.`,
+const generationParamsSchema = v.object({
+	type: v.string(),
+	relationship_context: v.optional(v.picklist(RELATIONSHIP_CONTEXTS)),
+	setting: v.optional(v.picklist(SETTINGS)),
+	conversation_goal: v.optional(v.picklist(CONVERSATION_GOALS)),
+	vibe: v.optional(v.picklist(VIBES)),
+	depth_and_safety: v.optional(depthAndSafetySchema),
+});
+
+export const generateSparks = command(generationParamsSchema, async (params) => {
+	const resolved = resolveGenerationParams(params);
+
+	const { sparks: generatedSparks } = await getProvider().generateStructured<SparksResponse>({
+		system: SPARK_SYSTEM_INSTRUCTION,
+		prompt: buildSparkPrompt(resolved),
+		schema: SPARKS_RESPONSE_SCHEMA,
+		schemaName: 'sparks_response',
 	});
 
-	const { sparks: sparkJSON }: { sparks: Pick<SparkData, 'content'>[] } =
-		JSON.parse(chatResponse);
-
-	const sparks: SparkData[] = sparkJSON.map((spark, index) => ({
-		...spark,
-		index,
-		type,
-		id: globalThis.crypto.randomUUID(),
-		created_at: Date.now(),
-	}));
+	const now = Date.now();
+	const sparks: SparkData[] = generatedSparks.map((generated) =>
+		enrichSpark(generated, resolved, {
+			id: globalThis.crypto.randomUUID(),
+			now,
+		})
+	);
 
 	return { sparks };
 });

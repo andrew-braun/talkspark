@@ -4,11 +4,20 @@ Read this file before writing or editing styles. **Token values live only in [`v
 
 ## What this is (and is not)
 
-| Is                                             | Is not                                       |
-| ---------------------------------------------- | -------------------------------------------- |
-| CSS custom properties in `variables.css`       | Tailwind, a UI kit, CSS-in-JS                |
-| Global files: `globals.scss`, `animations.css` | Inline `style=""` attributes for theming     |
-| Component-scoped SCSS using `var(--*)`         | Hardcoded hex/hsl/rem for colors and spacing |
+| Is                                             | Is not                                                        |
+| ---------------------------------------------- | ------------------------------------------------------------- |
+| CSS custom properties in `variables.css`       | Tailwind, a UI kit, CSS-in-JS                                 |
+| Global files: `globals.scss`, `animations.css` | Inline `style=""` attributes for theming                      |
+| Component-scoped SCSS using `var(--*)`         | Hardcoded hex/hsl/rem for colors and spacing                  |
+| Zag headless machines + token styling          | Custom popover/modal/dropdown behavior or third-party UI kits |
+
+## Interactive primitives (Zag)
+
+Behavior for overlays and complex widgets (popovers, dialogs, menus, toggles, etc.) comes from **[Zag](https://zagjs.com/)** via `@zag-js/svelte`. Zag owns state, focus, keyboard navigation, and ARIA; TalkSpark owns look and feel.
+
+- **Before building:** check [zagjs.com](https://zagjs.com/) for a matching machine. See [`.agents/skills/talkspark-interactive-ui/SKILL.md`](../../.agents/skills/talkspark-interactive-ui/SKILL.md).
+- **Styling:** apply `var(--*)` to elements from `api.get*Props()` in component SCSS — radii (`--border-radius-*`), surfaces, spacing, motion (`--transition-std`).
+- **Do not** duplicate Zag's interaction logic in custom code when a machine exists.
 
 ## File map
 
@@ -112,6 +121,7 @@ Need a color?         → matching semantic token
 Need font size?       → nearest --font-size-*
 Need border radius?   → nearest --border-radius-*
 Need animation?       → animations.css by name
+Need overlay/widget?  → Zag machine + talkspark-interactive-ui skill; style with tokens
 Need new token?       → add to variables.css ONLY, then document here + design-tokens.md
 ```
 

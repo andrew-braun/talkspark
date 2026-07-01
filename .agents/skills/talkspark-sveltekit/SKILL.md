@@ -2,7 +2,8 @@
 name: talkspark-sveltekit
 description: >-
     TalkSpark SvelteKit conventions: remote functions, Svelte 5 runes, routing,
-    path aliases. Use when editing routes, stores, or lib code.
+    path aliases, Zag interactive UI. Use when editing routes, stores, lib, or
+    interactive components.
 ---
 
 # TalkSpark SvelteKit
@@ -37,3 +38,7 @@ Use `resolve()` from `$app/paths` for internal `href` and `goto()` targets.
 ## Server boundary
 
 `src/lib/server/` is server-only. Never import it from client components or stores.
+
+## Interactive UI
+
+Popovers, modals, dropdowns, drawers, toggles, menus, and similar patterns use **Zag** (`@zag-js/svelte` + `@zag-js/<machine>`). Read [`talkspark-interactive-ui/SKILL.md`](../talkspark-interactive-ui/SKILL.md) before implementing — do not hand-roll overlay/focus behavior or add another UI library.

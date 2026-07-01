@@ -14,8 +14,9 @@ All three CSS/SCSS files are imported once in `src/routes/+layout.svelte`. Do no
 ## Before writing styles
 
 1. Read [`DESIGN_SYSTEM.md`](DESIGN_SYSTEM.md) for rules and token semantics
-2. Read [`variables.css`](variables.css) when you need actual values
-3. Run `pnpm lint:style` on changed files
+2. For interactive overlays/widgets, read [`.agents/skills/talkspark-interactive-ui/SKILL.md`](../../.agents/skills/talkspark-interactive-ui/SKILL.md) — use Zag, then tokenize
+3. Read [`variables.css`](variables.css) when you need actual values
+4. Run `pnpm lint:style` on changed files
 
 ## Quick rules
 
