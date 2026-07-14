@@ -7,7 +7,7 @@
 		CONTROVERSY_LEVEL_MIN,
 		CONTROVERSY_LEVEL_MAX,
 	} from 'lib/data/generation-options';
-	import type { DepthAndSafety } from 'ts/params';
+	import { DEFAULT_LEVER_VALUE, type DepthAndSafety } from 'ts/params';
 
 	let {
 		value,
@@ -25,6 +25,8 @@
 		{ length: CONTROVERSY_LEVEL_MAX - CONTROVERSY_LEVEL_MIN + 1 },
 		(_, i) => CONTROVERSY_LEVEL_MIN + i
 	);
+	const displaySelection = (selection: number | typeof DEFAULT_LEVER_VALUE) =>
+		selection === DEFAULT_LEVER_VALUE ? 'Default' : selection;
 </script>
 
 <!-- Marquee control: depth & safety is the clearest differentiator (generation-engine.md),
@@ -34,7 +36,9 @@
 		<button {...triggerProps} class="lever-pill marquee" class:open>
 			<span class="lever-label">Depth &amp; safety</span>
 			<span class="lever-value"
-				>Depth {value.depth_level} · Controversy {value.controversy_level}</span
+				>Depth {displaySelection(value.depth_level)} · Controversy {displaySelection(
+					value.controversy_level
+				)}</span
 			>
 		</button>
 	{/snippet}
@@ -45,6 +49,11 @@
 		<div class="sub-lever">
 			<span class="sub-label">Depth</span>
 			<div class="chip-row">
+				<Chip
+					label="Default"
+					selected={value.depth_level === DEFAULT_LEVER_VALUE}
+					onClick={() => onSelect({ ...value, depth_level: DEFAULT_LEVER_VALUE })}
+				/>
 				{#each depthSteps as step (step)}
 					<Chip
 						label={String(step)}
@@ -58,6 +67,11 @@
 		<div class="sub-lever">
 			<span class="sub-label">Controversy</span>
 			<div class="chip-row">
+				<Chip
+					label="Default"
+					selected={value.controversy_level === DEFAULT_LEVER_VALUE}
+					onClick={() => onSelect({ ...value, controversy_level: DEFAULT_LEVER_VALUE })}
+				/>
 				{#each controversySteps as step (step)}
 					<Chip
 						label={String(step)}

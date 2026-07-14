@@ -2,37 +2,36 @@
 	import Popover from 'components/atoms/overlays/Popover.svelte';
 	import Chip from 'components/atoms/buttons/Chip.svelte';
 	import type { LeverOption } from 'lib/data/generation-options';
-	import type { RelationshipContext, Setting } from 'ts/spark';
+	import type { LeverSelection } from 'ts/params';
+	import type { RelationshipContext, TopicLens } from 'ts/spark';
 
 	let {
 		relationshipOptions,
-		settingOptions,
+		topicOptions,
 		relationshipValue,
-		settingValue,
+		topicValue,
 		onSelectRelationship,
-		onSelectSetting,
+		onSelectTopic,
 	}: {
-		relationshipOptions: LeverOption<RelationshipContext>[];
-		settingOptions: LeverOption<Setting>[];
-		relationshipValue: RelationshipContext | undefined;
-		settingValue: Setting | undefined;
-		onSelectRelationship: (value: RelationshipContext) => void;
-		onSelectSetting: (value: Setting) => void;
+		relationshipOptions: LeverOption<LeverSelection<RelationshipContext>>[];
+		topicOptions: LeverOption<LeverSelection<TopicLens>>[];
+		relationshipValue: LeverSelection<RelationshipContext> | undefined;
+		topicValue: LeverSelection<TopicLens> | undefined;
+		onSelectRelationship: (value: LeverSelection<RelationshipContext>) => void;
+		onSelectTopic: (value: LeverSelection<TopicLens>) => void;
 	} = $props();
 
 	const relationshipLabel = $derived(
 		relationshipOptions.find((o) => o.value === relationshipValue)?.label ?? 'Who'
 	);
-	const settingLabel = $derived(
-		settingOptions.find((o) => o.value === settingValue)?.label ?? 'Where'
-	);
+	const topicLabel = $derived(topicOptions.find((o) => o.value === topicValue)?.label ?? 'Topic');
 </script>
 
 <Popover placement="bottom-start">
 	{#snippet trigger({ triggerProps, open })}
 		<button {...triggerProps} class="lever-pill" class:open>
-			<span class="lever-label">People &amp; setting</span>
-			<span class="lever-value">{relationshipLabel} · {settingLabel}</span>
+			<span class="lever-label">People &amp; topic</span>
+			<span class="lever-value">{relationshipLabel} · {topicLabel}</span>
 		</button>
 	{/snippet}
 
@@ -53,13 +52,13 @@
 		</div>
 
 		<div class="sub-lever">
-			<span class="sub-label">Where</span>
+			<span class="sub-label">Topic</span>
 			<div class="chip-row">
-				{#each settingOptions as option (option.value)}
+				{#each topicOptions as option (option.value)}
 					<Chip
 						label={option.label}
-						selected={settingValue === option.value}
-						onClick={() => onSelectSetting(option.value)}
+						selected={topicValue === option.value}
+						onClick={() => onSelectTopic(option.value)}
 					/>
 				{/each}
 			</div>

@@ -1,12 +1,12 @@
 <script lang="ts">
 	import { generationParams } from 'stores/generation.svelte';
-	import PeopleSettingLever from 'components/molecules/generation/PeopleSettingLever.svelte';
+	import PeopleTopicLever from 'components/molecules/generation/PeopleTopicLever.svelte';
 	import LeverSelect from 'components/molecules/generation/LeverSelect.svelte';
 	import DepthSafetyLever from 'components/molecules/generation/DepthSafetyLever.svelte';
 	import GenerateSparksButton from 'components/organisms/sparks/GenerateSparksButton.svelte';
 	import {
 		RELATIONSHIP_CONTEXT_OPTIONS,
-		SETTING_OPTIONS,
+		TOPIC_LENS_OPTIONS,
 		CONVERSATION_GOAL_OPTIONS,
 		VIBE_OPTIONS,
 		DEFAULT_GENERATION_PARAMS,
@@ -17,13 +17,13 @@
 
 <div class="generation-controls">
 	<div class="lever-row">
-		<PeopleSettingLever
+		<PeopleTopicLever
 			relationshipOptions={RELATIONSHIP_CONTEXT_OPTIONS}
-			settingOptions={SETTING_OPTIONS}
+			topicOptions={TOPIC_LENS_OPTIONS}
 			relationshipValue={generationParams.relationship_context}
-			settingValue={generationParams.setting}
+			topicValue={generationParams.topic_lens}
 			onSelectRelationship={(v) => (generationParams.relationship_context = v)}
-			onSelectSetting={(v) => (generationParams.setting = v)}
+			onSelectTopic={(v) => (generationParams.topic_lens = v)}
 		/>
 
 		<LeverSelect
