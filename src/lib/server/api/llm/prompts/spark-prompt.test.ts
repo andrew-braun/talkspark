@@ -3,24 +3,35 @@ import { buildSparkPrompt } from './spark-prompt';
 import { resolveGenerationParams } from 'lib/server/generation/resolve-params';
 
 describe('buildSparkPrompt', () => {
-	it('includes human-readable lever labels and depth values', () => {
-		const resolved = resolveGenerationParams({
-			type: 'random',
-			relationship_context: 'family',
-			setting: 'road_trip',
-			conversation_goal: 'reflect',
-			vibe: 'nostalgic',
-			depth_and_safety: { depth_level: 4, controversy_level: 0 },
-		});
+	it('assigns concrete levers behavioral responsibilities', () => {
+		const prompt = buildSparkPrompt(
+			resolveGenerationParams({
+				type: 'random',
+				relationship_context: 'family',
+				topic_lens: 'stories_memories',
+				conversation_goal: 'reflect',
+				vibe: 'nostalgic',
+				depth_and_safety: { depth_level: 4, controversy_level: 0 },
+			})
+		);
 
-		const prompt = buildSparkPrompt(resolved);
+		expect(prompt).toContain('Stories & memories');
+		expect(prompt).toContain('assumed familiarity');
+		expect(prompt).toContain('source territory');
+		expect(prompt).toContain('conversation trajectory');
+		expect(prompt).toContain('tone and phrasing');
+		expect(prompt).toContain('Do not mention or paraphrase lever labels');
+		expect(prompt).not.toContain('People & setting');
+	});
 
-		expect(prompt).toContain('Family');
-		expect(prompt).toContain('Road trip');
-		expect(prompt).toContain('Reflect');
-		expect(prompt).toContain('Nostalgic');
-		expect(prompt).toContain('Depth level: 4');
-		expect(prompt).toContain('Controversy level: 0');
+	it('translates Default selections into broad-neutral behavior', () => {
+		const prompt = buildSparkPrompt(resolveGenerationParams({ type: 'random' }));
+
+		expect(prompt).toContain('work across relationship types');
+		expect(prompt).toContain('choose an accessible topic territory');
+		expect(prompt).toContain('natural, inviting tone');
+		expect(prompt).toContain('choose a broadly accessible, low-risk level');
+		expect(prompt).not.toContain('Relationship: Default');
 	});
 
 	it('requires all three spark_variant roles', () => {

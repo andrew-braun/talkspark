@@ -1,4 +1,4 @@
-import type { RelationshipContext, Setting, Vibe } from './spark';
+import type { RelationshipContext, Setting, TopicLens, Vibe } from './spark';
 
 // Types only — topic generation is deferred to the Topics-pillar slice.
 // Shape mirrors docs/features/topics.md and the shared serving fields in spark-taxonomy.md.
@@ -16,7 +16,8 @@ export interface Topic {
 
 	// Shared serving metadata with Spark (subset relevant to topics)
 	relationship_context?: RelationshipContext;
-	setting?: Setting;
+	topic_lens?: TopicLens;
+	setting?: Setting; // Legacy pre-v2 localStorage compatibility
 	vibe?: Vibe;
 	depth_level?: number; // 1–5
 	humor_level?: number; // 0–5

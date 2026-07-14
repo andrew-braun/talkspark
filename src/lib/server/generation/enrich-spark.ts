@@ -1,7 +1,12 @@
 import { GENERATION_PROMPT_VERSION } from 'lib/server/api/llm/prompts/spark-prompt';
 import type { GeneratedSpark } from 'lib/server/api/llm/schemas/spark.schema';
 import type { ResolvedGenerationParams } from 'lib/server/generation/resolve-params';
+import { DEFAULT_LEVER_VALUE } from 'ts/params';
 import type { Spark } from 'ts/spark';
+
+function concreteSelection<T extends string>(value: T | typeof DEFAULT_LEVER_VALUE): T | undefined {
+	return value === DEFAULT_LEVER_VALUE ? undefined : value;
+}
 
 export function enrichSpark(
 	generated: GeneratedSpark,
@@ -13,12 +18,18 @@ export function enrichSpark(
 	return {
 		id,
 		content: generated.content,
-		relationship_context: resolved.relationship_context,
-		setting: resolved.setting,
-		conversation_goal: resolved.conversation_goal,
-		vibe: resolved.vibe,
-		depth_level: depth_and_safety.depth_level,
-		controversy_level: depth_and_safety.controversy_level,
+		relationship_context: concreteSelection(resolved.relationship_context),
+		topic_lens: concreteSelection(resolved.topic_lens),
+		conversation_goal: concreteSelection(resolved.conversation_goal),
+		vibe: concreteSelection(resolved.vibe),
+		depth_level:
+			depth_and_safety.depth_level === DEFAULT_LEVER_VALUE
+				? generated.depth_level
+				: depth_and_safety.depth_level,
+		controversy_level:
+			depth_and_safety.controversy_level === DEFAULT_LEVER_VALUE
+				? generated.controversy_level
+				: depth_and_safety.controversy_level,
 		conversation_motive: generated.conversation_motive,
 		humor_level: generated.humor_level,
 		answer_shape: generated.answer_shape,

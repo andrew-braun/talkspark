@@ -5,8 +5,10 @@ export const CRITIQUE_SYSTEM_INSTRUCTION = `You are TalkSpark's quality reviewer
 Gates:
 - clarity — wording is specific and easy to understand
 - answerability — someone can actually answer without guessing what you want
-- context_fit — matches the relationship, setting, goal, vibe, and depth levels
+- context_fit — matches the relationship, topic lens, goal, vibe, depth, and controversy levels
 - safety — respects controversy and vulnerability boundaries; no harm or mismatch risk
+
+Merely mentioning a context label does not count as context fit; score whether the substance and social demands are actually adapted.
 
 Flag any anti-patterns using these slug labels when present:
 generic_ai_mush, disguised_opinion_poll, therapy_cosplay, conflict_bait, boomerask_setup,
@@ -20,10 +22,10 @@ Return only valid JSON matching the schema — no markdown or commentary.`;
 function formatSparkLines(spark: Spark): string[] {
 	const lines = [
 		`Content: ${spark.content}`,
-		`Relationship: ${spark.relationship_context ?? 'unspecified'}`,
-		`Setting: ${spark.setting ?? 'unspecified'}`,
-		`Goal: ${spark.conversation_goal ?? 'unspecified'}`,
-		`Vibe: ${spark.vibe ?? 'unspecified'}`,
+		`Relationship: ${spark.relationship_context ?? 'Default (broad-neutral)'}`,
+		`Topic lens: ${spark.topic_lens ?? 'Default (broad-neutral)'}`,
+		`Goal: ${spark.conversation_goal ?? 'Default (broad-neutral)'}`,
+		`Vibe: ${spark.vibe ?? 'Default (broad-neutral)'}`,
 		`Depth level: ${spark.depth_level ?? 'unspecified'} (1 = light, 5 = deep)`,
 		`Controversy level: ${spark.controversy_level ?? 'unspecified'} (0 = none, 5 = high)`,
 	];
@@ -47,6 +49,7 @@ function sparkVariantLabel(spark: Spark): SparkVariant | 'unknown' {
 
 export function buildCritiquePrompt(spark: Spark): string {
 	return `Evaluate this spark on the fast 4-gate rubric.
+Merely mentioning a context label does not count as context fit; score whether the substance and social demands are actually adapted.
 
 ${formatSparkLines(spark).join('\n')}`;
 }
@@ -60,6 +63,7 @@ ${formatSparkLines(spark).join('\n')}`;
 
 	return `Evaluate each spark below independently on the fast 4-gate rubric.
 Score each against the rubric on its own merits — do not rank or compare sparks relative to each other.
+Merely mentioning a context label does not count as context fit; score whether the substance and social demands are actually adapted.
 
 ${sections.join('\n\n')}
 

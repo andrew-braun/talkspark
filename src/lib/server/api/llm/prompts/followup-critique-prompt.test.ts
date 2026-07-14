@@ -1,5 +1,8 @@
 import { describe, expect, it } from 'vitest';
-import { buildFollowupCritiquePrompt } from './followup-critique-prompt';
+import {
+	buildFollowupCritiquePrompt,
+	FOLLOWUP_CRITIQUE_SYSTEM_INSTRUCTION,
+} from './followup-critique-prompt';
 import type { Followup } from 'ts/followup';
 import type { Spark } from 'ts/spark';
 
@@ -25,5 +28,8 @@ describe('buildFollowupCritiquePrompt', () => {
 		expect(prompt).toContain(parent.content);
 		expect(prompt).toContain(followup.content);
 		expect(prompt).toContain('deepens without interrogating');
+		expect(FOLLOWUP_CRITIQUE_SYSTEM_INSTRUCTION).toContain(
+			'Merely restating a parent classification does not demonstrate context fit'
+		);
 	});
 });

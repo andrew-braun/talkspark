@@ -19,4 +19,26 @@ describe('SPARKS_RESPONSE_SCHEMA', () => {
 	it('disallows extra properties on the response wrapper', () => {
 		expect(SPARKS_RESPONSE_SCHEMA.additionalProperties).toBe(false);
 	});
+
+	it('only asks the model for fields it decides', () => {
+		const wrapper = SPARKS_RESPONSE_SCHEMA.properties as {
+			sparks: { items: { required: string[]; properties: Record<string, unknown> } };
+		};
+		const sparkSchema = wrapper.sparks.items;
+
+		for (const field of [
+			'relationship_context',
+			'topic_lens',
+			'setting',
+			'conversation_goal',
+			'vibe',
+		]) {
+			expect(sparkSchema.properties).not.toHaveProperty(field);
+			expect(sparkSchema.required).not.toContain(field);
+		}
+
+		expect(sparkSchema.required).toEqual(
+			expect.arrayContaining(['depth_level', 'controversy_level'])
+		);
+	});
 });

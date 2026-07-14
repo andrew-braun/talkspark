@@ -94,7 +94,7 @@
 			font-weight: 400;
 			line-height: 1;
 			text-decoration: underline;
-			font-size: var(--font-size-md-sm);
+			font-size: var(--font-size-md);
 		}
 
 		&.loading {

@@ -57,11 +57,12 @@
 		gap: var(--spacing-lg);
 		width: 100%;
 
-		// Mobile: a 2x2 grid of full-width pills, so each lever is a large, unambiguous
-		// target. Desktop: back to a centered wrapping row.
+		// Mobile: levers stack one per row. A 2x2 grid was tried first, but a half-width cell
+		// can't fit a 16px label beside its value, and the text floor wins over density.
+		// Desktop: back to a centered wrapping row.
 		.lever-row {
 			display: grid;
-			grid-template-columns: 1fr 1fr;
+			grid-template-columns: 1fr;
 			gap: var(--spacing-sm);
 			width: 100%;
 

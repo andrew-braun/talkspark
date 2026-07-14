@@ -9,7 +9,7 @@ Each follow-up must deepen the conversation gradually — follow a follow-up lad
 Judge your own output on whether it deepens without interrogating.
 
 Prefer perspective-get and tiny-detail moves over yes/no probes or therapy framing.
-Respect the parent's relationship, setting, and depth boundaries. Each follow-up content must be 256 characters or fewer.
+Respect the parent's relationship, topic-lens, and depth boundaries. Do not restate classification labels; deepen the parent's actual subject. Each follow-up content must be 256 characters or fewer.
 
 Return only valid JSON matching the schema — no markdown or commentary.`;
 
@@ -20,22 +20,24 @@ export function isTopicParent(parent: FollowupParent): parent is Topic {
 }
 
 function parentContextLines(parent: FollowupParent): string[] {
+	const topicLensLine = parent.topic_lens ? [`Topic lens: ${parent.topic_lens}`] : [];
+
 	if (isTopicParent(parent)) {
 		return [
 			`Topic: ${parent.topic}`,
-			`Relationship: ${parent.relationship_context ?? 'unspecified'}`,
-			`Setting: ${parent.setting ?? 'unspecified'}`,
-			`Vibe: ${parent.vibe ?? 'unspecified'}`,
+			`Relationship: ${parent.relationship_context ?? 'Default (broad-neutral)'}`,
+			...topicLensLine,
+			`Vibe: ${parent.vibe ?? 'Default (broad-neutral)'}`,
 			`Depth level: ${parent.depth_level ?? 'unspecified'}`,
 		];
 	}
 
 	const lines = [
 		`Parent spark: ${parent.content}`,
-		`Relationship: ${parent.relationship_context ?? 'unspecified'}`,
-		`Setting: ${parent.setting ?? 'unspecified'}`,
-		`Goal: ${parent.conversation_goal ?? 'unspecified'}`,
-		`Vibe: ${parent.vibe ?? 'unspecified'}`,
+		`Relationship: ${parent.relationship_context ?? 'Default (broad-neutral)'}`,
+		...topicLensLine,
+		`Goal: ${parent.conversation_goal ?? 'Default (broad-neutral)'}`,
+		`Vibe: ${parent.vibe ?? 'Default (broad-neutral)'}`,
 		`Depth level: ${parent.depth_level ?? 'unspecified'}`,
 		`Controversy level: ${parent.controversy_level ?? 'unspecified'}`,
 	];
@@ -49,6 +51,7 @@ function parentContextLines(parent: FollowupParent): string[] {
 
 export function buildFollowupPrompt(parent: FollowupParent): string {
 	return `Generate exactly three follow-up questions that build on this parent.
+Do not restate classification labels; deepen the parent's actual subject.
 
 ${parentContextLines(parent).join('\n')}
 

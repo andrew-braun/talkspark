@@ -80,6 +80,22 @@ Adjacent targets are separated by at least `--tap-gap-min`.
 }
 ```
 
+## Control text (non-negotiable)
+
+Text inside an interactive element — button, chip, lever, link, badge — is never smaller
+than `--font-size-md` (16px). That is the accessibility floor, and it holds on desktop too;
+it is not a mobile-only concession.
+
+- `--font-size-xs`, `--font-size-sm` and `--font-size-md-sm` exist for decorative and
+  non-interactive text. **A control label may not use them**, however small the control looks.
+- A big tap target with a 10px label is still unusable. Sizing the box and sizing the text
+  are two separate jobs, and both are required.
+- **When 16px text doesn't fit the layout, the layout gives way — not the type.** The
+  generation levers went from a 2-up grid to one full-width row each for exactly this
+  reason: a half-width cell on a phone cannot hold a 16px label beside its value.
+- All-caps micro-labels don't survive the promotion to 16px — caps plus wide tracking cost
+  ~25% more width and read as shouting. Carry hierarchy with colour and weight instead.
+
 ## Hover is not an interaction
 
 Touch devices have no hover. **Any affordance that only appears on `:hover` is invisible
@@ -92,19 +108,19 @@ and unreachable on a phone** — which is most of the userbase.
 
 ## Token semantics (names only)
 
-| Category       | Tokens                                                                              | When to use                                                 |
-| -------------- | ----------------------------------------------------------------------------------- | ----------------------------------------------------------- |
-| **Surfaces**   | `--primary-color`, `--background-color`, `--spark-background-color`                 | Page background, card fill                                  |
-| **Text**       | `--text-color-light`, `--text-color-dark`                                           | Light-on-dark vs dark-on-light copy                         |
-| **Accents**    | `--accent-color-1` … `--accent-color-6`                                             | Gradient building blocks; rarely used directly              |
-| **Gradients**  | `--gradient-1` … `--gradient-5`                                                     | Spark cards cycle `gradient-1`–`gradient-4` via `index % 4` |
-| **Spacing**    | `--spacing-xs` … `--spacing-xxl`                                                    | Padding, margin, gap — pick nearest step                    |
-| **Typography** | `--font-size-xs` … `--font-size-xxl`, `--body-font-family`, `--heading-font-family` | Body, headings, UI labels                                   |
-| **Radii**      | `--border-radius-sm` … `--border-radius-xl`                                         | Cards, buttons, popups                                      |
-| **Motion**     | `--transition-std`                                                                  | Hover/focus transitions                                     |
-| **Borders**    | `--spark-border`, `--secondary-color`, `--tertiary-color`                           | Card borders, dividers                                      |
-| **Elevation**  | `--box-shadow`                                                                      | Floating surfaces (popovers, toasts)                        |
-| **Touch**      | `--tap-target-min`, `--tap-target-lg`, `--tap-gap-min`                              | Min size of any control; gap between adjacent controls      |
+| Category       | Tokens                                                                              | When to use                                                                                                                                      |
+| -------------- | ----------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Surfaces**   | `--primary-color`, `--background-color`, `--spark-background-color`                 | Page background, card fill                                                                                                                       |
+| **Text**       | `--text-color-light`, `--text-color-dark`                                           | Light-on-dark vs dark-on-light copy                                                                                                              |
+| **Accents**    | `--accent-color-1` … `--accent-color-6`                                             | Gradient building blocks; rarely used directly                                                                                                   |
+| **Gradients**  | `--gradient-1` … `--gradient-5`                                                     | Spark cards cycle `gradient-1`–`gradient-4` via `index % 4`                                                                                      |
+| **Spacing**    | `--spacing-xs` … `--spacing-xxl`                                                    | Padding, margin, gap — pick nearest step                                                                                                         |
+| **Typography** | `--font-size-xs` … `--font-size-xxl`, `--body-font-family`, `--heading-font-family` | Body, headings, UI labels. `--font-size-md` (16px) is the floor for any text inside a control; the three sizes below it are non-interactive only |
+| **Radii**      | `--border-radius-sm` … `--border-radius-xl`                                         | Cards, buttons, popups                                                                                                                           |
+| **Motion**     | `--transition-std`                                                                  | Hover/focus transitions                                                                                                                          |
+| **Borders**    | `--spark-border`, `--secondary-color`, `--tertiary-color`                           | Card borders, dividers                                                                                                                           |
+| **Elevation**  | `--box-shadow`                                                                      | Floating surfaces (popovers, toasts)                                                                                                             |
+| **Touch**      | `--tap-target-min`, `--tap-target-lg`, `--tap-gap-min`                              | Min size of any control; gap between adjacent controls                                                                                           |
 
 **Rule:** Need a value → open `variables.css`. Need a token name → use this table or the decision tree below.
 
@@ -172,7 +188,7 @@ Need a token VALUE?   → read variables.css (never guess)
 Need a token NAME?    → semantics table above or references/design-tokens.md
 Need spacing?         → nearest --spacing-*
 Need a color?         → matching semantic token
-Need font size?       → nearest --font-size-*
+Need font size?       → nearest --font-size-*; inside a control, never below --font-size-md
 Need border radius?   → nearest --border-radius-*
 Need animation?       → animations.css by name
 Need overlay/widget?  → Zag machine + talkspark-interactive-ui skill; style with tokens
@@ -206,5 +222,7 @@ Need new token?       → add to variables.css ONLY, then document here + design
 - **No `max-width` media queries** — mobile is the base, desktop is the enhancement
 - **No root font-size changes per breakpoint** — that shrinks every token at once
 - **No hover-only affordances** — invisible on touch
+- **No control text below `--font-size-md`** — a 44px button with a 10px label is still unusable
+- **No control below `--tap-target-min`** in either dimension
 - **No control below `--tap-target-min`**
 - **No copying token values into markdown** — causes drift

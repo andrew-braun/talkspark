@@ -3,41 +3,38 @@ import { DEFAULT_GENERATION_PARAMS } from 'lib/data/generation-options';
 import { resolveGenerationParams } from './resolve-params';
 
 describe('resolveGenerationParams', () => {
-	it('returns defaults when params are empty except type', () => {
-		const resolved = resolveGenerationParams({ type: 'random' });
-
-		expect(resolved).toEqual(DEFAULT_GENERATION_PARAMS);
+	it('returns all-Default selections when params only specify type', () => {
+		expect(resolveGenerationParams({ type: 'random' })).toEqual(DEFAULT_GENERATION_PARAMS);
 	});
 
-	it('merges partial lever overrides with defaults', () => {
+	it('merges concrete selections with Default values', () => {
 		const resolved = resolveGenerationParams({
 			type: 'random',
-			vibe: 'weird',
-			depth_and_safety: { depth_level: 4, controversy_level: 2 },
+			topic_lens: 'stories_memories',
+			vibe: 'nostalgic',
+			depth_and_safety: { depth_level: 4, controversy_level: 'default' },
 		});
 
-		expect(resolved.vibe).toBe('weird');
-		expect(resolved.relationship_context).toBe('close_friend');
-		expect(resolved.depth_and_safety).toEqual({ depth_level: 4, controversy_level: 2 });
+		expect(resolved.relationship_context).toBe('default');
+		expect(resolved.topic_lens).toBe('stories_memories');
+		expect(resolved.conversation_goal).toBe('default');
+		expect(resolved.vibe).toBe('nostalgic');
+		expect(resolved.depth_and_safety).toEqual({
+			depth_level: 4,
+			controversy_level: 'default',
+		});
 	});
 
-	it('preserves a fully specified params object', () => {
-		const resolved = resolveGenerationParams({
+	it('preserves a fully specified params object without a setting', () => {
+		const params = {
 			type: 'random',
 			relationship_context: 'stranger',
-			setting: 'party',
+			topic_lens: 'ideas_perspectives',
 			conversation_goal: 'debate',
 			vibe: 'thoughtful',
 			depth_and_safety: { depth_level: 3, controversy_level: 4 },
-		});
+		} as const;
 
-		expect(resolved).toEqual({
-			type: 'random',
-			relationship_context: 'stranger',
-			setting: 'party',
-			conversation_goal: 'debate',
-			vibe: 'thoughtful',
-			depth_and_safety: { depth_level: 3, controversy_level: 4 },
-		});
+		expect(resolveGenerationParams(params)).toEqual(params);
 	});
 });

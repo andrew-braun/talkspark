@@ -45,14 +45,16 @@
 <style lang="scss">
 	.lever-pill {
 		display: flex;
-		flex-direction: column;
-		align-items: flex-start;
-		justify-content: center;
 
-		// Fills its grid cell on mobile and shrinks to content once there's a desktop row.
+		// Mobile: one full-width lever per row, label left and value right, like a settings
+		// list. Two columns can't hold 16px text — the label alone needs more than a half-width
+		// cell — and 16px is the floor for control text, so the layout gives way, not the type.
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+		gap: var(--spacing-md);
 		width: 100%;
-		min-height: var(--tap-target-min);
-		gap: var(--spacing-xs);
+		min-height: var(--tap-target-lg);
 		padding: var(--spacing-sm) var(--spacing-md);
 		border: 1px solid var(--tertiary-color);
 		border-radius: var(--border-radius-lg);
@@ -61,8 +63,14 @@
 		text-align: left;
 		transition: var(--transition-std);
 
+		// Desktop: the compact two-line pill, sized to its content in a wrapping row.
 		@media (width >= 768px) {
+			flex-direction: column;
+			align-items: flex-start;
+			justify-content: center;
+			gap: var(--spacing-xs);
 			width: auto;
+			min-height: var(--tap-target-min);
 		}
 
 		&:hover,
@@ -71,17 +79,25 @@
 			border-color: var(--accent-color-5);
 		}
 
+		// The label was an all-caps 10px eyebrow. At a legible 16px, caps plus wide tracking
+		// just costs ~25% more width and reads as shouting, so hierarchy comes from colour
+		// and weight instead.
 		.lever-label {
+			flex: 0 0 auto;
 			color: var(--tertiary-color);
-			font-size: var(--font-size-xs);
+			font-size: var(--font-size-md);
 			font-weight: 600;
-			text-transform: uppercase;
-			letter-spacing: 0.05em;
+			letter-spacing: 0.02em;
 		}
 
 		.lever-value {
-			font-size: var(--font-size-sm);
+			font-size: var(--font-size-md);
 			font-weight: 500;
+			text-align: right;
+
+			@media (width >= 768px) {
+				text-align: left;
+			}
 		}
 	}
 

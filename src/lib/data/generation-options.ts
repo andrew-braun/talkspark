@@ -1,5 +1,5 @@
-import type { RelationshipContext, Setting, ConversationGoal, Vibe } from 'ts/spark';
-import type { GenerationParams } from 'ts/params';
+import type { ConversationGoal, RelationshipContext, TopicLens, Vibe } from 'ts/spark';
+import { DEFAULT_LEVER_VALUE, type GenerationParams, type LeverSelection } from 'ts/params';
 
 export interface LeverOption<T extends string> {
 	value: T;
@@ -7,7 +7,8 @@ export interface LeverOption<T extends string> {
 }
 
 // Label sets for the four generation levers (generation-engine.md). Order controls display order.
-export const RELATIONSHIP_CONTEXT_OPTIONS: LeverOption<RelationshipContext>[] = [
+export const RELATIONSHIP_CONTEXT_OPTIONS: LeverOption<LeverSelection<RelationshipContext>>[] = [
+	{ value: DEFAULT_LEVER_VALUE, label: 'Default' },
 	{ value: 'first_date', label: 'First date' },
 	{ value: 'partner', label: 'Partner' },
 	{ value: 'family', label: 'Family' },
@@ -17,16 +18,18 @@ export const RELATIONSHIP_CONTEXT_OPTIONS: LeverOption<RelationshipContext>[] = 
 	{ value: 'stranger', label: 'Stranger' },
 ];
 
-export const SETTING_OPTIONS: LeverOption<Setting>[] = [
-	{ value: 'dinner', label: 'Dinner' },
-	{ value: 'road_trip', label: 'Road trip' },
-	{ value: 'meeting', label: 'Meeting' },
-	{ value: 'classroom', label: 'Classroom' },
-	{ value: 'party', label: 'Party' },
-	{ value: 'online_chat', label: 'Online chat' },
+export const TOPIC_LENS_OPTIONS: LeverOption<LeverSelection<TopicLens>>[] = [
+	{ value: DEFAULT_LEVER_VALUE, label: 'Default' },
+	{ value: 'everyday_life', label: 'Everyday life' },
+	{ value: 'stories_memories', label: 'Stories & memories' },
+	{ value: 'interests_culture', label: 'Interests & culture' },
+	{ value: 'hopes_plans', label: 'Hopes & plans' },
+	{ value: 'ideas_perspectives', label: 'Ideas & perspectives' },
+	{ value: 'imagination_hypotheticals', label: 'Imagination & hypotheticals' },
 ];
 
-export const CONVERSATION_GOAL_OPTIONS: LeverOption<ConversationGoal>[] = [
+export const CONVERSATION_GOAL_OPTIONS: LeverOption<LeverSelection<ConversationGoal>>[] = [
+	{ value: DEFAULT_LEVER_VALUE, label: 'Default' },
 	{ value: 'break_ice', label: 'Break the ice' },
 	{ value: 'reconnect', label: 'Reconnect' },
 	{ value: 'laugh', label: 'Laugh' },
@@ -36,7 +39,8 @@ export const CONVERSATION_GOAL_OPTIONS: LeverOption<ConversationGoal>[] = [
 	{ value: 'brainstorm', label: 'Brainstorm' },
 ];
 
-export const VIBE_OPTIONS: LeverOption<Vibe>[] = [
+export const VIBE_OPTIONS: LeverOption<LeverSelection<Vibe>>[] = [
+	{ value: DEFAULT_LEVER_VALUE, label: 'Default' },
 	{ value: 'playful', label: 'Playful' },
 	{ value: 'warm', label: 'Warm' },
 	{ value: 'thoughtful', label: 'Thoughtful' },
@@ -54,12 +58,12 @@ export const CONTROVERSY_LEVEL_MAX = 5;
 // Most generally-optimal, zero-config selections (generation-engine.md "one-button default").
 export const DEFAULT_GENERATION_PARAMS: GenerationParams = {
 	type: 'random',
-	relationship_context: 'close_friend',
-	setting: 'dinner',
-	conversation_goal: 'break_ice',
-	vibe: 'playful',
+	relationship_context: DEFAULT_LEVER_VALUE,
+	topic_lens: DEFAULT_LEVER_VALUE,
+	conversation_goal: DEFAULT_LEVER_VALUE,
+	vibe: DEFAULT_LEVER_VALUE,
 	depth_and_safety: {
-		depth_level: 2,
-		controversy_level: 1,
+		depth_level: DEFAULT_LEVER_VALUE,
+		controversy_level: DEFAULT_LEVER_VALUE,
 	},
 };

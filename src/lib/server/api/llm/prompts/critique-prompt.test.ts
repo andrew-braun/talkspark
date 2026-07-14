@@ -6,7 +6,7 @@ const sampleSpark: Spark = {
 	id: 'spark-1',
 	content: 'What is a small moment that made you smile this week?',
 	relationship_context: 'close_friend',
-	setting: 'dinner',
+	topic_lens: 'stories_memories',
 	conversation_goal: 'break_ice',
 	vibe: 'playful',
 	depth_level: 2,
@@ -23,11 +23,12 @@ describe('buildCritiquePrompt', () => {
 
 		expect(prompt).toContain(sampleSpark.content);
 		expect(prompt).toContain('close_friend');
-		expect(prompt).toContain('dinner');
+		expect(prompt).toContain('Topic lens: stories_memories');
 		expect(prompt).toContain('break_ice');
 		expect(prompt).toContain('playful');
 		expect(prompt).toContain('Depth level: 2');
 		expect(prompt).toContain('What detail do you still remember?');
+		expect(prompt).toContain('Merely mentioning a context label does not count as context fit');
 	});
 });
 

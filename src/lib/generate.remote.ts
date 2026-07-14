@@ -12,20 +12,33 @@ import {
 import { critiqueSparks } from 'lib/server/critique';
 import { enrichSpark } from 'lib/server/generation/enrich-spark';
 import { resolveGenerationParams } from 'lib/server/generation/resolve-params';
-import { CONVERSATION_GOALS, RELATIONSHIP_CONTEXTS, SETTINGS, VIBES } from 'ts/spark';
+import { CONVERSATION_GOALS, RELATIONSHIP_CONTEXTS, TOPIC_LENSES, VIBES } from 'ts/spark';
+import { DEFAULT_LEVER_VALUE } from 'ts/params';
 import type { SparkData } from 'ts/sparks';
 
+const defaultSelection = v.literal(DEFAULT_LEVER_VALUE);
+const depthSelection = v.union([
+	defaultSelection,
+	v.pipe(v.number(), v.minValue(1), v.maxValue(5)),
+]);
+const controversySelection = v.union([
+	defaultSelection,
+	v.pipe(v.number(), v.minValue(0), v.maxValue(5)),
+]);
+
 const depthAndSafetySchema = v.object({
-	depth_level: v.pipe(v.number(), v.minValue(1), v.maxValue(5)),
-	controversy_level: v.pipe(v.number(), v.minValue(0), v.maxValue(5)),
+	depth_level: depthSelection,
+	controversy_level: controversySelection,
 });
 
 const generationParamsSchema = v.object({
 	type: v.string(),
-	relationship_context: v.optional(v.picklist(RELATIONSHIP_CONTEXTS)),
-	setting: v.optional(v.picklist(SETTINGS)),
-	conversation_goal: v.optional(v.picklist(CONVERSATION_GOALS)),
-	vibe: v.optional(v.picklist(VIBES)),
+	relationship_context: v.optional(
+		v.union([defaultSelection, v.picklist(RELATIONSHIP_CONTEXTS)])
+	),
+	topic_lens: v.optional(v.union([defaultSelection, v.picklist(TOPIC_LENSES)])),
+	conversation_goal: v.optional(v.union([defaultSelection, v.picklist(CONVERSATION_GOALS)])),
+	vibe: v.optional(v.union([defaultSelection, v.picklist(VIBES)])),
 	depth_and_safety: v.optional(depthAndSafetySchema),
 });
 

@@ -5,6 +5,14 @@ import type { CritiqueResult } from './critique';
 export type RelationshipContext =
 	'first_date' | 'partner' | 'family' | 'close_friend' | 'coworker' | 'team' | 'stranger';
 
+export type TopicLens =
+	| 'everyday_life'
+	| 'stories_memories'
+	| 'interests_culture'
+	| 'hopes_plans'
+	| 'ideas_perspectives'
+	| 'imagination_hypotheticals';
+
 export type Setting = 'dinner' | 'road_trip' | 'meeting' | 'classroom' | 'party' | 'online_chat';
 
 export type ConversationGoal =
@@ -48,6 +56,15 @@ export const RELATIONSHIP_CONTEXTS = [
 	'team',
 	'stranger',
 ] as const satisfies readonly RelationshipContext[];
+
+export const TOPIC_LENSES = [
+	'everyday_life',
+	'stories_memories',
+	'interests_culture',
+	'hopes_plans',
+	'ideas_perspectives',
+	'imagination_hypotheticals',
+] as const satisfies readonly TopicLens[];
 
 export const SETTINGS = [
 	'dinner',
@@ -120,7 +137,8 @@ export interface Spark {
 
 	// Serving / queryable fields (become top-level columns when the DB lands)
 	relationship_context?: RelationshipContext;
-	setting?: Setting;
+	topic_lens?: TopicLens;
+	setting?: Setting; // Legacy pre-v2 localStorage compatibility; not set on new sparks
 	conversation_goal?: ConversationGoal;
 	conversation_motive?: ConversationMotive;
 	vibe?: Vibe;

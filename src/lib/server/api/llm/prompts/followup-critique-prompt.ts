@@ -11,6 +11,8 @@ Gates:
 - context_fit — matches the parent context and deepens appropriately
 - safety — respects boundaries; no forced vulnerability or social mismatch
 
+Merely restating a parent classification does not demonstrate context fit; the follow-up must deepen the parent's actual subject.
+
 Flag anti-patterns when present (generic_wording, therapy_cosplay, social_mismatch, leading_question, high_disclosure_without_pass).
 Use an empty flags array when none apply. Suggest a rewrite only when promising but fixable; otherwise return an empty string.
 

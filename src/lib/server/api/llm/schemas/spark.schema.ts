@@ -1,22 +1,14 @@
 import {
 	ANSWER_SHAPES,
-	CONVERSATION_GOALS,
 	CONVERSATION_MOTIVES,
 	CONVERSATION_SKILLS,
 	RECIPROCITY_MODES,
-	RELATIONSHIP_CONTEXTS,
-	SETTINGS,
 	SPARK_VARIANTS,
-	VIBES,
 	type AnswerShape,
-	type ConversationGoal,
 	type ConversationMotive,
 	type ConversationSkill,
 	type ReciprocityMode,
-	type RelationshipContext,
-	type Setting,
 	type SparkVariant,
-	type Vibe,
 } from 'ts/spark';
 
 function stringEnum<T extends readonly string[]>(values: T) {
@@ -28,11 +20,7 @@ const GENERATED_SPARK_SCHEMA = {
 	properties: {
 		content: { type: 'string' },
 		spark_variant: stringEnum(SPARK_VARIANTS),
-		relationship_context: stringEnum(RELATIONSHIP_CONTEXTS),
-		setting: stringEnum(SETTINGS),
-		conversation_goal: stringEnum(CONVERSATION_GOALS),
 		conversation_motive: stringEnum(CONVERSATION_MOTIVES),
-		vibe: stringEnum(VIBES),
 		depth_level: { type: 'integer', minimum: 1, maximum: 5 },
 		controversy_level: { type: 'integer', minimum: 0, maximum: 5 },
 		humor_level: { type: 'integer', minimum: 0, maximum: 5 },
@@ -45,11 +33,7 @@ const GENERATED_SPARK_SCHEMA = {
 	required: [
 		'content',
 		'spark_variant',
-		'relationship_context',
-		'setting',
-		'conversation_goal',
 		'conversation_motive',
-		'vibe',
 		'depth_level',
 		'controversy_level',
 		'humor_level',
@@ -77,11 +61,7 @@ export const SPARKS_RESPONSE_SCHEMA: Record<string, unknown> = {
 export interface GeneratedSpark {
 	content: string;
 	spark_variant: SparkVariant;
-	relationship_context: RelationshipContext;
-	setting: Setting;
-	conversation_goal: ConversationGoal;
 	conversation_motive: ConversationMotive;
-	vibe: Vibe;
 	depth_level: number;
 	controversy_level: number;
 	humor_level: number;

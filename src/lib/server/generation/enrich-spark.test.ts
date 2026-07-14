@@ -8,11 +8,7 @@ import { enrichSpark } from './enrich-spark';
 const sampleGenerated: GeneratedSpark = {
 	content: 'What small moment made you smile this week?',
 	spark_variant: 'primary',
-	relationship_context: 'stranger',
-	setting: 'party',
-	conversation_goal: 'laugh',
 	conversation_motive: 'play',
-	vibe: 'weird',
 	depth_level: 5,
 	controversy_level: 4,
 	humor_level: 3,
@@ -45,11 +41,11 @@ describe('enrichSpark', () => {
 		});
 	});
 
-	it('overrides lever fields from resolved params, not model output', () => {
+	it('copies concrete categorical and numeric selections', () => {
 		const resolved = resolveGenerationParams({
 			type: 'random',
 			relationship_context: 'coworker',
-			setting: 'meeting',
+			topic_lens: 'ideas_perspectives',
 			conversation_goal: 'brainstorm',
 			vibe: 'thoughtful',
 			depth_and_safety: { depth_level: 2, controversy_level: 1 },
@@ -60,12 +56,27 @@ describe('enrichSpark', () => {
 			now: 1_700_000_000_001,
 		});
 
-		expect(spark.relationship_context).toBe('coworker');
-		expect(spark.setting).toBe('meeting');
-		expect(spark.conversation_goal).toBe('brainstorm');
-		expect(spark.vibe).toBe('thoughtful');
-		expect(spark.depth_level).toBe(2);
-		expect(spark.controversy_level).toBe(1);
+		expect(spark).toMatchObject({
+			relationship_context: 'coworker',
+			topic_lens: 'ideas_perspectives',
+			conversation_goal: 'brainstorm',
+			vibe: 'thoughtful',
+			depth_level: 2,
+			controversy_level: 1,
+		});
+		expect(spark.setting).toBeUndefined();
+	});
+
+	it('uses model numeric classifications and omits Default categorical fields', () => {
+		const resolved = resolveGenerationParams(DEFAULT_GENERATION_PARAMS);
+		const spark = enrichSpark(sampleGenerated, resolved, { id: 'spark-3', now: 2 });
+
+		expect(spark.relationship_context).toBeUndefined();
+		expect(spark.topic_lens).toBeUndefined();
+		expect(spark.conversation_goal).toBeUndefined();
+		expect(spark.vibe).toBeUndefined();
+		expect(spark.depth_level).toBe(sampleGenerated.depth_level);
+		expect(spark.controversy_level).toBe(sampleGenerated.controversy_level);
 	});
 
 	it('keeps model-classified fields from generated output', () => {

@@ -38,6 +38,11 @@
 	);
 	--body-font-family: 'Roboto', sans-serif;
 	--heading-font-family: 'Roboto', sans-serif;
+
+	/* Type scale. 1rem = 10px, so --font-size-md is 16px — the floor for any text
+	   inside an interactive control (button, chip, lever, link). The three sizes below
+	   it are for decorative or non-interactive text only; a control label must never
+	   use them, however small the control looks. */
 	--font-size-xs: 1rem;
 	--font-size-sm: 1.2rem;
 	--font-size-md-sm: 1.4rem;

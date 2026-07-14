@@ -11,7 +11,7 @@ export function resolveGenerationParams(params: GenerationParams): ResolvedGener
 	return {
 		type: params.type ?? defaults.type,
 		relationship_context: params.relationship_context ?? defaults.relationship_context!,
-		setting: params.setting ?? defaults.setting!,
+		topic_lens: params.topic_lens ?? defaults.topic_lens!,
 		conversation_goal: params.conversation_goal ?? defaults.conversation_goal!,
 		vibe: params.vibe ?? defaults.vibe!,
 		depth_and_safety: {

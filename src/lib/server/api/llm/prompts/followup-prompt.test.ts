@@ -7,7 +7,7 @@ const sampleSpark: Spark = {
 	id: 'spark-1',
 	content: 'What made you smile this week?',
 	relationship_context: 'close_friend',
-	setting: 'dinner',
+	topic_lens: 'stories_memories',
 	conversation_goal: 'break_ice',
 	vibe: 'playful',
 	depth_level: 2,
@@ -29,6 +29,16 @@ describe('buildFollowupPrompt', () => {
 		expect(prompt).toContain(sampleSpark.content);
 		expect(prompt).toContain('What detail stuck with you?');
 		expect(prompt).toContain('exactly three');
+		expect(prompt).toContain('Topic lens: stories_memories');
+		expect(prompt).toContain('Do not restate classification labels');
+	});
+
+	it('accepts legacy spark parents without using their setting', () => {
+		const legacyParent: Spark = { ...sampleSpark, topic_lens: undefined, setting: 'dinner' };
+		const prompt = buildFollowupPrompt(legacyParent);
+
+		expect(prompt).not.toContain('Topic lens:');
+		expect(prompt).not.toContain('Setting:');
 	});
 
 	it('includes topic when parent is a topic', () => {
