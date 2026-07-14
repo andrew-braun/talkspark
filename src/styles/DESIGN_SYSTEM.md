@@ -31,12 +31,64 @@ Behavior for overlays and complex widgets (popovers, dialogs, menus, toggles, et
 
 Do not import global style files inside components.
 
-## Rem scaling (critical)
+## Mobile-first (critical)
 
-- Root `html` font-size: **62.5%** (≈ 10px base) → `1rem = 10px` at desktop
-- Below 768px: **50%** → all rem-based tokens scale down proportionally
-- Spacing and font-size tokens use `rem` — **never convert token usage to px in components**
-- Read actual computed sizes from `variables.css`; do not guess
+**TalkSpark is a phone app that also runs on desktop.** Base styles are authored for the
+small screen; desktop is layered on top. This is the rule, not a preference.
+
+- **Write the mobile case first, unconditionally.** Then add desktop with
+  `@media (width >= 768px)`.
+- **Only ever `min-width` (`width >=`).** A `max-width` query means you wrote the desktop
+  case first and are patching mobile — restructure instead.
+- **768px is the only breakpoint.** Don't invent more without a reason worth documenting.
+- Media queries cannot read custom properties, so `768px` is a literal. It is the one
+  spacing-ish value allowed to be hardcoded.
+
+### Rem scaling
+
+- Root `html` font-size is **62.5%** (`1rem = 10px`) at **every** width.
+- Spacing and font-size tokens use `rem` — **never convert token usage to px in components.**
+- Read actual computed sizes from `variables.css`; do not guess.
+
+> **Historical note.** The root used to drop to `50%` below 768px, shrinking every rem
+> token by 20% on phones — the app was smallest exactly where fingers are least precise.
+> That rule is gone. Do not reintroduce a root font-size change to "fix" a mobile layout;
+> fix the layout.
+
+## Touch targets (non-negotiable)
+
+Every interactive element — button, link, chip, pill, icon action — must be at least
+`--tap-target-min` in **both** dimensions. Primary actions use `--tap-target-lg`.
+Adjacent targets are separated by at least `--tap-gap-min`.
+
+- These tokens are **px, not rem, on purpose**: a fingertip is a fixed physical size and
+  must not ride the type scale. This is the one place px beats rem.
+- An icon does not need to grow to fill the target. Give the _button_ the minimum and let
+  the icon stay small inside it — the hit area grows, the design doesn't.
+- Single-glyph controls (a `↳`, a digit) need `min-width` as well as `min-height`, or
+  they end up tall and thin.
+
+```scss
+/* CORRECT — 24px icon, 44px target */
+.action {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: var(--tap-target-min);
+	min-height: var(--tap-target-min);
+	padding: 0;
+}
+```
+
+## Hover is not an interaction
+
+Touch devices have no hover. **Any affordance that only appears on `:hover` is invisible
+and unreachable on a phone** — which is most of the userbase.
+
+- Never gate content or controls behind `&:hover` alone.
+- Disclosure (scores, details, menus) → a **Zag popover** that opens on click/tap. See
+  [`talkspark-interactive-ui`](../../.agents/skills/talkspark-interactive-ui/SKILL.md).
+- `:hover` is for _decoration only_ — a colour shift, an opacity nudge. Nothing load-bearing.
 
 ## Token semantics (names only)
 
@@ -51,6 +103,8 @@ Do not import global style files inside components.
 | **Radii**      | `--border-radius-sm` … `--border-radius-xl`                                         | Cards, buttons, popups                                      |
 | **Motion**     | `--transition-std`                                                                  | Hover/focus transitions                                     |
 | **Borders**    | `--spark-border`, `--secondary-color`, `--tertiary-color`                           | Card borders, dividers                                      |
+| **Elevation**  | `--box-shadow`                                                                      | Floating surfaces (popovers, toasts)                        |
+| **Touch**      | `--tap-target-min`, `--tap-target-lg`, `--tap-gap-min`                              | Min size of any control; gap between adjacent controls      |
 
 **Rule:** Need a value → open `variables.css`. Need a token name → use this table or the decision tree below.
 
@@ -122,6 +176,8 @@ Need font size?       → nearest --font-size-*
 Need border radius?   → nearest --border-radius-*
 Need animation?       → animations.css by name
 Need overlay/widget?  → Zag machine + talkspark-interactive-ui skill; style with tokens
+Building a control?   → min 44px both axes via --tap-target-*; never hover-only
+Need a breakpoint?    → @media (width >= 768px) — min-width only, mobile is the base
 Need new token?       → add to variables.css ONLY, then document here + design-tokens.md
 ```
 
@@ -136,7 +192,7 @@ Need new token?       → add to variables.css ONLY, then document here + design
 
 - Hairlines and nudges: `1px`, `6px`, `-6px`, `-25px`
 - Layout: `100%`, `max-width`, `flex`, `z-index`
-- Media queries: `@media (max-width: 768px)` — vars cannot be used in MQs
+- Media queries: `@media (width >= 768px)` — vars cannot be used in MQs. **`min-width` only** (see Mobile-first)
 - Transforms: `scale()`, `translateY()`
 - Unitless: `opacity`, `line-height`
 - Properties without tokens yet: `box-shadow`, micro `top`/`left` offsets
@@ -147,4 +203,8 @@ Need new token?       → add to variables.css ONLY, then document here + design
 - No importing global style files in components
 - No `:global()` unless scoped selectors fail
 - No new color/spacing values outside `variables.css`
+- **No `max-width` media queries** — mobile is the base, desktop is the enhancement
+- **No root font-size changes per breakpoint** — that shrinks every token at once
+- **No hover-only affordances** — invisible on touch
+- **No control below `--tap-target-min`**
 - **No copying token values into markdown** — causes drift

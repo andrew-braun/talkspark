@@ -53,8 +53,10 @@
 		justify-content: center;
 		align-items: center;
 		width: 100%;
-		max-width: 320px;
-		min-height: 38px;
+
+		// Primary actions get the larger target — this is the button the whole app exists
+		// to have you press.
+		min-height: var(--tap-target-lg);
 		padding: var(--spacing-sm) var(--spacing-md);
 		border: none;
 		border-radius: var(--border-radius-lg);
@@ -62,6 +64,11 @@
 		font-size: var(--font-size-md-lg);
 		font-weight: 600;
 		transition: var(--transition-std);
+
+		// Full-bleed on a phone; only capped once there's a desktop's worth of room.
+		@media (width >= 768px) {
+			max-width: 320px;
+		}
 
 		&:hover {
 			cursor: pointer;
@@ -79,7 +86,8 @@
 
 		&.variant-basic {
 			width: max-content;
-			min-height: 24px;
+			min-height: var(--tap-target-min);
+			padding: var(--spacing-sm) var(--spacing-lg);
 			background: transparent;
 			border: 1px solid var(--accent-color-2);
 			color: var(--text-color-light);

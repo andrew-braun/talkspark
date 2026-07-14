@@ -29,8 +29,8 @@
 <style lang="scss">
 	.followup {
 		display: flex;
-		align-items: center;
-		justify-content: space-between;
+		flex-direction: column;
+		align-items: stretch;
 		gap: var(--spacing-sm);
 		margin: var(--spacing-sm) 0;
 		padding: var(--spacing-sm) var(--spacing-md);
@@ -40,6 +40,16 @@
 		background: var(--spark-background-color);
 		list-style: none;
 
+		// The follow-up list sits outside `.spark`, so without this it inherits
+		// `text-align: center` from the home page container.
+		text-align: left;
+
+		@media (width >= 768px) {
+			flex-direction: row;
+			align-items: center;
+			justify-content: space-between;
+		}
+
 		.body {
 			flex: 1 1 auto;
 			min-width: 0;
@@ -48,15 +58,25 @@
 		.content {
 			margin: 0;
 			color: var(--text-color-light);
-			font-size: var(--font-size-sm);
+
+			// Was --font-size-sm, which landed at 9.6px on a phone under the old shrink.
+			// Follow-ups are body copy and need to be read, not squinted at.
+			font-size: var(--font-size-md);
 			line-height: 1.4;
 		}
 
 		.actions {
 			display: flex;
-			flex-direction: column;
+			flex-direction: row;
+			justify-content: flex-end;
 			align-items: center;
-			padding-left: var(--spacing-sm);
+			gap: var(--tap-gap-min);
+
+			@media (width >= 768px) {
+				flex-direction: column;
+				gap: 0;
+				padding-left: var(--spacing-sm);
+			}
 		}
 	}
 </style>

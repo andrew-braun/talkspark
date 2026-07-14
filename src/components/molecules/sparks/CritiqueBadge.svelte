@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Popover from 'components/atoms/overlays/Popover.svelte';
 	import type { CritiqueResult } from 'ts/critique';
 
 	let {
@@ -15,38 +16,64 @@
 		{ key: 'context_fit', label: 'Context' },
 		{ key: 'safety', label: 'Safety' },
 	] as const;
+
+	const summary = $derived(
+		`Critique: ${critique.passed ? 'passed' : 'failed'}. Clarity ${critique.scores.clarity}, answerability ${critique.scores.answerability}, context ${critique.scores.context_fit}, safety ${critique.scores.safety}`
+	);
 </script>
 
-<button
-	type="button"
-	class="critique-badge"
-	class:passed={critique.passed}
-	class:failed={!critique.passed}
-	style:--badge-gradient={`var(--gradient-${gradientIndex})`}
-	aria-label={`Critique: ${critique.passed ? 'passed' : 'failed'}. Clarity ${critique.scores.clarity}, answerability ${critique.scores.answerability}, context ${critique.scores.context_fit}, safety ${critique.scores.safety}`}
->
-	<span class="pill">{critique.passed ? 'Pass' : 'Fail'}</span>
-	<div class="scores" aria-hidden="true">
-		{#each gateLabels as gate (gate.key)}
-			<span class="score">
-				<span class="label">{gate.label}</span>
-				<span class="value">{critique.scores[gate.key]}</span>
-			</span>
-		{/each}
-	</div>
-</button>
+<!-- The scores used to live in a CSS `:hover` panel, which made them unreachable on
+     touch — a phone has no hover, so the panel never opened at all. It's a Zag popover
+     now: tap to open, outside-tap / Escape to dismiss. -->
+<div class="critique-badge-root" style:--badge-gradient={`var(--gradient-${gradientIndex})`}>
+	<Popover placement="bottom-start">
+		{#snippet trigger({ triggerProps, open })}
+			<button
+				{...triggerProps}
+				class="critique-badge"
+				class:passed={critique.passed}
+				class:failed={!critique.passed}
+				class:open
+				aria-label={summary}
+			>
+				<span class="pill">{critique.passed ? 'Pass' : 'Fail'}</span>
+			</button>
+		{/snippet}
+
+		{#snippet content()}
+			<div class="scores">
+				{#each gateLabels as gate (gate.key)}
+					<span class="score">
+						<span class="label">{gate.label}</span>
+						<span class="value">{critique.scores[gate.key]}</span>
+					</span>
+				{/each}
+			</div>
+		{/snippet}
+	</Popover>
+</div>
 
 <style lang="scss">
-	.critique-badge {
-		position: relative;
-		flex-shrink: 0;
+	.critique-badge-root {
+		display: flex;
 		align-self: flex-start;
-		margin-bottom: var(--spacing-xs);
+	}
+
+	.critique-badge {
+		display: inline-flex;
+		align-items: center;
+
+		// The hit area is a full 44px square while the pill inside stays visually small —
+		// the target grows, the design doesn't. min-width matters because the "Fail" label
+		// is narrower than "Pass" and would otherwise fall under the floor on its own.
+		justify-content: center;
+		min-width: var(--tap-target-min);
+		min-height: var(--tap-target-min);
 		padding: 0;
 		border: none;
 		background: transparent;
 		text-align: left;
-		cursor: default;
+		cursor: pointer;
 
 		.pill {
 			display: inline-block;
@@ -70,28 +97,15 @@
 			color: var(--text-color-light);
 		}
 
-		.scores {
-			position: absolute;
-			top: calc(100% + var(--spacing-xs));
-			left: 0;
-			z-index: 2;
-			display: flex;
-			gap: var(--spacing-sm);
-			padding: var(--spacing-sm);
-			border: var(--spark-border);
-			border-radius: var(--border-radius-sm);
-			background: var(--spark-background-color);
-			opacity: 0;
-			visibility: hidden;
-			pointer-events: none;
-			transition: var(--transition-std);
+		&.open .pill,
+		&:hover .pill {
+			opacity: 0.85;
 		}
+	}
 
-		&:hover .scores,
-		&:focus-within .scores {
-			opacity: 1;
-			visibility: visible;
-		}
+	.scores {
+		display: flex;
+		gap: var(--spacing-sm);
 
 		.score {
 			display: flex;

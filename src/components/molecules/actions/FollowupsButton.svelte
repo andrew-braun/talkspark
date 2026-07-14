@@ -34,10 +34,15 @@
 <style lang="scss">
 	.action {
 		position: relative;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		min-width: var(--tap-target-min);
+		min-height: var(--tap-target-min);
+		padding: 0;
 		border: none;
 		background: transparent;
 		color: var(--text-color-light);
-		margin: var(--spacing-xs) 0;
 		font-size: var(--font-size-md-lg);
 		line-height: 1;
 

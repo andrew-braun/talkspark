@@ -57,12 +57,19 @@
 		gap: var(--spacing-lg);
 		width: 100%;
 
+		// Mobile: a 2x2 grid of full-width pills, so each lever is a large, unambiguous
+		// target. Desktop: back to a centered wrapping row.
 		.lever-row {
-			display: flex;
-			flex-wrap: wrap;
-			justify-content: center;
+			display: grid;
+			grid-template-columns: 1fr 1fr;
 			gap: var(--spacing-sm);
 			width: 100%;
+
+			@media (width >= 768px) {
+				display: flex;
+				flex-wrap: wrap;
+				justify-content: center;
+			}
 		}
 	}
 </style>

@@ -14,12 +14,20 @@
 
 <style lang="scss">
 	.chip {
-		padding: var(--spacing-xs) var(--spacing-md);
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+
+		// min-width matters as much as min-height here: the depth/controversy chips are
+		// single digits, so without it they'd be 44px tall and ~20px wide.
+		min-width: var(--tap-target-min);
+		min-height: var(--tap-target-min);
+		padding: var(--spacing-sm) var(--spacing-lg);
 		border: 1px solid var(--tertiary-color);
 		border-radius: var(--border-radius-xl);
 		background: transparent;
 		color: var(--text-color-light);
-		font-size: var(--font-size-sm);
+		font-size: var(--font-size-md);
 		font-weight: 500;
 		line-height: 1;
 		transition: var(--transition-std);

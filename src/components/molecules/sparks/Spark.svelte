@@ -45,9 +45,13 @@
 	.spark {
 		flex: 1 1 auto;
 		position: relative;
+
+		// Mobile: content over actions, so the starter text gets the full card width
+		// instead of competing with an icon rail. Desktop restores the side-by-side row.
 		display: flex;
-		align-items: center;
-		justify-content: space-between;
+		flex-direction: column;
+		align-items: stretch;
+		gap: var(--spacing-sm);
 		width: 100%;
 		padding: var(--spacing-md);
 		border: var(--spark-border);
@@ -55,6 +59,13 @@
 		background: var(--spark-background-color);
 		text-align: left;
 		line-height: 1.4;
+
+		@media (width >= 768px) {
+			flex-direction: row;
+			align-items: center;
+			justify-content: space-between;
+			gap: 0;
+		}
 
 		.body {
 			flex: 1 1 auto;

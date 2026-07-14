@@ -1,3 +1,8 @@
+// Mobile-first: this base is authored for a phone, and `min-width` queries add
+// desktop on top. The old rule shrank the root to 50% below 768px, scaling every
+// rem token down 20% on exactly the devices with the least precise input. One base
+// now holds everywhere — 1rem = 10px — so a token means the same thing on a phone
+// as on a desktop.
 html {
 	background: var(--background-color);
 	font-family: var(--body-font-family);
@@ -5,15 +10,23 @@ html {
 	color: var(--text-color-light);
 	box-sizing: border-box;
 
-	@media (width <= 768px) {
-		font-size: 50%;
-	}
+	// Stop iOS Safari inflating text in landscape, which breaks the rem scale.
+	text-size-adjust: 100%;
 }
 
 *,
 *::before,
 *::after {
 	box-sizing: inherit;
+}
+
+// Touch ergonomics for every control: kill the 300ms double-tap delay and the grey
+// flash iOS paints over taps.
+button,
+a,
+[role='button'] {
+	touch-action: manipulation;
+	-webkit-tap-highlight-color: transparent;
 }
 
 body {
@@ -60,6 +73,12 @@ ul li {
 	line-height: 1.4;
 }
 
+// Mobile gets tighter gutters so content keeps the width it needs; desktop can afford
+// to breathe.
 .page-spacing {
-	padding: var(--spacing-lg) var(--spacing-xl);
+	padding: var(--spacing-lg) var(--spacing-md);
+
+	@media (width >= 768px) {
+		padding: var(--spacing-lg) var(--spacing-xl);
+	}
 }

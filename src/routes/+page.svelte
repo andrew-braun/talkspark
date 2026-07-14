@@ -18,11 +18,21 @@
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
-		margin-top: 10dvh;
 		text-align: center;
 
+		// A phone screen can't spare 10dvh above the fold just to centre things; desktop can.
+		margin-top: var(--spacing-lg);
+
+		@media (width >= 768px) {
+			margin-top: 10dvh;
+		}
+
 		.subtitle {
-			margin-bottom: var(--spacing-xxl);
+			margin-bottom: var(--spacing-xl);
+
+			@media (width >= 768px) {
+				margin-bottom: var(--spacing-xxl);
+			}
 		}
 
 		.conversation-container {

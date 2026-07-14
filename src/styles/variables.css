@@ -57,4 +57,14 @@
 	--border-radius-lg: 8px;
 	--border-radius-xl: 16px;
 	--transition-std: all 0.3s ease-in-out;
+
+	/* Touch targets. Deliberately px, not rem: a fingertip is a fixed physical size,
+	   so these must never ride the type scale the way spacing does. 44px is the
+	   WCAG 2.5.8 / Apple HIG floor; -lg is for primary actions. */
+	--tap-target-min: 44px;
+	--tap-target-lg: 48px;
+	--tap-gap-min: 8px;
+
+	/* Elevation for floating surfaces (popovers, toasts). */
+	--box-shadow: 0 4px 16px hsl(0deg 0% 0% / 35%);
 }

@@ -51,11 +51,13 @@
 			margin-left: auto;
 		}
 
+		// Was `width: max-content`, which let the column grow past a phone's viewport.
 		.response-container {
 			display: flex;
 			flex-direction: column;
 			align-items: center;
-			width: max-content;
+			width: 100%;
+			max-width: 600px;
 
 			.actions {
 				display: flex;

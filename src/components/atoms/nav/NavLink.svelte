@@ -12,10 +12,12 @@
 <style lang="scss">
 	.nav-link {
 		position: relative;
-		display: block;
+		display: inline-flex;
+		align-items: center;
+		min-height: var(--tap-target-min);
 		color: var(--text-color-dark);
 		text-decoration: none;
-		padding: var(--spacing-md);
+		padding: var(--spacing-sm) var(--spacing-lg);
 		border-radius: var(--border-radius-sm);
 		transition: all 0.3s ease-in-out;
 		background-image: var(--gradient-5);

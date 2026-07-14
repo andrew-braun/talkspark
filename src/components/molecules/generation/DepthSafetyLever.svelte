@@ -75,14 +75,23 @@
 		display: flex;
 		flex-direction: column;
 		align-items: flex-start;
+		justify-content: center;
+
+		// Fills its grid cell on mobile and shrinks to content once there's a desktop row.
+		width: 100%;
+		min-height: var(--tap-target-min);
 		gap: var(--spacing-xs);
-		padding: var(--spacing-xs) var(--spacing-md);
+		padding: var(--spacing-sm) var(--spacing-md);
 		border: 1px solid var(--tertiary-color);
 		border-radius: var(--border-radius-lg);
 		background: transparent;
 		color: var(--text-color-light);
 		text-align: left;
 		transition: var(--transition-std);
+
+		@media (width >= 768px) {
+			width: auto;
+		}
 
 		&:hover,
 		&.open {
@@ -124,7 +133,7 @@
 		gap: var(--spacing-xs);
 
 		&:not(:last-child) {
-			margin-bottom: var(--spacing-sm);
+			margin-bottom: var(--spacing-md);
 		}
 
 		.sub-label {
@@ -135,7 +144,7 @@
 		.chip-row {
 			display: flex;
 			flex-wrap: wrap;
-			gap: var(--spacing-xs);
+			gap: var(--tap-gap-min);
 		}
 	}
 </style>

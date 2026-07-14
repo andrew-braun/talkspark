@@ -14,6 +14,7 @@
 <style lang="scss">
 	.popup {
 		position: absolute;
+		z-index: 50;
 		top: -1.6em;
 		right: -10px;
 		background: var(--accent-color-6);
