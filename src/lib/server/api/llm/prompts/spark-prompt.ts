@@ -7,7 +7,7 @@ import {
 import type { ResolvedGenerationParams } from 'lib/server/generation/resolve-params';
 import { DEFAULT_LEVER_VALUE } from 'ts/params';
 
-export const GENERATION_PROMPT_VERSION = 'v2';
+export const GENERATION_PROMPT_VERSION = 'v3';
 
 export const SPARK_SYSTEM_INSTRUCTION = `You are TalkSpark, a conversation-starter engine. Generate original conversation sparks as strict JSON matching the provided schema.
 
@@ -32,8 +32,8 @@ const DEPTH_GUIDANCE = {
 	1: 'light and immediately answerable; no meaningful disclosure',
 	2: 'personal preference or small experience; low disclosure',
 	3: 'reflective but comfortable; moderate disclosure with an easy pass',
-	4: 'meaningful and personal; clear vulnerability without therapy framing',
-	5: 'deep vulnerability; require strong consent and a safe relationship fit',
+	4: 'meaningful personal material such as convictions, unresolved tensions, consequential experiences, or vulnerable tradeoffs; include an easy pass and avoid therapy framing',
+	5: 'emotionally exposing reflection on identity, regret, fear, meaning, belonging, or deeply held values; require strong consent, an easy pass, and safe relationship fit without demanding disclosure',
 } as const;
 
 const CONTROVERSY_GUIDANCE = {
@@ -41,8 +41,8 @@ const CONTROVERSY_GUIDANCE = {
 	1: 'allow harmless differences in taste only',
 	2: 'allow mild tradeoffs without personal stakes',
 	3: 'allow substantive disagreement with receptive framing',
-	4: 'allow sensitive disagreement only with explicit care and an easy pass',
-	5: 'high-contention territory; require explicit receptiveness and strong safety framing',
+	4: 'invite clearly polarizing moral, cultural, social, political, or relationship questions with personal stakes and multiple defensible positions; frame with care and an easy pass',
+	5: 'permit genuinely divisive or taboo territory that challenges assumptions and can produce substantial disagreement; never target participants or protected groups, dehumanize people, or manufacture interpersonal conflict',
 } as const;
 
 function labelFor<T extends string>(options: { value: T; label: string }[], value: T): string {
@@ -86,6 +86,8 @@ ${vibe}
 ${depth}
 ${controversy}
 
+Concrete numeric depth and controversy selections are target intensities, not ceilings. Use the requested levels fully while preserving relationship fit and every safety rule.
+
 Do not mention or paraphrase lever labels unless independently necessary to understand the question.
 
 Each spark must match the active constraints above and include the requested classifications plus a seed_follow_up — a natural second question that deepens without interrogating.
@@ -95,5 +97,5 @@ The three sparks must use these spark_variant values exactly once each:
 2. "contrast" — an opposite or contrasting angle that still fits the active constraints
 3. "playful_weird" — playful, funny, or unexpected while staying safe for the selected depth and controversy levels
 
-Classify each spark conservatively. Use conservative depth and controversy labels when uncertain.`;
+Classify each spark accurately based on its actual content. Do not soften a requested intensity merely to earn a lower depth or controversy classification.`;
 }
