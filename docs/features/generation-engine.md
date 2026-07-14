@@ -111,9 +111,11 @@ Suggest a rewrite only if the spark is promising.
 ```
 
 ```text # classification
-Classify the spark by topic, relationship context, conversation goal, motive, vibe,
-depth, controversy, answer shape, reciprocity mode, group fit, conversation skill,
-and safety boundaries. Use conservative depth and controversy labels.
+Treat categorical generation inputs as authoritative constraints; do not reclassify
+relationship context, topic lens, conversation goal, or vibe. Classify only the fields
+the model decides: spark variant, motive, depth, controversy, humor, answer shape,
+reciprocity mode, follow-up potential, conversation skill, and seed follow-up. Use
+conservative depth and controversy labels.
 ```
 
 ## Server Boundaries

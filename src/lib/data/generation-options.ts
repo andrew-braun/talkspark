@@ -55,7 +55,7 @@ export const DEPTH_LEVEL_MAX = 5;
 export const CONTROVERSY_LEVEL_MIN = 0;
 export const CONTROVERSY_LEVEL_MAX = 5;
 
-// Most generally-optimal, zero-config selections (generation-engine.md "one-button default").
+// Automatic broad-neutral, zero-config selections (generation-engine.md "one-button default").
 export const DEFAULT_GENERATION_PARAMS: GenerationParams = {
 	type: 'random',
 	relationship_context: DEFAULT_LEVER_VALUE,

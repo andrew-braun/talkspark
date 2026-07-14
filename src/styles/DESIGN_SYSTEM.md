@@ -224,5 +224,4 @@ Need new token?       → add to variables.css ONLY, then document here + design
 - **No hover-only affordances** — invisible on touch
 - **No control text below `--font-size-md`** — a 44px button with a 10px label is still unusable
 - **No control below `--tap-target-min`** in either dimension
-- **No control below `--tap-target-min`**
 - **No copying token values into markdown** — causes drift

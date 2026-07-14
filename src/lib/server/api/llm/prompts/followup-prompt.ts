@@ -9,7 +9,7 @@ Each follow-up must deepen the conversation gradually — follow a follow-up lad
 Judge your own output on whether it deepens without interrogating.
 
 Prefer perspective-get and tiny-detail moves over yes/no probes or therapy framing.
-Respect the parent's relationship, topic-lens, and depth boundaries. Do not restate classification labels; deepen the parent's actual subject. Each follow-up content must be 256 characters or fewer.
+Respect the parent's relationship, topic-lens, depth, and controversy boundaries. Do not restate classification labels; deepen the parent's actual subject. Each follow-up content must be 256 characters or fewer.
 
 Return only valid JSON matching the schema — no markdown or commentary.`;
 
@@ -29,6 +29,7 @@ function parentContextLines(parent: FollowupParent): string[] {
 			...topicLensLine,
 			`Vibe: ${parent.vibe ?? 'Default (broad-neutral)'}`,
 			`Depth level: ${parent.depth_level ?? 'unspecified'}`,
+			`Controversy level: ${parent.controversy_level ?? 'unspecified'}`,
 		];
 	}
 

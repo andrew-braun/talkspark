@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { buildFollowupPrompt, isTopicParent } from './followup-prompt';
+import { buildFollowupPrompt, FOLLOWUP_SYSTEM_INSTRUCTION, isTopicParent } from './followup-prompt';
 import type { Spark } from 'ts/spark';
 import type { Topic } from 'ts/topic';
 
@@ -46,6 +46,14 @@ describe('buildFollowupPrompt', () => {
 
 		expect(prompt).toContain('Childhood road trips');
 		expect(prompt).not.toContain('Parent spark:');
+	});
+
+	it('preserves topic-parent controversy boundaries', () => {
+		const parent: Topic = { ...sampleTopic, controversy_level: 4 };
+		const prompt = buildFollowupPrompt(parent);
+
+		expect(FOLLOWUP_SYSTEM_INSTRUCTION).toContain('controversy');
+		expect(prompt).toContain('Controversy level: 4');
 	});
 });
 
