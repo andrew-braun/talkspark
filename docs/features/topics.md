@@ -35,7 +35,7 @@ A topic is essentially a mini prep-brief:
 - `facts_or_links` — a fact or two and/or curated links with original summaries
   (never copied source text)
 - `things_to_avoid` — optional guardrails
-- shared serving metadata with sparks: `relationship_context`, `setting`,
+- shared serving metadata with sparks: `relationship_context`, `topic_lens`,
   `depth_level`, `humor_level`, `controversy_level`, etc.
 
 ## Behaviors

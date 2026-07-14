@@ -36,34 +36,40 @@ starts in `metadata`.
 
 Serving / queryable (top-level columns later; explicit TS fields now):
 
-| Field                               | Meaning                             | Example values                                                      |
-| ----------------------------------- | ----------------------------------- | ------------------------------------------------------------------- |
-| `id`                                | UUID                                |                                                                     |
-| `content`                           | the spark text                      |                                                                     |
-| `relationship_context`              | prevents social mismatch            | first_date, partner, family, close_friend, coworker, team, stranger |
-| `setting`                           | changes appropriateness             | dinner, road_trip, meeting, classroom, party, online_chat           |
-| `conversation_goal`                 | the job of the spark                | break_ice, reconnect, laugh, reflect, repair, debate, brainstorm    |
-| `conversation_motive`               | informational vs. relational        | learn, affiliate, coordinate, persuade, play, support               |
-| `vibe` / `emotional_tone`           | how it should land                  | playful, warm, thoughtful, weird, romantic, nostalgic               |
-| `depth_level`                       | pacing and consent                  | 1 (small talk) to 5 (vulnerable)                                    |
-| `controversy_level`                 | prevents surprise conflict          | 0 to 5                                                              |
-| `humor_level`                       | nods to levity (see note)           | 0 to 5                                                              |
-| `group_size_min` / `group_size_max` | group prompts differ from dyads     | 1, 2, 3, 8                                                          |
-| `group_safety_level`                | surprise-intensity guard for groups | 1 to 5                                                              |
-| `answer_shape`                      | helps users answer concretely       | story, memory, ranking, tradeoff, recommendation, prediction        |
-| `reciprocity_mode`                  | supports mutuality                  | one_person, everyone_answers, answer_then_ask, pass_the_question    |
-| `vulnerability_ramp`                | escalation behavior                 | steady, escalating, capped, random_within_bounds                    |
-| `follow_up_potential`               | can it continue                     | 1 to 5                                                              |
-| `conversation_skill`                | connects spark to learning          | follow_up, listen, callback, perspective_get, common_ground, repair |
-| `source_type`                       | provenance                          | ai_generated, human_written, imported, user_submitted, remixed      |
-| `status`                            | lifecycle (see workflow)            | draft … featured … retired                                          |
-| `visibility`                        | public, private, unlisted           |                                                                     |
-| `quality_score`                     | rollup of review scores             | numeric                                                             |
-| `created_at` / `updated_at`         | timestamps                          |                                                                     |
+| Field                               | Meaning                              | Example values                                                                                                 |
+| ----------------------------------- | ------------------------------------ | -------------------------------------------------------------------------------------------------------------- |
+| `id`                                | UUID                                 |                                                                                                                |
+| `content`                           | the spark text                       |                                                                                                                |
+| `relationship_context`              | prevents social mismatch             | first_date, partner, family, close_friend, coworker, team, stranger                                            |
+| `topic_lens`                        | guides the spark's subject territory | everyday_life, stories_memories, interests_culture, hopes_plans, ideas_perspectives, imagination_hypotheticals |
+| `conversation_goal`                 | the job of the spark                 | break_ice, reconnect, laugh, reflect, repair, debate, brainstorm                                               |
+| `conversation_motive`               | informational vs. relational         | learn, affiliate, coordinate, persuade, play, support                                                          |
+| `vibe` / `emotional_tone`           | how it should land                   | playful, warm, thoughtful, weird, romantic, nostalgic                                                          |
+| `depth_level`                       | pacing and consent                   | 1 (small talk) to 5 (vulnerable)                                                                               |
+| `controversy_level`                 | prevents surprise conflict           | 0 to 5                                                                                                         |
+| `humor_level`                       | nods to levity (see note)            | 0 to 5                                                                                                         |
+| `group_size_min` / `group_size_max` | group prompts differ from dyads      | 1, 2, 3, 8                                                                                                     |
+| `group_safety_level`                | surprise-intensity guard for groups  | 1 to 5                                                                                                         |
+| `answer_shape`                      | helps users answer concretely        | story, memory, ranking, tradeoff, recommendation, prediction                                                   |
+| `reciprocity_mode`                  | supports mutuality                   | one_person, everyone_answers, answer_then_ask, pass_the_question                                               |
+| `vulnerability_ramp`                | escalation behavior                  | steady, escalating, capped, random_within_bounds                                                               |
+| `follow_up_potential`               | can it continue                      | 1 to 5                                                                                                         |
+| `conversation_skill`                | connects spark to learning           | follow_up, listen, callback, perspective_get, common_ground, repair                                            |
+| `source_type`                       | provenance                           | ai_generated, human_written, imported, user_submitted, remixed                                                 |
+| `status`                            | lifecycle (see workflow)             | draft … featured … retired                                                                                     |
+| `visibility`                        | public, private, unlisted            |                                                                                                                |
+| `quality_score`                     | rollup of review scores              | numeric                                                                                                        |
+| `created_at` / `updated_at`         | timestamps                           |                                                                                                                |
 
 Descriptive / rarely-queried (live in `metadata` until a query needs them):
 `energy_level`, `safety_boundaries`, `evidence_principles`, `review_scores`,
 `generation_prompt_version`, `language`, `locale`, `estimated_minutes`, generation params.
+
+> **Input-only Default.** `default` is a generation-surface selection, not a settled spark
+> taxonomy value. It requests automatic broad-neutral behavior based on the other active
+> constraints, so generated objects omit Default categorical fields. The legacy `setting`
+> field remains only on existing local Spark and Topic objects until a storage migration is
+> warranted.
 
 > **Note on `humor_level` / levity.** Humor is the hardest dimension to capture — it is
 > deeply subjective and situational. We model it as a dimension that _nods to its
@@ -82,20 +88,20 @@ Descriptive / rarely-queried (live in `metadata` until a query needs them):
 
 Score each dimension 1–5 during AI critique and human review.
 
-| Dimension           | High score means                      | Low score means                                   |
-| ------------------- | ------------------------------------- | ------------------------------------------------- |
-| Clarity             | Understandable in one read            | Confusing or over-composed                        |
-| Answerability       | Ordinary people can answer            | Requires rare knowledge or too much introspection |
-| Specificity         | Gives a concrete path in              | Too broad or generic                              |
-| Openness            | Invites elaboration                   | Answerable with yes/no only                       |
-| Story Potential     | Naturally elicits a moment or example | Stays abstract                                    |
-| Follow-Up Potential | Suggests obvious next questions       | Dead-ends after first answer                      |
-| Reciprocity         | Works shared back and forth           | Feels like interrogation                          |
-| Context Fit         | Matches relationship and setting      | Socially mismatched                               |
-| Depth Fit           | Matches selected vulnerability level  | Too intense or too shallow                        |
-| Safety              | Avoids surprise harm or pressure      | Pushy, loaded, or unsafe                          |
-| Novelty             | Fresh but not weird for its own sake  | Cliché or AI mush                                 |
-| Warmth              | Feels inviting                        | Feels clinical, smug, or performative             |
+| Dimension           | High score means                              | Low score means                                   |
+| ------------------- | --------------------------------------------- | ------------------------------------------------- |
+| Clarity             | Understandable in one read                    | Confusing or over-composed                        |
+| Answerability       | Ordinary people can answer                    | Requires rare knowledge or too much introspection |
+| Specificity         | Gives a concrete path in                      | Too broad or generic                              |
+| Openness            | Invites elaboration                           | Answerable with yes/no only                       |
+| Story Potential     | Naturally elicits a moment or example         | Stays abstract                                    |
+| Follow-Up Potential | Suggests obvious next questions               | Dead-ends after first answer                      |
+| Reciprocity         | Works shared back and forth                   | Feels like interrogation                          |
+| Context Fit         | Matches active relationship/topic constraints | Socially mismatched                               |
+| Depth Fit           | Matches selected vulnerability level          | Too intense or too shallow                        |
+| Safety              | Avoids surprise harm or pressure              | Pushy, loaded, or unsafe                          |
+| Novelty             | Fresh but not weird for its own sake          | Cliché or AI mush                                 |
+| Warmth              | Feels inviting                                | Feels clinical, smug, or performative             |
 
 ### Two-tier review
 

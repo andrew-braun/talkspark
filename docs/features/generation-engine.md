@@ -28,16 +28,19 @@ so the eventual DB migration is mechanical.
 
 ## Generation Surface
 
-- **One-button default.** The most generally-optimal settings are pre-selected; a user can
-  hit the button and get a great spark with zero configuration. This is the primary entry
-  point and the core of onboarding — the app should be obvious enough to need no tour
-  (offer an optional one).
-- **Four levers** (visible, compact): People & setting, Conversation goal, Vibe,
+- **One-button default.** A user can hit the button and get a great spark with zero
+  configuration. This is the primary entry point and the core of onboarding — the app
+  should be obvious enough to need no tour (offer an optional one).
+- **Four levers** (visible, compact): People & topic, Conversation goal, Vibe,
   Depth & safety. Powerful enough to shape results, simple enough to grasp at a glance.
   **Depth & safety is a marquee control**, not a buried setting — it's our clearest differentiator
   against unguarded generators (see
   [../strategy/competitive-analysis.md](../strategy/competitive-analysis.md)), so it stays visible
   and demonstrable.
+- **Default means automatic.** Each Default selection asks the generator for broad-neutral
+  behavior informed by the other active constraints, rather than choosing a hidden fixed
+  label. Selected labels shape the spark's substance and suitability; the generated text
+  should not echo those labels literally.
 - **`More options`** reveals advanced levers behind progressive disclosure. Deferred from
   slice 1.
 - **Natural-language box** (later): turn free text into structured parameters.
