@@ -69,6 +69,7 @@
 	},
 	"dependencies": {
 		"@anthropic-ai/sdk": "^0.107.0",
+		"@zag-js/dialog": "^1.42.0",
 		"@zag-js/popover": "^1.42.0",
 		"@zag-js/svelte": "^1.42.0",
 		"openai": "^6.37.0",

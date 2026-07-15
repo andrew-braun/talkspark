@@ -36,6 +36,23 @@
 		var(--accent-color-5),
 		var(--accent-color-6)
 	);
+
+	/* Per-lever accents: each generation lever owns one hue so its chips, dots, and
+	   sentence words read as a family. Aliases onto the accent palette — never new colors. */
+	--lever-who: var(--accent-color-2);
+	--lever-topic: var(--accent-color-6);
+	--lever-goal: var(--accent-color-5);
+	--lever-vibe: var(--accent-color-4);
+	--lever-depth: var(--accent-color-1);
+	--lever-safety: var(--accent-color-3);
+
+	/* Ink for text sitting on a filled (selected) chip — its accent fill is bright, so the
+	   label goes near-black rather than the usual light-on-dark. */
+	--chip-selected-ink: hsl(244deg 41% 7%);
+
+	/* Neutral fill for a selected "Default" chip: default is the unset baseline, so it reads
+	   as a muted highlight rather than taking on a lever accent. */
+	--chip-muted-fill: hsl(0deg 0% 100% / 12%);
 	--body-font-family: 'Roboto', sans-serif;
 	--heading-font-family: 'Roboto', sans-serif;
 
@@ -72,4 +89,7 @@
 
 	/* Elevation for floating surfaces (popovers, toasts). */
 	--box-shadow: 0 4px 16px hsl(0deg 0% 0% / 35%);
+
+	/* Dimming scrim behind a modal surface (the Customize sheet's backdrop). */
+	--scrim-color: hsl(0deg 0% 0% / 55%);
 }

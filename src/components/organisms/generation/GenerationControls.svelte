@@ -1,50 +1,42 @@
 <script lang="ts">
 	import { generationParams } from 'stores/generation.svelte';
-	import PeopleTopicLever from 'components/molecules/generation/PeopleTopicLever.svelte';
-	import LeverSelect from 'components/molecules/generation/LeverSelect.svelte';
-	import DepthSafetyLever from 'components/molecules/generation/DepthSafetyLever.svelte';
+	import SparkSentence from 'components/molecules/generation/SparkSentence.svelte';
+	import CustomizeSheet from 'components/organisms/generation/CustomizeSheet.svelte';
 	import GenerateSparksButton from 'components/organisms/sparks/GenerateSparksButton.svelte';
-	import {
-		RELATIONSHIP_CONTEXT_OPTIONS,
-		TOPIC_LENS_OPTIONS,
-		CONVERSATION_GOAL_OPTIONS,
-		VIBE_OPTIONS,
-		DEFAULT_GENERATION_PARAMS,
-	} from 'lib/data/generation-options';
+	import { activeLeverCount, type LeverKey } from 'lib/data/generation-options';
 
 	let { onGenerate = async () => {} }: { onGenerate?: () => Promise<void> } = $props();
+
+	let sheetOpen = $state(false);
+	let focusField = $state<LeverKey | null>(null);
+
+	// Badge count: one per set lever, 0–6.
+	const activeCount = $derived(activeLeverCount(generationParams));
+
+	function openSheet(field: LeverKey | null = null) {
+		focusField = field;
+		sheetOpen = true;
+	}
 </script>
 
 <div class="generation-controls">
-	<div class="lever-row">
-		<PeopleTopicLever
-			relationshipOptions={RELATIONSHIP_CONTEXT_OPTIONS}
-			topicOptions={TOPIC_LENS_OPTIONS}
-			relationshipValue={generationParams.relationship_context}
-			topicValue={generationParams.topic_lens}
-			onSelectRelationship={(v) => (generationParams.relationship_context = v)}
-			onSelectTopic={(v) => (generationParams.topic_lens = v)}
-		/>
+	<SparkSentence onEditLever={(key) => openSheet(key)} />
 
-		<LeverSelect
-			label="Conversation goal"
-			options={CONVERSATION_GOAL_OPTIONS}
-			value={generationParams.conversation_goal}
-			onSelect={(v) => (generationParams.conversation_goal = v)}
-		/>
+	<button
+		type="button"
+		class="customize"
+		class:active={activeCount > 0}
+		aria-haspopup="dialog"
+		aria-expanded={sheetOpen}
+		onclick={() => openSheet(null)}
+	>
+		<span>Customize</span>
+		{#if activeCount > 0}
+			<span class="badge" aria-label={`${activeCount} settings changed`}>{activeCount}</span>
+		{/if}
+	</button>
 
-		<LeverSelect
-			label="Vibe"
-			options={VIBE_OPTIONS}
-			value={generationParams.vibe}
-			onSelect={(v) => (generationParams.vibe = v)}
-		/>
-
-		<DepthSafetyLever
-			value={generationParams.depth_and_safety ?? DEFAULT_GENERATION_PARAMS.depth_and_safety!}
-			onSelect={(v) => (generationParams.depth_and_safety = v)}
-		/>
-	</div>
+	<CustomizeSheet open={sheetOpen} onOpenChange={(value) => (sheetOpen = value)} {focusField} />
 
 	<GenerateSparksButton onClick={onGenerate} />
 </div>
@@ -57,19 +49,46 @@
 		gap: var(--spacing-lg);
 		width: 100%;
 
-		// Mobile: levers stack one per row. A 2x2 grid was tried first, but a half-width cell
-		// can't fit a 16px label beside its value, and the text floor wins over density.
-		// Desktop: back to a centered wrapping row.
-		.lever-row {
-			display: grid;
-			grid-template-columns: 1fr;
+		.customize {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
 			gap: var(--spacing-sm);
-			width: 100%;
+			min-height: var(--tap-target-lg);
+			padding: 0 var(--spacing-lg);
+			border: 1px solid var(--tertiary-color);
+			border-radius: var(--border-radius-lg);
+			background: transparent;
+			color: var(--text-color-light);
+			font-size: var(--font-size-md);
+			font-weight: 600;
+			transition: var(--transition-std);
 
-			@media (width >= 768px) {
-				display: flex;
-				flex-wrap: wrap;
+			&:hover {
+				cursor: pointer;
+				border-color: var(--accent-color-5);
+			}
+
+			// When any lever is set, the button carries the brand accent to read as "tuned".
+			&.active {
+				border-color: transparent;
+				background: var(--spark-background-color);
+				box-shadow: inset 0 0 0 1px var(--accent-color-5);
+			}
+
+			.badge {
+				display: inline-flex;
+				align-items: center;
 				justify-content: center;
+				min-width: 22px;
+				height: 22px;
+				padding: 0 var(--spacing-xs);
+				border-radius: var(--border-radius-xl);
+				background: var(--gradient-1);
+				color: var(--chip-selected-ink);
+				font-size: var(--font-size-md-sm);
+				font-weight: 700;
+				line-height: 1;
 			}
 		}
 	}
