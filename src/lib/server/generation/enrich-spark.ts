@@ -30,6 +30,9 @@ export function enrichSpark(
 			depth_and_safety.controversy_level === DEFAULT_LEVER_VALUE
 				? generated.controversy_level
 				: depth_and_safety.controversy_level,
+		// Empty selection is the multi-select "default" — omit it like the sentinel levers.
+		sensitive_topics:
+			resolved.sensitive_topics.length > 0 ? resolved.sensitive_topics : undefined,
 		conversation_motive: generated.conversation_motive,
 		humor_level: generated.humor_level,
 		answer_shape: generated.answer_shape,

@@ -13,6 +13,7 @@
 	--accent-color-4: hsl(285deg 76% 59% / 100%);
 	--accent-color-5: hsl(209deg 92% 60% / 100%);
 	--accent-color-6: hsl(169deg 79% 57% / 100%);
+	--accent-color-7: hsl(16deg 90% 60% / 100%);
 	--gradient-1: linear-gradient(
 		90deg,
 		var(--accent-color-2),
@@ -45,6 +46,7 @@
 	--lever-vibe: var(--accent-color-4);
 	--lever-depth: var(--accent-color-1);
 	--lever-safety: var(--accent-color-3);
+	--lever-sensitive: var(--accent-color-7);
 
 	/* Ink for text sitting on a filled (selected) chip — its accent fill is bright, so the
 	   label goes near-black rather than the usual light-on-dark. */

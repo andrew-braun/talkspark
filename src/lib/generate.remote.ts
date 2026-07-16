@@ -12,7 +12,13 @@ import {
 import { critiqueSparks } from 'lib/server/critique';
 import { enrichSpark } from 'lib/server/generation/enrich-spark';
 import { resolveGenerationParams } from 'lib/server/generation/resolve-params';
-import { CONVERSATION_GOALS, RELATIONSHIP_CONTEXTS, TOPIC_LENSES, VIBES } from 'ts/spark';
+import {
+	CONVERSATION_GOALS,
+	RELATIONSHIP_CONTEXTS,
+	SENSITIVE_TOPICS,
+	TOPIC_LENSES,
+	VIBES,
+} from 'ts/spark';
 import { DEFAULT_LEVER_VALUE } from 'ts/params';
 import type { SparkData } from 'ts/sparks';
 
@@ -40,6 +46,7 @@ const generationParamsSchema = v.object({
 	conversation_goal: v.optional(v.union([defaultSelection, v.picklist(CONVERSATION_GOALS)])),
 	vibe: v.optional(v.union([defaultSelection, v.picklist(VIBES)])),
 	depth_and_safety: v.optional(depthAndSafetySchema),
+	sensitive_topics: v.optional(v.array(v.picklist(SENSITIVE_TOPICS))),
 });
 
 export const generateSparks = command(generationParamsSchema, async (params) => {

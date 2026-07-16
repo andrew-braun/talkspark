@@ -1,4 +1,10 @@
-import type { ConversationGoal, RelationshipContext, TopicLens, Vibe } from 'ts/spark';
+import type {
+	ConversationGoal,
+	RelationshipContext,
+	SensitiveTopic,
+	TopicLens,
+	Vibe,
+} from 'ts/spark';
 import {
 	DEFAULT_LEVER_VALUE,
 	type DefaultLeverValue,
@@ -54,6 +60,17 @@ export const VIBE_OPTIONS: LeverOption<LeverSelection<Vibe>>[] = [
 	{ value: 'nostalgic', label: 'Nostalgic' },
 ];
 
+// Multi-select lever: no Default entry — an empty selection is the default state.
+export const SENSITIVE_TOPIC_OPTIONS: LeverOption<SensitiveTopic>[] = [
+	{ value: 'sex', label: 'Sex' },
+	{ value: 'religion', label: 'Religion' },
+	{ value: 'politics', label: 'Politics' },
+	{ value: 'death', label: 'Death' },
+	{ value: 'money', label: 'Money' },
+	{ value: 'drugs_alcohol', label: 'Drugs & alcohol' },
+	{ value: 'mental_health', label: 'Mental health' },
+];
+
 // Depth & safety are small bounded integer ranges (spark-taxonomy.md), rendered as named steps.
 // Consumed only within this module (the LEVER_FIELDS scale entries below).
 const DEPTH_LEVEL_MIN = 1;
@@ -87,6 +104,7 @@ export const DEFAULT_GENERATION_PARAMS: GenerationParams = {
 		depth_level: DEFAULT_LEVER_VALUE,
 		controversy_level: DEFAULT_LEVER_VALUE,
 	},
+	sensitive_topics: [],
 };
 
 // ---- Lever registry -------------------------------------------------------------------
@@ -101,11 +119,12 @@ export type LeverKey =
 	| 'conversation_goal'
 	| 'vibe'
 	| 'depth_level'
-	| 'controversy_level';
+	| 'controversy_level'
+	| 'sensitive_topics';
 
-// A lever's current selection: a string option value, a numeric scale level, or the
-// DEFAULT_LEVER_VALUE sentinel when unset.
-export type LeverValue = string | number;
+// A lever's current selection: a string option value, a numeric scale level, a multi-select
+// array of option values, or the DEFAULT_LEVER_VALUE sentinel when unset.
+export type LeverValue = string | number | readonly string[];
 
 // One accent hue per lever (design token names — values live in variables.css).
 export const LEVER_COLOR_VARS: Record<LeverKey, string> = {
@@ -115,6 +134,7 @@ export const LEVER_COLOR_VARS: Record<LeverKey, string> = {
 	vibe: '--lever-vibe',
 	depth_level: '--lever-depth',
 	controversy_level: '--lever-safety',
+	sensitive_topics: '--lever-sensitive',
 };
 
 interface LeverFieldBase {
@@ -137,7 +157,13 @@ interface LeverScaleFieldDef extends LeverFieldBase {
 	labels: readonly string[]; // index-aligned to the numeric level
 }
 
-export type LeverFieldDef = LeverSelectFieldDef | LeverScaleFieldDef;
+// Multi-select lever: value is an array of option values; empty array = unset.
+interface LeverMultiFieldDef extends LeverFieldBase {
+	kind: 'multi';
+	options: readonly LeverOption<string>[];
+}
+
+export type LeverFieldDef = LeverSelectFieldDef | LeverScaleFieldDef | LeverMultiFieldDef;
 
 // Ensures depth_and_safety exists before writing either scale field.
 const depthSafety = (params: GenerationParams) =>
@@ -217,12 +243,26 @@ export const LEVER_FIELDS: readonly LeverFieldDef[] = [
 			depthSafety(p).controversy_level = v as number | DefaultLeverValue;
 		},
 	},
+	{
+		key: 'sensitive_topics',
+		sheetName: 'Sensitive topics',
+		colorVar: LEVER_COLOR_VARS.sensitive_topics,
+		kind: 'multi',
+		options: SENSITIVE_TOPIC_OPTIONS,
+		get: (p) => p.sensitive_topics ?? [],
+		set: (p, v) => {
+			// Reset-all writes the sentinel; a multi-select's unset state is the empty array.
+			p.sensitive_topics = v === DEFAULT_LEVER_VALUE ? [] : [...(v as SensitiveTopic[])];
+		},
+	},
 ];
 
-// A lever counts as "set" whenever it isn't on the default sentinel. Note controversy
-// level 0 ("Safe") is a real selection, distinct from DEFAULT_LEVER_VALUE.
-export const isLeverSet = (value: LeverValue): boolean => value !== DEFAULT_LEVER_VALUE;
+// A lever counts as "set" whenever it isn't on the default sentinel (or, for a multi-select,
+// whenever anything is selected). Note controversy level 0 ("Safe") is a real selection,
+// distinct from DEFAULT_LEVER_VALUE.
+export const isLeverSet = (value: LeverValue): boolean =>
+	Array.isArray(value) ? value.length > 0 : value !== DEFAULT_LEVER_VALUE;
 
-// Badge count: number of levers explicitly set, 0–6 (one per lever, per product decision).
+// Badge count: number of levers explicitly set, 0–7 (one per lever, per product decision).
 export const activeLeverCount = (params: GenerationParams): number =>
 	LEVER_FIELDS.reduce((n, field) => n + (isLeverSet(field.get(params)) ? 1 : 0), 0);

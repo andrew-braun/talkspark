@@ -6,4 +6,5 @@ import type { GenerationParams } from 'ts/params';
 export const generationParams = $state<GenerationParams>({
 	...DEFAULT_GENERATION_PARAMS,
 	depth_and_safety: { ...DEFAULT_GENERATION_PARAMS.depth_and_safety! },
+	sensitive_topics: [...(DEFAULT_GENERATION_PARAMS.sensitive_topics ?? [])],
 });

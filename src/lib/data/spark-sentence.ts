@@ -64,6 +64,22 @@ const VIBE_PHRASE: Record<string, string> = {
 	nostalgic: 'nostalgic',
 };
 
+const SENSITIVE_TOPIC_PHRASE: Record<string, string> = {
+	sex: 'sex',
+	religion: 'religion',
+	politics: 'politics',
+	death: 'death',
+	money: 'money',
+	drugs_alcohol: 'drugs & alcohol',
+	mental_health: 'mental health',
+};
+
+// "sex, religion & politics" — commas between items, ampersand before the last.
+const joinPhrases = (phrases: string[]): string =>
+	phrases.length <= 1
+		? (phrases[0] ?? '')
+		: `${phrases.slice(0, -1).join(', ')} & ${phrases[phrases.length - 1]}`;
+
 const CLEAN_SENTENCE = 'Spark a wide-open conversation — anything goes.';
 
 const isSet = (value: unknown): boolean => value !== DEFAULT_LEVER_VALUE;
@@ -80,6 +96,7 @@ export function buildSparkSentence(params: GenerationParams): SparkSentenceSegme
 	const vibe = params.vibe ?? DEFAULT_LEVER_VALUE;
 	const depth = params.depth_and_safety?.depth_level ?? DEFAULT_LEVER_VALUE;
 	const controversy = params.depth_and_safety?.controversy_level ?? DEFAULT_LEVER_VALUE;
+	const topics = params.sensitive_topics ?? [];
 
 	const anySet =
 		isSet(relationship) ||
@@ -87,7 +104,8 @@ export function buildSparkSentence(params: GenerationParams): SparkSentenceSegme
 		isSet(goal) ||
 		isSet(vibe) ||
 		isSet(depth) ||
-		isSet(controversy);
+		isSet(controversy) ||
+		topics.length > 0;
 	if (!anySet) return [{ kind: 'text', text: CLEAN_SENTENCE }];
 
 	const segments: SparkSentenceSegment[] = [];
@@ -114,6 +132,11 @@ export function buildSparkSentence(params: GenerationParams): SparkSentenceSegme
 	if (isSet(topic)) {
 		text(' about ');
 		slot('topic_lens', TOPIC_PHRASE[topic as string]);
+	}
+	if (topics.length > 0) {
+		// One slot for the whole selection — tapping opens the sheet focused on the lever.
+		text(', touching on ');
+		slot('sensitive_topics', joinPhrases(topics.map((value) => SENSITIVE_TOPIC_PHRASE[value])));
 	}
 
 	const hasDepth = isSet(depth);

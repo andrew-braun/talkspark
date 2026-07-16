@@ -23,6 +23,9 @@ export type ConversationMotive =
 
 export type Vibe = 'playful' | 'warm' | 'thoughtful' | 'weird' | 'romantic' | 'nostalgic';
 
+export type SensitiveTopic =
+	'sex' | 'religion' | 'politics' | 'death' | 'money' | 'drugs_alcohol' | 'mental_health';
+
 export type AnswerShape =
 	'story' | 'memory' | 'ranking' | 'tradeoff' | 'recommendation' | 'prediction';
 
@@ -103,6 +106,16 @@ export const VIBES = [
 	'nostalgic',
 ] as const satisfies readonly Vibe[];
 
+export const SENSITIVE_TOPICS = [
+	'sex',
+	'religion',
+	'politics',
+	'death',
+	'money',
+	'drugs_alcohol',
+	'mental_health',
+] as const satisfies readonly SensitiveTopic[];
+
 export const ANSWER_SHAPES = [
 	'story',
 	'memory',
@@ -144,6 +157,7 @@ export interface Spark {
 	vibe?: Vibe;
 	depth_level?: number; // 1–5
 	controversy_level?: number; // 0–5
+	sensitive_topics?: SensitiveTopic[]; // user-permitted sensitive territory; absent = none requested
 	humor_level?: number; // 0–5
 	group_size_min?: number;
 	group_size_max?: number;

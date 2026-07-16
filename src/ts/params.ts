@@ -1,4 +1,10 @@
-import type { ConversationGoal, RelationshipContext, TopicLens, Vibe } from './spark';
+import type {
+	ConversationGoal,
+	RelationshipContext,
+	SensitiveTopic,
+	TopicLens,
+	Vibe,
+} from './spark';
 
 export const DEFAULT_LEVER_VALUE = 'default' as const;
 export type DefaultLeverValue = typeof DEFAULT_LEVER_VALUE;
@@ -18,4 +24,5 @@ export interface GenerationParams {
 	conversation_goal?: LeverSelection<ConversationGoal>;
 	vibe?: LeverSelection<Vibe>;
 	depth_and_safety?: DepthAndSafety;
+	sensitive_topics?: SensitiveTopic[]; // multi-select; empty array = default (none requested)
 }

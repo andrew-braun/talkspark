@@ -4,9 +4,11 @@
 	import { isLeverSet, type LeverFieldDef, type LeverValue } from 'lib/data/generation-options';
 
 	// One lever inside the Customize sheet: a header (dot + name + current value) over a
-	// wrapping row of option chips. Handles both select levers and the depth/controversy
-	// scales — the 16px control-text floor rules out a cramped 7-segment bar on a phone, so
-	// both render as the same chip row (the "Default" option is the muted, unset baseline).
+	// wrapping row of option chips. Handles select levers, the depth/controversy scales, and
+	// multi-select levers — the 16px control-text floor rules out a cramped 7-segment bar on
+	// a phone, so all render as the same chip row (the "Default" option is the muted, unset
+	// baseline; multi-select levers have no Default chip — their unset state is empty, and a
+	// leading "All" chip toggles the full selection on and off).
 	let {
 		field,
 		value,
@@ -23,25 +25,73 @@
 		muted: boolean;
 	}
 
+	// Synthetic chip value for the multi-select "All" toggle — never a real option value.
+	const ALL_OPTION_VALUE = '__all__';
+
 	const displayOptions: DisplayOption[] = $derived(
-		field.kind === 'select'
-			? field.options.map((option) => ({
-					value: option.value,
-					label: option.label,
-					muted: option.value === DEFAULT_LEVER_VALUE,
-				}))
-			: [
+		field.kind === 'scale'
+			? [
 					{ value: DEFAULT_LEVER_VALUE, label: 'Default', muted: true },
 					...Array.from(
 						{ length: field.max - field.min + 1 },
 						(_, i) => field.min + i
 					).map((level) => ({ value: level, label: field.labels[level], muted: false })),
 				]
+			: [
+					...(field.kind === 'multi'
+						? [{ value: ALL_OPTION_VALUE, label: 'All', muted: false }]
+						: []),
+					...field.options.map((option) => ({
+						value: option.value,
+						label: option.label,
+						muted: option.value === DEFAULT_LEVER_VALUE,
+					})),
+				]
 	);
 
 	const isSet = $derived(isLeverSet(value));
+
+	const allSelected = $derived(
+		field.kind === 'multi' && (value as readonly string[]).length === field.options.length
+	);
+
+	// Multi-select: membership check instead of equality; the "All" chip reads as selected
+	// only when the whole option set is.
+	const isSelected = (option: LeverValue): boolean => {
+		if (option === ALL_OPTION_VALUE) return allSelected;
+		return Array.isArray(value) ? value.includes(option as string) : value === option;
+	};
+
+	// Multi-select toggles membership, normalized to option order so downstream consumers
+	// (sentence, prompt) render selections in a stable, canonical order. "All" toggles the
+	// full selection on, or clears it when everything is already selected.
+	function handleSelect(option: LeverValue) {
+		if (field.kind !== 'multi') {
+			onSelect(option);
+			return;
+		}
+		if (option === ALL_OPTION_VALUE) {
+			onSelect(allSelected ? [] : field.options.map((fieldOption) => fieldOption.value));
+			return;
+		}
+		const current = value as readonly string[];
+		const next = current.includes(option as string)
+			? current.filter((selected) => selected !== option)
+			: field.options
+					.map((fieldOption) => fieldOption.value)
+					.filter((candidate) => current.includes(candidate) || candidate === option);
+		onSelect(next);
+	}
+
 	const currentLabel = $derived(
-		displayOptions.find((option) => option.value === value)?.label ?? 'Default'
+		field.kind === 'multi'
+			? allSelected
+				? 'All'
+				: field.options
+						.filter((option) => isSelected(option.value))
+						.map((option) => option.label)
+						.join(', ') || 'None'
+			: (displayOptions.find((option) => option.value === value)?.label ?? 'Default')
 	);
 </script>
 
@@ -61,10 +111,10 @@
 		{#each displayOptions as option (option.value)}
 			<Chip
 				label={option.label}
-				selected={value === option.value}
+				selected={isSelected(option.value)}
 				muted={option.muted}
 				colorVar={option.muted ? undefined : field.colorVar}
-				onClick={() => onSelect(option.value)}
+				onClick={() => handleSelect(option.value)}
 			/>
 		{/each}
 	</div>

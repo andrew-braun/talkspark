@@ -71,7 +71,59 @@ describe('buildSparkPrompt', () => {
 		expect(prompt).toContain('exactly three');
 	});
 
-	it('identifies the calibrated prompt as version 3', () => {
-		expect(GENERATION_PROMPT_VERSION).toBe('v3');
+	it('keeps sensitive subject matter low-key when no topics are requested', () => {
+		const prompt = buildSparkPrompt(resolveGenerationParams({ type: 'random' }));
+
+		expect(prompt).toContain('keep it low-key and uncontroversial');
+		expect(prompt).not.toContain('explicitly allowed');
+	});
+
+	it('allows selected sensitive topics at the selected intensity', () => {
+		const prompt = buildSparkPrompt(
+			resolveGenerationParams({
+				type: 'random',
+				depth_and_safety: { depth_level: 2, controversy_level: 1 },
+				sensitive_topics: ['religion', 'politics'],
+			})
+		);
+
+		expect(prompt).toContain('religion and politics are explicitly allowed');
+		expect(prompt).toContain('selected depth and controversy levels');
+		expect(prompt).not.toContain('At this intensity');
+	});
+
+	it('encourages sensitive territory in general at high intensity', () => {
+		const depthPrompt = buildSparkPrompt(
+			resolveGenerationParams({
+				type: 'random',
+				depth_and_safety: { depth_level: 4, controversy_level: 'default' },
+			})
+		);
+		const controversyPrompt = buildSparkPrompt(
+			resolveGenerationParams({
+				type: 'random',
+				depth_and_safety: { depth_level: 'default', controversy_level: 4 },
+			})
+		);
+
+		expect(depthPrompt).toContain('At this intensity, actively explore sensitive territory');
+		expect(controversyPrompt).toContain(
+			'At this intensity, actively explore sensitive territory'
+		);
+	});
+
+	it('does not encourage sensitive territory below the high-intensity threshold', () => {
+		const prompt = buildSparkPrompt(
+			resolveGenerationParams({
+				type: 'random',
+				depth_and_safety: { depth_level: 3, controversy_level: 3 },
+			})
+		);
+
+		expect(prompt).not.toContain('At this intensity');
+	});
+
+	it('identifies the calibrated prompt as version 4', () => {
+		expect(GENERATION_PROMPT_VERSION).toBe('v4');
 	});
 });

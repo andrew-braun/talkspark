@@ -1,13 +1,14 @@
 import {
 	CONVERSATION_GOAL_OPTIONS,
 	RELATIONSHIP_CONTEXT_OPTIONS,
+	SENSITIVE_TOPIC_OPTIONS,
 	TOPIC_LENS_OPTIONS,
 	VIBE_OPTIONS,
 } from 'lib/data/generation-options';
 import type { ResolvedGenerationParams } from 'lib/server/generation/resolve-params';
 import { DEFAULT_LEVER_VALUE } from 'ts/params';
 
-export const GENERATION_PROMPT_VERSION = 'v3';
+export const GENERATION_PROMPT_VERSION = 'v4';
 
 export const SPARK_SYSTEM_INSTRUCTION = `You are TalkSpark, a conversation-starter engine. Generate original conversation sparks as strict JSON matching the provided schema.
 
@@ -49,6 +50,17 @@ function labelFor<T extends string>(options: { value: T; label: string }[], valu
 	return options.find((option) => option.value === value)?.label ?? value;
 }
 
+// "sex, religion and politics" — prose list for the prompt.
+function formatList(items: string[]): string {
+	return items.length <= 1
+		? (items[0] ?? '')
+		: `${items.slice(0, -1).join(', ')} and ${items[items.length - 1]}`;
+}
+
+// Depth 4–5 (of 1–5) and controversy 4–5 (of 0–5) are where the guidance maps turn from
+// "comfortable" to "polarizing/exposing" — the threshold for encouraging sensitive territory.
+const HIGH_INTENSITY_THRESHOLD = 4;
+
 export function buildSparkPrompt(resolved: ResolvedGenerationParams): string {
 	const { depth_and_safety } = resolved;
 	const relationship =
@@ -75,6 +87,21 @@ export function buildSparkPrompt(resolved: ResolvedGenerationParams): string {
 		depth_and_safety.controversy_level === DEFAULT_LEVER_VALUE
 			? 'Controversy level: choose a broadly accessible, low-risk level from the other active constraints and classify it in the response.'
 			: `Controversy level: ${depth_and_safety.controversy_level} — ${CONTROVERSY_GUIDANCE[depth_and_safety.controversy_level as keyof typeof CONTROVERSY_GUIDANCE]}.`;
+	const topicLabels = resolved.sensitive_topics.map((topic) =>
+		labelFor(SENSITIVE_TOPIC_OPTIONS, topic).toLowerCase()
+	);
+	const sensitiveTopics =
+		topicLabels.length === 0
+			? 'Sensitive topics: none explicitly requested — sensitive subject matter is acceptable when it serves the question, but keep it low-key and uncontroversial.'
+			: `Sensitive topics: ${formatList(topicLabels)} are explicitly allowed — engage them directly rather than steering around them, exploring them at the selected depth and controversy levels.`;
+	const highIntensity =
+		(typeof depth_and_safety.depth_level === 'number' &&
+			depth_and_safety.depth_level >= HIGH_INTENSITY_THRESHOLD) ||
+		(typeof depth_and_safety.controversy_level === 'number' &&
+			depth_and_safety.controversy_level >= HIGH_INTENSITY_THRESHOLD);
+	const highIntensityGuidance = highIntensity
+		? '\n\nAt this intensity, actively explore sensitive territory in general — not only any listed topics — while preserving relationship fit and every safety rule.'
+		: '';
 
 	return `Create exactly three original conversation sparks for this context.
 
@@ -85,8 +112,9 @@ ${goal}
 ${vibe}
 ${depth}
 ${controversy}
+${sensitiveTopics}
 
-Concrete numeric depth and controversy selections are target intensities, not ceilings. Use the requested levels fully while preserving relationship fit and every safety rule.
+Concrete numeric depth and controversy selections are target intensities, not ceilings. Use the requested levels fully while preserving relationship fit and every safety rule.${highIntensityGuidance}
 
 Do not mention or paraphrase lever labels unless independently necessary to understand the question.
 

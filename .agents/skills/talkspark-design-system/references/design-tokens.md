@@ -18,6 +18,8 @@ Read [`variables.css`](../../../../src/styles/variables.css) for actual values. 
 | `--accent-color-4`         | accent     | Gradient building block              |
 | `--accent-color-5`         | accent     | Gradient building block              |
 | `--accent-color-6`         | accent     | Gradient building block              |
+| `--accent-color-7`         | accent     | Sensitive-topics lever hue           |
+| `--lever-sensitive`        | accent     | Sensitive-topics lever (alias)       |
 | `--gradient-1`             | gradient   | Spark card accent (index 0)          |
 | `--gradient-2`             | gradient   | Spark card accent (index 1)          |
 | `--gradient-3`             | gradient   | Spark card accent (index 2)          |

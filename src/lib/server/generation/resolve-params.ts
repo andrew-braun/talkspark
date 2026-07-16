@@ -21,5 +21,7 @@ export function resolveGenerationParams(params: GenerationParams): ResolvedGener
 				params.depth_and_safety?.controversy_level ??
 				defaults.depth_and_safety!.controversy_level,
 		},
+		// Copy so callers never alias the shared default array.
+		sensitive_topics: [...(params.sensitive_topics ?? defaults.sensitive_topics!)],
 	};
 }

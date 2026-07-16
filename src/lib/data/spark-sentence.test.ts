@@ -3,7 +3,9 @@ import { buildSparkSentence, type SparkSentenceSegment } from './spark-sentence'
 import { DEFAULT_LEVER_VALUE, type GenerationParams } from 'ts/params';
 
 // Minimal params builder — every lever defaults to the sentinel unless overridden.
-function makeParams(overrides: Partial<Record<string, string | number>> = {}): GenerationParams {
+function makeParams(
+	overrides: Partial<Record<string, string | number | string[]>> = {}
+): GenerationParams {
 	return {
 		type: 'random',
 		relationship_context: (overrides.relationship_context as never) ?? DEFAULT_LEVER_VALUE,
@@ -14,6 +16,7 @@ function makeParams(overrides: Partial<Record<string, string | number>> = {}): G
 			depth_level: (overrides.depth_level as number) ?? DEFAULT_LEVER_VALUE,
 			controversy_level: (overrides.controversy_level as number) ?? DEFAULT_LEVER_VALUE,
 		},
+		sensitive_topics: (overrides.sensitive_topics as never) ?? [],
 	};
 }
 
@@ -86,6 +89,36 @@ describe('buildSparkSentence', () => {
 		expect(slots(segments).map((s) => s.key)).toEqual(['depth_level', 'controversy_level']);
 	});
 
+	it('adds a "touching on" clause for sensitive topics as one tappable slot', () => {
+		const segments = buildSparkSentence(
+			makeParams({ sensitive_topics: ['religion', 'politics'] })
+		);
+		expect(fullText(segments)).toBe('Spark a conversation, touching on religion & politics.');
+		expect(slots(segments)).toEqual([
+			{
+				kind: 'slot',
+				key: 'sensitive_topics',
+				text: 'religion & politics',
+				colorVar: '--lever-sensitive',
+			},
+		]);
+	});
+
+	it('joins three or more sensitive topics with commas and a final ampersand', () => {
+		const segments = buildSparkSentence(
+			makeParams({ sensitive_topics: ['sex', 'religion', 'politics'] })
+		);
+		expect(fullText(segments)).toBe(
+			'Spark a conversation, touching on sex, religion & politics.'
+		);
+	});
+
+	it('phrases a single sensitive topic without separators', () => {
+		expect(
+			fullText(buildSparkSentence(makeParams({ sensitive_topics: ['drugs_alcohol'] })))
+		).toBe('Spark a conversation, touching on drugs & alcohol.');
+	});
+
 	it('orders every lever correctly when all are set', () => {
 		const segments = buildSparkSentence(
 			makeParams({
@@ -95,16 +128,18 @@ describe('buildSparkSentence', () => {
 				topic_lens: 'hopes_plans',
 				depth_level: 4,
 				controversy_level: 2,
+				sensitive_topics: ['money'],
 			})
 		);
 		expect(fullText(segments)).toBe(
-			'Spark a playful conversation to break the ice with a close friend about hopes & plans — kept deep and spicy.'
+			'Spark a playful conversation to break the ice with a close friend about hopes & plans, touching on money — kept deep and spicy.'
 		);
 		expect(slots(segments).map((s) => s.key)).toEqual([
 			'vibe',
 			'conversation_goal',
 			'relationship_context',
 			'topic_lens',
+			'sensitive_topics',
 			'depth_level',
 			'controversy_level',
 		]);

@@ -49,6 +49,7 @@ describe('enrichSpark', () => {
 			conversation_goal: 'brainstorm',
 			vibe: 'thoughtful',
 			depth_and_safety: { depth_level: 2, controversy_level: 1 },
+			sensitive_topics: ['politics', 'money'],
 		});
 
 		const spark = enrichSpark(sampleGenerated, resolved, {
@@ -63,6 +64,7 @@ describe('enrichSpark', () => {
 			vibe: 'thoughtful',
 			depth_level: 2,
 			controversy_level: 1,
+			sensitive_topics: ['politics', 'money'],
 		});
 		expect(spark.setting).toBeUndefined();
 	});
@@ -75,6 +77,7 @@ describe('enrichSpark', () => {
 		expect(spark.topic_lens).toBeUndefined();
 		expect(spark.conversation_goal).toBeUndefined();
 		expect(spark.vibe).toBeUndefined();
+		expect(spark.sensitive_topics).toBeUndefined();
 		expect(spark.depth_level).toBe(sampleGenerated.depth_level);
 		expect(spark.controversy_level).toBe(sampleGenerated.controversy_level);
 	});
