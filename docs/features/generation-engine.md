@@ -30,17 +30,25 @@ so the eventual DB migration is mechanical.
 
 - **One-button default.** A user can hit the button and get a great spark with zero
   configuration. This is the primary entry point and the core of onboarding — the app
-  should be obvious enough to need no tour (offer an optional one).
+  should be obvious enough to need no tour (offer an optional one). The baseline is
+  deliberately opinionated, not neutral: it ships **Anyone / Anything / Just talk /
+  Thoughtful** on the categorical levers, at **Real** depth and **Spicy** controversy
+  with **every sensitive topic in-bounds** (opt-out, not opt-in). Sensitive territory only
+  activates once controversy is Spicy or higher; below that the model keeps things low-key
+  regardless. See `src/lib/data/generation-options.ts` (`DEFAULT_GENERATION_PARAMS`) and the
+  prompt (`buildSparkPrompt`, gating + sensitive/non-sensitive split).
 - **Four levers** (visible, compact): People & topic, Conversation goal, Vibe,
   Depth & safety. Powerful enough to shape results, simple enough to grasp at a glance.
   **Depth & safety is a marquee control**, not a buried setting — it's our clearest differentiator
   against unguarded generators (see
   [../strategy/competitive-analysis.md](../strategy/competitive-analysis.md)), so it stays visible
   and demonstrable.
-- **Default means automatic.** Each Default selection asks the generator for broad-neutral
-  behavior informed by the other active constraints, rather than choosing a hidden fixed
-  label. Selected labels shape the spark's substance and suitability; the generated text
-  should not echo those labels literally.
+- **Concrete defaults, no vague "automatic".** Every lever carries a real, nameable default
+  — the categorical levers' neutral choice is **Anyone / Anything / Just talk** (Thoughtful for
+  vibe), which reads as broad/unconstrained to the generator but is a genuine value, not a hidden
+  sentinel. The summary sentence always names the six single-value levers (muted until moved off
+  default); only sensitive topics stay implicit at the full default set. Selected labels shape the
+  spark's substance and suitability; the generated text should not echo those labels literally.
 - **`More options`** reveals advanced levers behind progressive disclosure. Deferred from
   slice 1.
 - **Natural-language box** (later): turn free text into structured parameters.

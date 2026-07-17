@@ -2,10 +2,20 @@ import type { CritiqueResult } from './critique';
 
 // Categorical union types — match the taxonomy in docs/philosophy/spark-taxonomy.md
 
+// 'anyone' / 'anything' / 'just_talk' are the neutral defaults — a real, nameable "no
+// particular constraint" choice that replaced the old automatic sentinel.
 export type RelationshipContext =
-	'first_date' | 'partner' | 'family' | 'close_friend' | 'coworker' | 'team' | 'stranger';
+	| 'anyone'
+	| 'first_date'
+	| 'partner'
+	| 'family'
+	| 'close_friend'
+	| 'coworker'
+	| 'team'
+	| 'stranger';
 
 export type TopicLens =
+	| 'anything'
 	| 'everyday_life'
 	| 'stories_memories'
 	| 'interests_culture'
@@ -16,7 +26,14 @@ export type TopicLens =
 export type Setting = 'dinner' | 'road_trip' | 'meeting' | 'classroom' | 'party' | 'online_chat';
 
 export type ConversationGoal =
-	'break_ice' | 'reconnect' | 'laugh' | 'reflect' | 'repair' | 'debate' | 'brainstorm';
+	| 'just_talk'
+	| 'break_ice'
+	| 'reconnect'
+	| 'laugh'
+	| 'reflect'
+	| 'repair'
+	| 'debate'
+	| 'brainstorm';
 
 export type ConversationMotive =
 	'learn' | 'affiliate' | 'coordinate' | 'persuade' | 'play' | 'support';
@@ -51,6 +68,7 @@ export type SparkVariant = (typeof SPARK_VARIANTS)[number];
 
 // Const arrays shared by Valibot input validation and LLM JSON Schema enums.
 export const RELATIONSHIP_CONTEXTS = [
+	'anyone',
 	'first_date',
 	'partner',
 	'family',
@@ -61,6 +79,7 @@ export const RELATIONSHIP_CONTEXTS = [
 ] as const satisfies readonly RelationshipContext[];
 
 export const TOPIC_LENSES = [
+	'anything',
 	'everyday_life',
 	'stories_memories',
 	'interests_culture',
@@ -79,6 +98,7 @@ export const SETTINGS = [
 ] as const satisfies readonly Setting[];
 
 export const CONVERSATION_GOALS = [
+	'just_talk',
 	'break_ice',
 	'reconnect',
 	'laugh',

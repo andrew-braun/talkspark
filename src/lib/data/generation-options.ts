@@ -5,21 +5,18 @@ import type {
 	TopicLens,
 	Vibe,
 } from 'ts/spark';
-import {
-	DEFAULT_LEVER_VALUE,
-	type DefaultLeverValue,
-	type GenerationParams,
-	type LeverSelection,
-} from 'ts/params';
+import type { GenerationParams } from 'ts/params';
 
 export interface LeverOption<T extends string> {
 	value: T;
 	label: string;
 }
 
-// Label sets for the four generation levers (generation-engine.md). Order controls display order.
-export const RELATIONSHIP_CONTEXT_OPTIONS: LeverOption<LeverSelection<RelationshipContext>>[] = [
-	{ value: DEFAULT_LEVER_VALUE, label: 'Default' },
+// Label sets for the generation levers (generation-engine.md). Order controls display order.
+// The first entry of each single-select lever is its concrete default — a real, nameable
+// "no particular constraint" choice (Anyone / Anything / Just talk), not an automatic sentinel.
+export const RELATIONSHIP_CONTEXT_OPTIONS: LeverOption<RelationshipContext>[] = [
+	{ value: 'anyone', label: 'Anyone' },
 	{ value: 'first_date', label: 'First date' },
 	{ value: 'partner', label: 'Partner' },
 	{ value: 'family', label: 'Family' },
@@ -29,8 +26,8 @@ export const RELATIONSHIP_CONTEXT_OPTIONS: LeverOption<LeverSelection<Relationsh
 	{ value: 'stranger', label: 'Stranger' },
 ];
 
-export const TOPIC_LENS_OPTIONS: LeverOption<LeverSelection<TopicLens>>[] = [
-	{ value: DEFAULT_LEVER_VALUE, label: 'Default' },
+export const TOPIC_LENS_OPTIONS: LeverOption<TopicLens>[] = [
+	{ value: 'anything', label: 'Anything' },
 	{ value: 'everyday_life', label: 'Everyday life' },
 	{ value: 'stories_memories', label: 'Stories & memories' },
 	{ value: 'interests_culture', label: 'Interests & culture' },
@@ -39,8 +36,8 @@ export const TOPIC_LENS_OPTIONS: LeverOption<LeverSelection<TopicLens>>[] = [
 	{ value: 'imagination_hypotheticals', label: 'Imagination & hypotheticals' },
 ];
 
-export const CONVERSATION_GOAL_OPTIONS: LeverOption<LeverSelection<ConversationGoal>>[] = [
-	{ value: DEFAULT_LEVER_VALUE, label: 'Default' },
+export const CONVERSATION_GOAL_OPTIONS: LeverOption<ConversationGoal>[] = [
+	{ value: 'just_talk', label: 'Just talk' },
 	{ value: 'break_ice', label: 'Break the ice' },
 	{ value: 'reconnect', label: 'Reconnect' },
 	{ value: 'laugh', label: 'Laugh' },
@@ -50,11 +47,11 @@ export const CONVERSATION_GOAL_OPTIONS: LeverOption<LeverSelection<ConversationG
 	{ value: 'brainstorm', label: 'Brainstorm' },
 ];
 
-export const VIBE_OPTIONS: LeverOption<LeverSelection<Vibe>>[] = [
-	{ value: DEFAULT_LEVER_VALUE, label: 'Default' },
+// Vibe has no neutral "anything" option — Thoughtful is the shipped default.
+export const VIBE_OPTIONS: LeverOption<Vibe>[] = [
+	{ value: 'thoughtful', label: 'Thoughtful' },
 	{ value: 'playful', label: 'Playful' },
 	{ value: 'warm', label: 'Warm' },
-	{ value: 'thoughtful', label: 'Thoughtful' },
 	{ value: 'weird', label: 'Weird' },
 	{ value: 'romantic', label: 'Romantic' },
 	{ value: 'nostalgic', label: 'Nostalgic' },
@@ -93,18 +90,22 @@ export const DEPTH_LEVEL_LABELS = [
 ] as const;
 export const CONTROVERSY_LEVEL_LABELS = ['Safe', 'Mild', 'Spicy', 'Bold', 'Edgy', 'Wild'] as const;
 
-// Automatic broad-neutral, zero-config selections (generation-engine.md "one-button default").
+// Opinionated zero-config defaults (generation-engine.md "one-button default"). The baseline
+// deliberately leans deep and edgy — Real depth, Spicy controversy, and every sensitive topic
+// on (opt-out, not opt-in). Every categorical lever also carries a concrete default (Anyone /
+// Anything / Just talk / Thoughtful) so the summary sentence can always name it; these read as
+// broad/neutral to the generator but are real values, not an automatic sentinel.
 export const DEFAULT_GENERATION_PARAMS: GenerationParams = {
 	type: 'random',
-	relationship_context: DEFAULT_LEVER_VALUE,
-	topic_lens: DEFAULT_LEVER_VALUE,
-	conversation_goal: DEFAULT_LEVER_VALUE,
-	vibe: DEFAULT_LEVER_VALUE,
+	relationship_context: 'anyone',
+	topic_lens: 'anything',
+	conversation_goal: 'just_talk',
+	vibe: 'thoughtful',
 	depth_and_safety: {
-		depth_level: DEFAULT_LEVER_VALUE,
-		controversy_level: DEFAULT_LEVER_VALUE,
+		depth_level: 3, // Real
+		controversy_level: 2, // Spicy — the threshold where sensitive topics come into play
 	},
-	sensitive_topics: [],
+	sensitive_topics: SENSITIVE_TOPIC_OPTIONS.map((option) => option.value),
 };
 
 // ---- Lever registry -------------------------------------------------------------------
@@ -122,8 +123,8 @@ export type LeverKey =
 	| 'controversy_level'
 	| 'sensitive_topics';
 
-// A lever's current selection: a string option value, a numeric scale level, a multi-select
-// array of option values, or the DEFAULT_LEVER_VALUE sentinel when unset.
+// A lever's current selection: a string option value, a numeric scale level, or a multi-select
+// array of option values (empty = an explicit opt-out).
 export type LeverValue = string | number | readonly string[];
 
 // One accent hue per lever (design token names — values live in variables.css).
@@ -165,11 +166,12 @@ interface LeverMultiFieldDef extends LeverFieldBase {
 
 export type LeverFieldDef = LeverSelectFieldDef | LeverScaleFieldDef | LeverMultiFieldDef;
 
-// Ensures depth_and_safety exists before writing either scale field.
+// Ensures depth_and_safety exists before writing either scale field, seeding it with the
+// concrete Real/Spicy defaults so the other field keeps a sensible value.
 const depthSafety = (params: GenerationParams) =>
 	(params.depth_and_safety ??= {
-		depth_level: DEFAULT_LEVER_VALUE,
-		controversy_level: DEFAULT_LEVER_VALUE,
+		depth_level: DEFAULT_GENERATION_PARAMS.depth_and_safety!.depth_level,
+		controversy_level: DEFAULT_GENERATION_PARAMS.depth_and_safety!.controversy_level,
 	});
 
 export const LEVER_FIELDS: readonly LeverFieldDef[] = [
@@ -179,9 +181,9 @@ export const LEVER_FIELDS: readonly LeverFieldDef[] = [
 		colorVar: LEVER_COLOR_VARS.relationship_context,
 		kind: 'select',
 		options: RELATIONSHIP_CONTEXT_OPTIONS,
-		get: (p) => p.relationship_context ?? DEFAULT_LEVER_VALUE,
+		get: (p) => p.relationship_context ?? DEFAULT_GENERATION_PARAMS.relationship_context!,
 		set: (p, v) => {
-			p.relationship_context = v as LeverSelection<RelationshipContext>;
+			p.relationship_context = v as RelationshipContext;
 		},
 	},
 	{
@@ -190,9 +192,9 @@ export const LEVER_FIELDS: readonly LeverFieldDef[] = [
 		colorVar: LEVER_COLOR_VARS.topic_lens,
 		kind: 'select',
 		options: TOPIC_LENS_OPTIONS,
-		get: (p) => p.topic_lens ?? DEFAULT_LEVER_VALUE,
+		get: (p) => p.topic_lens ?? DEFAULT_GENERATION_PARAMS.topic_lens!,
 		set: (p, v) => {
-			p.topic_lens = v as LeverSelection<TopicLens>;
+			p.topic_lens = v as TopicLens;
 		},
 	},
 	{
@@ -201,9 +203,9 @@ export const LEVER_FIELDS: readonly LeverFieldDef[] = [
 		colorVar: LEVER_COLOR_VARS.conversation_goal,
 		kind: 'select',
 		options: CONVERSATION_GOAL_OPTIONS,
-		get: (p) => p.conversation_goal ?? DEFAULT_LEVER_VALUE,
+		get: (p) => p.conversation_goal ?? DEFAULT_GENERATION_PARAMS.conversation_goal!,
 		set: (p, v) => {
-			p.conversation_goal = v as LeverSelection<ConversationGoal>;
+			p.conversation_goal = v as ConversationGoal;
 		},
 	},
 	{
@@ -212,9 +214,9 @@ export const LEVER_FIELDS: readonly LeverFieldDef[] = [
 		colorVar: LEVER_COLOR_VARS.vibe,
 		kind: 'select',
 		options: VIBE_OPTIONS,
-		get: (p) => p.vibe ?? DEFAULT_LEVER_VALUE,
+		get: (p) => p.vibe ?? DEFAULT_GENERATION_PARAMS.vibe!,
 		set: (p, v) => {
-			p.vibe = v as LeverSelection<Vibe>;
+			p.vibe = v as Vibe;
 		},
 	},
 	{
@@ -225,9 +227,11 @@ export const LEVER_FIELDS: readonly LeverFieldDef[] = [
 		min: DEPTH_LEVEL_MIN,
 		max: DEPTH_LEVEL_MAX,
 		labels: DEPTH_LEVEL_LABELS,
-		get: (p) => p.depth_and_safety?.depth_level ?? DEFAULT_LEVER_VALUE,
+		get: (p) =>
+			p.depth_and_safety?.depth_level ??
+			DEFAULT_GENERATION_PARAMS.depth_and_safety!.depth_level,
 		set: (p, v) => {
-			depthSafety(p).depth_level = v as number | DefaultLeverValue;
+			depthSafety(p).depth_level = v as number;
 		},
 	},
 	{
@@ -238,9 +242,11 @@ export const LEVER_FIELDS: readonly LeverFieldDef[] = [
 		min: CONTROVERSY_LEVEL_MIN,
 		max: CONTROVERSY_LEVEL_MAX,
 		labels: CONTROVERSY_LEVEL_LABELS,
-		get: (p) => p.depth_and_safety?.controversy_level ?? DEFAULT_LEVER_VALUE,
+		get: (p) =>
+			p.depth_and_safety?.controversy_level ??
+			DEFAULT_GENERATION_PARAMS.depth_and_safety!.controversy_level,
 		set: (p, v) => {
-			depthSafety(p).controversy_level = v as number | DefaultLeverValue;
+			depthSafety(p).controversy_level = v as number;
 		},
 	},
 	{
@@ -251,18 +257,29 @@ export const LEVER_FIELDS: readonly LeverFieldDef[] = [
 		options: SENSITIVE_TOPIC_OPTIONS,
 		get: (p) => p.sensitive_topics ?? [],
 		set: (p, v) => {
-			// Reset-all writes the sentinel; a multi-select's unset state is the empty array.
-			p.sensitive_topics = v === DEFAULT_LEVER_VALUE ? [] : [...(v as SensitiveTopic[])];
+			p.sensitive_topics = [...(v as SensitiveTopic[])];
 		},
 	},
 ];
 
-// A lever counts as "set" whenever it isn't on the default sentinel (or, for a multi-select,
-// whenever anything is selected). Note controversy level 0 ("Safe") is a real selection,
-// distinct from DEFAULT_LEVER_VALUE.
-export const isLeverSet = (value: LeverValue): boolean =>
-	Array.isArray(value) ? value.length > 0 : value !== DEFAULT_LEVER_VALUE;
+// Order-independent equality for lever values: a set-compare for multi-select arrays,
+// strict equality otherwise.
+const leverValuesEqual = (a: LeverValue, b: LeverValue): boolean => {
+	if (Array.isArray(a) || Array.isArray(b)) {
+		const x = (Array.isArray(a) ? a : []) as readonly string[];
+		const y = (Array.isArray(b) ? b : []) as readonly string[];
+		return x.length === y.length && x.every((value) => y.includes(value));
+	}
+	return a === b;
+};
 
-// Badge count: number of levers explicitly set, 0–7 (one per lever, per product decision).
+// A lever is "active" (accented, counted on the badge) when it differs from the shipped
+// default. Every lever now has a concrete default (Anyone / Anything / Just talk / Thoughtful /
+// Real / Spicy / all sensitive topics), so "active" means "customized away from the default":
+// the Anyone/Real/Spicy baseline reads as inactive until the user moves it.
+export const isLeverActive = (field: LeverFieldDef, value: LeverValue): boolean =>
+	!leverValuesEqual(value, field.get(DEFAULT_GENERATION_PARAMS));
+
+// Badge count: number of levers customized away from the default, 0–7 (one per lever).
 export const activeLeverCount = (params: GenerationParams): number =>
-	LEVER_FIELDS.reduce((n, field) => n + (isLeverSet(field.get(params)) ? 1 : 0), 0);
+	LEVER_FIELDS.reduce((n, field) => n + (isLeverActive(field, field.get(params)) ? 1 : 0), 0);

@@ -1,14 +1,17 @@
 <script lang="ts">
 	import Chip from 'components/atoms/buttons/Chip.svelte';
-	import { DEFAULT_LEVER_VALUE } from 'ts/params';
-	import { isLeverSet, type LeverFieldDef, type LeverValue } from 'lib/data/generation-options';
+	import {
+		isLeverActive,
+		type LeverFieldDef,
+		type LeverValue,
+	} from 'lib/data/generation-options';
 
 	// One lever inside the Customize sheet: a header (dot + name + current value) over a
 	// wrapping row of option chips. Handles select levers, the depth/controversy scales, and
 	// multi-select levers — the 16px control-text floor rules out a cramped 7-segment bar on
-	// a phone, so all render as the same chip row (the "Default" option is the muted, unset
-	// baseline; multi-select levers have no Default chip — their unset state is empty, and a
-	// leading "All" chip toggles the full selection on and off).
+	// a phone, so all render as the same chip row. Each lever's default option (Anyone, Real,
+	// Spicy, …) renders muted/grey — moving off it is what accents the lever. Multi-select
+	// levers have a leading "All" chip that toggles the full selection on and off.
 	let {
 		field,
 		value,
@@ -30,13 +33,13 @@
 
 	const displayOptions: DisplayOption[] = $derived(
 		field.kind === 'scale'
-			? [
-					{ value: DEFAULT_LEVER_VALUE, label: 'Default', muted: true },
-					...Array.from(
-						{ length: field.max - field.min + 1 },
-						(_, i) => field.min + i
-					).map((level) => ({ value: level, label: field.labels[level], muted: false })),
-				]
+			? Array.from({ length: field.max - field.min + 1 }, (_, i) => field.min + i).map(
+					(level) => ({
+						value: level,
+						label: field.labels[level],
+						muted: !isLeverActive(field, level),
+					})
+				)
 			: [
 					...(field.kind === 'multi'
 						? [{ value: ALL_OPTION_VALUE, label: 'All', muted: false }]
@@ -44,12 +47,13 @@
 					...field.options.map((option) => ({
 						value: option.value,
 						label: option.label,
-						muted: option.value === DEFAULT_LEVER_VALUE,
+						// A single-select's default option reads as the muted baseline.
+						muted: field.kind === 'select' && !isLeverActive(field, option.value),
 					})),
 				]
 	);
 
-	const isSet = $derived(isLeverSet(value));
+	const isSet = $derived(isLeverActive(field, value));
 
 	const allSelected = $derived(
 		field.kind === 'multi' && (value as readonly string[]).length === field.options.length
@@ -91,7 +95,7 @@
 						.filter((option) => isSelected(option.value))
 						.map((option) => option.label)
 						.join(', ') || 'None'
-			: (displayOptions.find((option) => option.value === value)?.label ?? 'Default')
+			: (displayOptions.find((option) => option.value === value)?.label ?? '')
 	);
 </script>
 

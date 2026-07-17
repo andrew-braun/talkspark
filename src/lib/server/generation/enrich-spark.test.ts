@@ -69,17 +69,31 @@ describe('enrichSpark', () => {
 		expect(spark.setting).toBeUndefined();
 	});
 
-	it('uses model numeric classifications and omits Default categorical fields', () => {
-		const resolved = resolveGenerationParams(DEFAULT_GENERATION_PARAMS);
+	it('stamps the neutral defaults for omitted levers and omits an empty sensitive set', () => {
+		// Omitted categorical levers resolve to their concrete neutral defaults (Anyone / Anything
+		// / Just talk / Thoughtful) and are stamped as such; an empty sensitive set is an explicit
+		// opt-out and is omitted from the spark.
+		const resolved = resolveGenerationParams({ type: 'random', sensitive_topics: [] });
 		const spark = enrichSpark(sampleGenerated, resolved, { id: 'spark-3', now: 2 });
 
-		expect(spark.relationship_context).toBeUndefined();
-		expect(spark.topic_lens).toBeUndefined();
-		expect(spark.conversation_goal).toBeUndefined();
-		expect(spark.vibe).toBeUndefined();
+		expect(spark.relationship_context).toBe('anyone');
+		expect(spark.topic_lens).toBe('anything');
+		expect(spark.conversation_goal).toBe('just_talk');
+		expect(spark.vibe).toBe('thoughtful');
 		expect(spark.sensitive_topics).toBeUndefined();
-		expect(spark.depth_level).toBe(sampleGenerated.depth_level);
-		expect(spark.controversy_level).toBe(sampleGenerated.controversy_level);
+		// Depth/controversy are concrete defaults now, so the resolved level wins over the model's.
+		expect(spark.depth_level).toBe(3);
+		expect(spark.controversy_level).toBe(2);
+	});
+
+	it('stamps the full sensitive-topic set from the shipped default params', () => {
+		const resolved = resolveGenerationParams(DEFAULT_GENERATION_PARAMS);
+		const spark = enrichSpark(sampleGenerated, resolved, { id: 'spark-4', now: 3 });
+
+		expect(spark.sensitive_topics).toEqual(DEFAULT_GENERATION_PARAMS.sensitive_topics);
+		// Default depth/controversy are concrete now, so the resolved level wins over the model's.
+		expect(spark.depth_level).toBe(3);
+		expect(spark.controversy_level).toBe(2);
 	});
 
 	it('keeps model-classified fields from generated output', () => {

@@ -24,13 +24,17 @@ describe('buildSparkPrompt', () => {
 		expect(prompt).not.toContain('People & setting');
 	});
 
-	it('translates Default selections into broad-neutral behavior', () => {
+	it('translates the neutral defaults into broad-neutral behavior', () => {
+		// The neutral defaults (Anyone / Anything / Just talk) carry the broad latitude the old
+		// automatic sentinel used to; vibe/depth/controversy default to concrete values.
 		const prompt = buildSparkPrompt(resolveGenerationParams({ type: 'random' }));
 
 		expect(prompt).toContain('work across relationship types');
 		expect(prompt).toContain('choose an accessible topic territory');
-		expect(prompt).toContain('natural, inviting tone');
-		expect(prompt).toContain('choose a broadly accessible, low-risk level');
+		expect(prompt).toContain('invite an engaging response');
+		expect(prompt).toContain('Vibe: Thoughtful');
+		// No automatic depth/controversy branch remains — those are always concrete.
+		expect(prompt).not.toContain('choose a broadly accessible, low-risk level');
 		expect(prompt).not.toContain('Relationship: Default');
 	});
 
@@ -71,38 +75,77 @@ describe('buildSparkPrompt', () => {
 		expect(prompt).toContain('exactly three');
 	});
 
-	it('keeps sensitive subject matter low-key when no topics are requested', () => {
-		const prompt = buildSparkPrompt(resolveGenerationParams({ type: 'random' }));
-
-		expect(prompt).toContain('keep it low-key and uncontroversial');
-		expect(prompt).not.toContain('explicitly allowed');
-	});
-
-	it('allows selected sensitive topics at the selected intensity', () => {
+	it('suppresses sensitive topics below the Spicy safety threshold', () => {
 		const prompt = buildSparkPrompt(
 			resolveGenerationParams({
 				type: 'random',
-				depth_and_safety: { depth_level: 2, controversy_level: 1 },
+				depth_and_safety: { depth_level: 3, controversy_level: 1 },
+				sensitive_topics: ['sex', 'religion'],
+			})
+		);
+
+		expect(prompt).toContain('below the sensitive-topic threshold');
+		expect(prompt).toContain('low-key and uncontroversial');
+		expect(prompt).not.toContain('in-bounds — engage directly');
+		expect(prompt).not.toContain('steer clear of it'); // no forced split below the gate
+	});
+
+	it('brings selected sensitive topics in-bounds at Spicy and above', () => {
+		const prompt = buildSparkPrompt(
+			resolveGenerationParams({
+				type: 'random',
+				depth_and_safety: { depth_level: 3, controversy_level: 2 },
 				sensitive_topics: ['religion', 'politics'],
 			})
 		);
 
-		expect(prompt).toContain('religion and politics are explicitly allowed');
-		expect(prompt).toContain('selected depth and controversy levels');
-		expect(prompt).not.toContain('At this intensity');
+		expect(prompt).toContain('religion and politics are in-bounds');
+		expect(prompt).toContain('scales with the safety level');
+		expect(prompt).not.toContain('At this intensity'); // controversy 2 is below high-intensity
+	});
+
+	it('requires a sensitive/non-sensitive split at Spicy and above', () => {
+		const spicy = buildSparkPrompt(
+			resolveGenerationParams({
+				type: 'random',
+				depth_and_safety: { depth_level: 3, controversy_level: 2 },
+			})
+		);
+		const mild = buildSparkPrompt(
+			resolveGenerationParams({
+				type: 'random',
+				depth_and_safety: { depth_level: 3, controversy_level: 1 },
+			})
+		);
+
+		expect(spicy).toContain('exactly one must engage sensitive territory head-on');
+		expect(spicy).toContain('exactly one must deliberately steer clear');
+		expect(mild).not.toContain('exactly one must engage sensitive territory head-on');
+	});
+
+	it('states the absolute safety floor in every prompt', () => {
+		const prompt = buildSparkPrompt(
+			resolveGenerationParams({
+				type: 'random',
+				depth_and_safety: { depth_level: 5, controversy_level: 5 },
+			})
+		);
+
+		expect(prompt).toContain('no explicit sexual detail');
+		expect(prompt).toContain('no instructions for illegal or dangerous acts');
 	});
 
 	it('encourages sensitive territory in general at high intensity', () => {
 		const depthPrompt = buildSparkPrompt(
 			resolveGenerationParams({
 				type: 'random',
-				depth_and_safety: { depth_level: 4, controversy_level: 'default' },
+				depth_and_safety: { depth_level: 4, controversy_level: 2 },
 			})
 		);
 		const controversyPrompt = buildSparkPrompt(
 			resolveGenerationParams({
 				type: 'random',
-				depth_and_safety: { depth_level: 'default', controversy_level: 4 },
+				depth_and_safety: { depth_level: 3, controversy_level: 4 },
 			})
 		);
 
@@ -123,7 +166,7 @@ describe('buildSparkPrompt', () => {
 		expect(prompt).not.toContain('At this intensity');
 	});
 
-	it('identifies the calibrated prompt as version 4', () => {
-		expect(GENERATION_PROMPT_VERSION).toBe('v4');
+	it('identifies the calibrated prompt as version 6', () => {
+		expect(GENERATION_PROMPT_VERSION).toBe('v6');
 	});
 });

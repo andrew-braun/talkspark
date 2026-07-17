@@ -19,32 +19,21 @@ import {
 	TOPIC_LENSES,
 	VIBES,
 } from 'ts/spark';
-import { DEFAULT_LEVER_VALUE } from 'ts/params';
 import type { SparkData } from 'ts/sparks';
 
-const defaultSelection = v.literal(DEFAULT_LEVER_VALUE);
-const depthSelection = v.union([
-	defaultSelection,
-	v.pipe(v.number(), v.minValue(1), v.maxValue(5)),
-]);
-const controversySelection = v.union([
-	defaultSelection,
-	v.pipe(v.number(), v.minValue(0), v.maxValue(5)),
-]);
-
+// Every lever carries a concrete value (the neutral defaults Anyone / Anything / Just talk are
+// members of the picklists), so there is no sentinel to accept here.
 const depthAndSafetySchema = v.object({
-	depth_level: depthSelection,
-	controversy_level: controversySelection,
+	depth_level: v.pipe(v.number(), v.minValue(1), v.maxValue(5)),
+	controversy_level: v.pipe(v.number(), v.minValue(0), v.maxValue(5)),
 });
 
 const generationParamsSchema = v.object({
 	type: v.string(),
-	relationship_context: v.optional(
-		v.union([defaultSelection, v.picklist(RELATIONSHIP_CONTEXTS)])
-	),
-	topic_lens: v.optional(v.union([defaultSelection, v.picklist(TOPIC_LENSES)])),
-	conversation_goal: v.optional(v.union([defaultSelection, v.picklist(CONVERSATION_GOALS)])),
-	vibe: v.optional(v.union([defaultSelection, v.picklist(VIBES)])),
+	relationship_context: v.optional(v.picklist(RELATIONSHIP_CONTEXTS)),
+	topic_lens: v.optional(v.picklist(TOPIC_LENSES)),
+	conversation_goal: v.optional(v.picklist(CONVERSATION_GOALS)),
+	vibe: v.optional(v.picklist(VIBES)),
 	depth_and_safety: v.optional(depthAndSafetySchema),
 	sensitive_topics: v.optional(v.array(v.picklist(SENSITIVE_TOPICS))),
 });

@@ -6,23 +6,21 @@ import type {
 	Vibe,
 } from './spark';
 
-export const DEFAULT_LEVER_VALUE = 'default' as const;
-export type DefaultLeverValue = typeof DEFAULT_LEVER_VALUE;
-export type LeverSelection<T extends string> = T | DefaultLeverValue;
-
-// The four levers exposed on the generation surface (generation-engine.md).
+// The generation levers (generation-engine.md). Every lever carries a concrete value — there
+// is no "automatic" sentinel; the broad/neutral choice is a real option (Anyone / Anything /
+// Just talk / Real depth / Spicy controversy). See DEFAULT_GENERATION_PARAMS.
 // Depth & safety is split into two numeric fields so each can be controlled independently.
 export interface DepthAndSafety {
-	depth_level: number | DefaultLeverValue; // 1–5 or automatic
-	controversy_level: number | DefaultLeverValue; // 0–5 or automatic
+	depth_level: number; // 1–5
+	controversy_level: number; // 0–5
 }
 
 export interface GenerationParams {
 	type: string; // 'random' | future types; kept for current generate.remote.ts compat
-	relationship_context?: LeverSelection<RelationshipContext>;
-	topic_lens?: LeverSelection<TopicLens>;
-	conversation_goal?: LeverSelection<ConversationGoal>;
-	vibe?: LeverSelection<Vibe>;
+	relationship_context?: RelationshipContext;
+	topic_lens?: TopicLens;
+	conversation_goal?: ConversationGoal;
+	vibe?: Vibe;
 	depth_and_safety?: DepthAndSafety;
-	sensitive_topics?: SensitiveTopic[]; // multi-select; empty array = default (none requested)
+	sensitive_topics?: SensitiveTopic[]; // multi-select; empty array = an explicit opt-out of all
 }

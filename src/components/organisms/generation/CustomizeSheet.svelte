@@ -2,8 +2,12 @@
 	import Sheet from 'components/atoms/overlays/Sheet.svelte';
 	import LeverField from 'components/molecules/generation/LeverField.svelte';
 	import { generationParams } from 'stores/generation.svelte';
-	import { LEVER_FIELDS, activeLeverCount, type LeverKey } from 'lib/data/generation-options';
-	import { DEFAULT_LEVER_VALUE } from 'ts/params';
+	import {
+		DEFAULT_GENERATION_PARAMS,
+		LEVER_FIELDS,
+		activeLeverCount,
+		type LeverKey,
+	} from 'lib/data/generation-options';
 
 	let {
 		open,
@@ -23,8 +27,11 @@
 			? document.querySelector<HTMLElement>(`#lever-field-${focusField} button`)
 			: null;
 
+	// Restore each lever to the shipped default — the opinionated Real/Spicy/all-topics baseline,
+	// not a blank slate — so "Reset all" matches what a first-time user gets.
 	function resetAll() {
-		for (const field of LEVER_FIELDS) field.set(generationParams, DEFAULT_LEVER_VALUE);
+		for (const field of LEVER_FIELDS)
+			field.set(generationParams, field.get(DEFAULT_GENERATION_PARAMS));
 	}
 </script>
 

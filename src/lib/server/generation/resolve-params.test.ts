@@ -4,27 +4,28 @@ import type { GenerationParams } from 'ts/params';
 import { resolveGenerationParams } from './resolve-params';
 
 describe('resolveGenerationParams', () => {
-	it('returns all-Default selections when params only specify type', () => {
+	it('returns the shipped defaults when params only specify type', () => {
 		expect(resolveGenerationParams({ type: 'random' })).toEqual(DEFAULT_GENERATION_PARAMS);
 	});
 
-	it('merges concrete selections with Default values', () => {
+	it('fills unspecified levers with their concrete defaults', () => {
 		const resolved = resolveGenerationParams({
 			type: 'random',
 			topic_lens: 'stories_memories',
 			vibe: 'nostalgic',
-			depth_and_safety: { depth_level: 4, controversy_level: 'default' },
+			depth_and_safety: { depth_level: 4, controversy_level: 5 },
 		});
 
-		expect(resolved.relationship_context).toBe('default');
+		expect(resolved.relationship_context).toBe('anyone');
 		expect(resolved.topic_lens).toBe('stories_memories');
-		expect(resolved.conversation_goal).toBe('default');
+		expect(resolved.conversation_goal).toBe('just_talk');
 		expect(resolved.vibe).toBe('nostalgic');
 		expect(resolved.depth_and_safety).toEqual({
 			depth_level: 4,
-			controversy_level: 'default',
+			controversy_level: 5,
 		});
-		expect(resolved.sensitive_topics).toEqual([]);
+		// Unspecified sensitive_topics fall back to the All-topics default.
+		expect(resolved.sensitive_topics).toEqual(DEFAULT_GENERATION_PARAMS.sensitive_topics);
 	});
 
 	it('preserves a fully specified params object without a setting', () => {
