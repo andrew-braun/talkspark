@@ -10,8 +10,7 @@ components/
 │   ├── buttons/         # Button.svelte
 │   ├── brand/           # Logo.svelte
 │   ├── nav/             # NavLink.svelte
-│   ├── actions/         # ActionButtonPopup.svelte
-│   └── loading/         # LoadingAnimation.svelte
+│   └── actions/         # ActionButtonPopup.svelte
 ├── molecules/
 │   ├── actions/         # ActionButton, CopyButton, BookmarkButton, CopyButtonPopup
 │   ├── nav/             # Nav.svelte
@@ -19,8 +18,7 @@ components/
 ├── organisms/
 │   ├── layout/          # Header.svelte
 │   ├── sparks/          # Sparks, SparkActions, GenerateSparksButton
-│   ├── prompts/         # RandomPrompt.svelte
-│   └── loading/         # Loading.svelte
+│   └── prompts/         # RandomPrompt.svelte
 └── templates/
     └── layout/          # PageShell.svelte (when needed)
 ```
@@ -29,7 +27,7 @@ components/
 
 | Layer         | Definition                                           | Examples                             |
 | ------------- | ---------------------------------------------------- | ------------------------------------ |
-| **atoms**     | Single-purpose; no store access; no business logic   | Button, NavLink, LoadingAnimation    |
+| **atoms**     | Single-purpose; no store access; no business logic   | Button, NavLink, Chip                |
 | **molecules** | Composes atoms; may have local state                 | CopyButton, Spark, Nav               |
 | **organisms** | Full UI section; may use stores and remote functions | Header, Sparks, GenerateSparksButton |
 | **templates** | Page layout without real content                     | PageShell                            |

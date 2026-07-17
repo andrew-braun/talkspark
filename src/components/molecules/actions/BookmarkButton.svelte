@@ -19,7 +19,7 @@
 	};
 </script>
 
-<ActionButton onClick={handleSaveClick} title="Save this spark" type="save">
+<ActionButton onClick={handleSaveClick} title="Save this spark" type="save" active={isSaved}>
 	{#if isSaved}
 		<BiBookmarkHeartFill />
 	{:else}

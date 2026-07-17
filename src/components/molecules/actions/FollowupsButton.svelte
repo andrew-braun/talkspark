@@ -45,6 +45,10 @@
 		color: var(--text-color-light);
 		font-size: var(--font-size-md-lg);
 		line-height: 1;
+		transition:
+			transform var(--motion-press) var(--ease-out),
+			color var(--motion-feedback) ease,
+			opacity var(--motion-feedback) ease;
 
 		&:hover:not(:disabled) {
 			cursor: pointer;
@@ -52,12 +56,25 @@
 		}
 
 		&:active:not(:disabled) {
-			transform: scale(0.9);
+			transform: scale(0.96);
+		}
+
+		&:focus-visible {
+			outline: 2px solid var(--accent-color-5);
+			outline-offset: 2px;
 		}
 
 		&:disabled {
 			cursor: wait;
 			opacity: 0.6;
+		}
+
+		@media (prefers-reduced-motion: reduce) {
+			transition-duration: var(--motion-reduced);
+
+			&:active:not(:disabled) {
+				transform: none;
+			}
 		}
 	}
 </style>

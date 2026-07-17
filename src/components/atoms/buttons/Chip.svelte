@@ -18,6 +18,18 @@
 	const accentStyle = $derived(
 		colorVar ? `--chip-fill: var(${colorVar}); --chip-accent: var(${colorVar})` : undefined
 	);
+
+	// The accent wash is selection feedback, so it should play only when a chip becomes
+	// selected after mount — not replay every time the sheet remounts an already-selected chip.
+	let wash = $state(false);
+	let wasSelected: boolean | undefined;
+	$effect(() => {
+		if (wasSelected !== undefined) {
+			if (selected && !wasSelected) wash = true;
+			else if (!selected) wash = false;
+		}
+		wasSelected = selected;
+	});
 </script>
 
 <button
@@ -25,6 +37,7 @@
 	class="chip"
 	class:selected
 	class:muted
+	class:wash
 	style={accentStyle}
 	aria-pressed={selected}
 	onclick={onClick}
@@ -34,6 +47,8 @@
 
 <style lang="scss">
 	.chip {
+		--interaction-accent: var(--chip-accent, var(--accent-color-5));
+
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
@@ -53,17 +68,33 @@
 		// change on selection, so a chip never grows and reflows the row when tapped.
 		font-weight: 500;
 		line-height: 1;
-		transition: var(--transition-std);
+		transition:
+			transform var(--motion-press) var(--ease-out),
+			filter var(--motion-feedback) ease,
+			opacity var(--motion-feedback) ease;
 
 		&:hover {
 			cursor: pointer;
 			border-color: var(--chip-accent, var(--accent-color-5));
 		}
 
+		&:active:not(:disabled) {
+			transform: scale(0.96);
+		}
+
+		&:focus-visible {
+			outline: 2px solid var(--accent-color-5);
+			outline-offset: 2px;
+		}
+
 		&.selected {
 			border-color: transparent;
 			background: var(--chip-fill, var(--gradient-1));
 			color: var(--chip-selected-ink);
+
+			&.wash:not(.muted) {
+				animation: accentWash var(--motion-feedback) ease-out;
+			}
 		}
 
 		// The unset baseline: dim while idle, a neutral highlight (never an accent) when chosen.
@@ -73,6 +104,18 @@
 			&.selected {
 				background: var(--chip-muted-fill);
 				color: var(--text-color-light);
+			}
+		}
+
+		@media (prefers-reduced-motion: reduce) {
+			transition-duration: var(--motion-reduced);
+
+			&:active:not(:disabled) {
+				transform: none;
+			}
+
+			&.selected.wash:not(.muted) {
+				animation-duration: var(--motion-reduced);
 			}
 		}
 	}

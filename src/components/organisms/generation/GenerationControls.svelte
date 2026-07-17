@@ -2,10 +2,7 @@
 	import { generationParams } from 'stores/generation.svelte';
 	import SparkSentence from 'components/molecules/generation/SparkSentence.svelte';
 	import CustomizeSheet from 'components/organisms/generation/CustomizeSheet.svelte';
-	import GenerateSparksButton from 'components/organisms/sparks/GenerateSparksButton.svelte';
 	import { activeLeverCount, type LeverKey } from 'lib/data/generation-options';
-
-	let { onGenerate = async () => {} }: { onGenerate?: () => Promise<void> } = $props();
 
 	let sheetOpen = $state(false);
 	let focusField = $state<LeverKey | null>(null);
@@ -37,8 +34,6 @@
 	</button>
 
 	<CustomizeSheet open={sheetOpen} onOpenChange={(value) => (sheetOpen = value)} {focusField} />
-
-	<GenerateSparksButton onClick={onGenerate} />
 </div>
 
 <style lang="scss">

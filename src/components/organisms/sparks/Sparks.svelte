@@ -9,32 +9,59 @@
 		sparks = [],
 		sparkStore = generatedSparks,
 		clearButton = false,
+		freshSparkIds = [],
+		onFreshEntranceComplete,
 	}: {
 		sparks?: SparkData[];
 		sparkStore?: typeof generatedSparks;
 		clearButton?: boolean;
+		freshSparkIds?: string[];
+		onFreshEntranceComplete?: () => void;
 	} = $props();
 
 	let sortedSparks = $derived(
 		sortByDate({ objects: sparks, dateField: 'created_at', direction: 'DESC' })
 	);
+
+	let clearing = $state(false);
+
+	// Let the withdraw animation play out before the store mutation removes the cards.
+	async function clearSparks() {
+		if (clearing || sparks.length === 0) return;
+		clearing = true;
+		await new Promise((resolve) => setTimeout(resolve, 220));
+		sparkStore.clear();
+		clearing = false;
+	}
 </script>
 
 <div class="sparks">
-	<div class="response-container">
+	<div class="response-container" class:clearing>
 		<div class="actions">
-			{#if clearButton}
+			{#if clearButton && sortedSparks.length > 0}
 				<Button
 					type="reset"
 					variant="basic"
 					classes="clear-button"
-					onClick={() => sparkStore.clear()}>Clear All</Button
+					disabled={clearing}
+					onClick={clearSparks}>Clear All</Button
 				>
 			{/if}
 		</div>
 
 		{#each sortedSparks as spark, index (spark.id)}
-			<Spark {spark} index={(Math.floor(index) % 4) + 1} />
+			{@const freshIndex = freshSparkIds.indexOf(spark.id)}
+			{#if freshIndex === 0}
+				<h2 class="fresh-heading">Fresh sparks</h2>
+			{/if}
+			<Spark
+				{spark}
+				index={(Math.floor(index) % 4) + 1}
+				freshIndex={freshIndex >= 0 ? freshIndex : undefined}
+				onFreshEntranceComplete={freshIndex >= 0 && freshIndex === freshSparkIds.length - 1
+					? onFreshEntranceComplete
+					: undefined}
+			/>
 		{/each}
 	</div>
 </div>
@@ -57,12 +84,29 @@
 			flex-direction: column;
 			align-items: center;
 			width: 100%;
-			max-width: 600px;
+			max-width: 700px;
 
 			.actions {
 				display: flex;
 				justify-content: flex-end;
 				width: 100%;
+			}
+
+			.fresh-heading {
+				align-self: flex-start;
+				margin: var(--spacing-md) 0 0;
+				font-size: var(--font-size-lg);
+			}
+
+			// Cards withdraw together for the 220ms window before the store empties.
+			&.clearing :global(.spark-group) {
+				animation: sparkWithdraw var(--motion-feedback) var(--ease-out) both;
+			}
+
+			@media (prefers-reduced-motion: reduce) {
+				&.clearing :global(.spark-group) {
+					animation: fadeIn var(--motion-reduced) var(--ease-out) reverse both;
+				}
 			}
 		}
 	}

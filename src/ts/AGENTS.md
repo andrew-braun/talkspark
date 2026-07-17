@@ -14,7 +14,6 @@ The `ts` alias maps to `src/ts/` (see `svelte.config.js`).
 | ----------------------------------------------------- | ----------------------------------------------------------------- |
 | `sparks.ts`                                           | Re-export barrel — import `SparkData` here                        |
 | `spark.ts`                                            | Full `Spark` interface + taxonomy union types (future DB columns) |
-| `animation.ts`                                        | `AnimationType` for loading indicator                             |
 | `topic.ts`, `followup.ts`, `critique.ts`, `params.ts` | Reserved for future features — not yet wired                      |
 
 ## SparkData

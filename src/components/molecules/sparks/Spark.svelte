@@ -6,14 +6,45 @@
 	import Followup from 'components/molecules/sparks/Followup.svelte';
 	import SparkActions from 'components/organisms/sparks/SparkActions.svelte';
 
-	let { spark, index }: { spark: SparkData; index: number } = $props();
+	let {
+		spark,
+		index,
+		freshIndex,
+		onFreshEntranceComplete,
+	}: {
+		spark: SparkData;
+		index: number;
+		freshIndex?: number;
+		onFreshEntranceComplete?: () => void;
+	} = $props();
 
 	let followups = $derived(parentFollowups.getForParent(spark.id));
+
+	// Once the entrance animation finishes, its `both` fill would keep pinning `transform`
+	// (blocking the desktop hover lift) for as long as `.fresh` remains. Flag completion so
+	// the style block can drop the animation while `.fresh` keeps identifying the batch.
+	let entranceComplete = $state(false);
 </script>
 
 {#if spark}
-	<div class="spark-group">
-		<article class="spark" transition:fade>
+	<div class={`spark-group gradient-${index}`}>
+		<article
+			id={`spark-${spark.id}`}
+			class="spark"
+			class:fresh={freshIndex !== undefined}
+			class:settled={entranceComplete}
+			data-fresh={freshIndex !== undefined || undefined}
+			style={freshIndex === undefined ? undefined : `--fresh-index: ${freshIndex}`}
+			onanimationend={(event) => {
+				if (
+					event.target === event.currentTarget &&
+					(event.animationName === 'sparkCardExpand' || event.animationName === 'fadeIn')
+				) {
+					entranceComplete = true;
+					onFreshEntranceComplete?.();
+				}
+			}}
+		>
 			<span class={`gradient gradient-${index}`} transition:slide></span>
 			<div class="body">
 				{#if spark.critique}
@@ -37,9 +68,27 @@
 <style lang="scss">
 	.spark-group {
 		width: 100%;
-		max-width: 600px;
+		max-width: 700px;
 		margin: var(--spacing-xl) 0;
 		margin-left: -6px;
+
+		// Each gradient maps to one solid accent so card actions (save, copy feedback)
+		// inherit their card's colour family instead of a global accent.
+		&.gradient-1 {
+			--spark-accent: var(--accent-color-3);
+		}
+
+		&.gradient-2 {
+			--spark-accent: var(--accent-color-5);
+		}
+
+		&.gradient-3 {
+			--spark-accent: var(--accent-color-1);
+		}
+
+		&.gradient-4 {
+			--spark-accent: var(--accent-color-4);
+		}
 	}
 
 	.spark {
@@ -60,11 +109,32 @@
 		text-align: left;
 		line-height: 1.4;
 
+		&.fresh {
+			transform-origin: left center;
+			animation: sparkCardExpand var(--motion-expand) var(--ease-spring) both;
+			animation-delay: calc(var(--motion-split) + var(--fresh-index) * var(--motion-stagger));
+
+			// The entrance ends on the identity frame, so dropping the animation is
+			// invisible — but it releases `transform` for the desktop hover lift.
+			&.settled {
+				animation: none;
+			}
+		}
+
 		@media (width >= 768px) {
 			flex-direction: row;
 			align-items: center;
 			justify-content: space-between;
 			gap: 0;
+			transition:
+				transform var(--motion-press) var(--ease-out),
+				box-shadow var(--motion-feedback) ease;
+
+			// Decorative lift only — actions stay visible on every device.
+			&:hover {
+				transform: translateY(-2px);
+				box-shadow: var(--box-shadow);
+			}
 		}
 
 		.body {
@@ -110,6 +180,20 @@
 			&.gradient-4 {
 				background: var(--gradient-4);
 				z-index: -1;
+			}
+		}
+
+		@media (prefers-reduced-motion: reduce) {
+			transition-duration: var(--motion-reduced);
+
+			&:hover {
+				transform: none;
+			}
+
+			&.fresh {
+				animation-name: fadeIn;
+				animation-duration: var(--motion-reduced);
+				animation-delay: 0ms;
 			}
 		}
 	}

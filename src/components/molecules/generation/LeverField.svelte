@@ -55,6 +55,18 @@
 
 	const isSet = $derived(isLeverActive(field, value));
 
+	// The header accent wash marks the moment a lever leaves its default. Gate it on a
+	// post-mount transition so reopening the sheet doesn't replay it for already-set levers.
+	let wash = $state(false);
+	let wasSet: boolean | undefined;
+	$effect(() => {
+		if (wasSet !== undefined) {
+			if (isSet && !wasSet) wash = true;
+			else if (!isSet) wash = false;
+		}
+		wasSet = isSet;
+	});
+
 	const allSelected = $derived(
 		field.kind === 'multi' && (value as readonly string[]).length === field.options.length
 	);
@@ -102,6 +114,7 @@
 <section
 	class="lever-field"
 	class:set={isSet}
+	class:wash
 	id={`lever-field-${field.key}`}
 	style={`--fc: var(${field.colorVar})`}
 >
@@ -126,6 +139,8 @@
 
 <style lang="scss">
 	.lever-field {
+		--interaction-accent: var(--fc);
+
 		display: flex;
 		flex-direction: column;
 		gap: var(--spacing-md);
@@ -168,6 +183,13 @@
 		// Set state: the dot and value take on the lever's own accent so a glance down the
 		// sheet shows which levers are active and in what colour.
 		&.set {
+			// One accent wash across the header when the lever leaves its default —
+			// colour feedback only, no layout dimensions animate. `.wash` gates it to
+			// post-mount transitions so a remounted sheet doesn't replay it.
+			&.wash .field-head {
+				animation: accentWash var(--motion-feedback) ease-out;
+			}
+
 			.dot {
 				border-color: var(--fc);
 				background: var(--fc);
@@ -176,6 +198,12 @@
 			.field-value {
 				color: var(--fc);
 				font-weight: 600;
+			}
+		}
+
+		@media (prefers-reduced-motion: reduce) {
+			&.set.wash .field-head {
+				animation-duration: var(--motion-reduced);
 			}
 		}
 	}

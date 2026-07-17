@@ -4,37 +4,44 @@
 	import { loadingState } from 'stores/loading.svelte';
 	import { generationParams } from 'stores/generation.svelte';
 	import Button from 'components/atoms/buttons/Button.svelte';
+	import type { SparkData } from 'ts/sparks';
 
 	let {
 		buttonText = 'Random Sparks',
-		onClick = async () => {},
+		onGenerateStart = () => {},
+		onGenerated = async () => {},
+		onGenerateError = () => {},
 	}: {
 		buttonText?: string;
-		onClick?: () => Promise<void>;
+		onGenerateStart?: () => void;
+		onGenerated?: (sparks: SparkData[]) => void | Promise<void>;
+		onGenerateError?: (error: unknown) => void;
 	} = $props();
 
-	const handleSparkGeneration = async () => {
+	export async function generate() {
+		if (loadingState.isLoading) return;
 		loadingState.isLoading = true;
+		onGenerateStart();
 
 		try {
 			const { sparks } = await generateSparks(generationParams);
 			generatedSparks.add(sparks);
-			await onClick();
+			await onGenerated(sparks);
 		} catch (error) {
-			console.error(error);
+			onGenerateError(error);
 		} finally {
 			loadingState.isLoading = false;
 		}
-	};
+	}
 </script>
 
 <Button
 	variant="primary"
-	onClick={handleSparkGeneration}
+	onClick={generate}
 	classes="spark-button"
 	disabled={loadingState.isLoading}
 	isLoading={loadingState.isLoading}
-	loadingText="✨ Generating sparks..."
+	loadingText="Making three sparks…"
 >
 	{buttonText}
 </Button>

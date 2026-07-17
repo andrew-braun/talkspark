@@ -37,6 +37,8 @@
 <button
 	{type}
 	{disabled}
+	aria-busy={isLoading}
+	data-loading={isLoading || undefined}
 	onclick={onClick}
 	class={`general-button variant-${variant} ${classes} ${isLoading ? 'loading' : ''}`}
 >
@@ -63,7 +65,10 @@
 		background: var(--accent-color-1);
 		font-size: var(--font-size-md-lg);
 		font-weight: 600;
-		transition: var(--transition-std);
+		transition:
+			transform var(--motion-press) var(--ease-out),
+			filter var(--motion-feedback) ease,
+			opacity var(--motion-feedback) ease;
 
 		// Full-bleed on a phone; only capped once there's a desktop's worth of room.
 		@media (width >= 768px) {
@@ -72,6 +77,15 @@
 
 		&:hover {
 			cursor: pointer;
+		}
+
+		&:active:not(:disabled) {
+			transform: scale(0.96);
+		}
+
+		&:focus-visible {
+			outline: 2px solid var(--accent-color-5);
+			outline-offset: 2px;
 		}
 
 		&:disabled {
@@ -101,6 +115,14 @@
 			background: var(--gradient-5);
 			background-size: 400% 400%;
 			animation: gradientMotion 3s ease infinite;
+		}
+
+		@media (prefers-reduced-motion: reduce) {
+			transition-duration: var(--motion-reduced);
+
+			&:active:not(:disabled) {
+				transform: none;
+			}
 		}
 	}
 </style>

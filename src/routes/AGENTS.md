@@ -12,14 +12,15 @@
 `+layout.svelte` is the root layout. It renders:
 
 1. `Header` — site navigation
-2. `Loading` — sticky top-right loading indicator, keyed to `loadingState.isLoading`
-3. `{@render children()}` — page content, wrapped in `{#key data.pathname}` for page transitions
+2. `{@render children()}` — page content, wrapped in `{#key data.pathname}` for page transitions
+
+Generation status is owned by the result stage (`SparkGenerationStage` via `RandomPrompt`); there is no global loading indicator in the layout. `loadingState` only gates concurrent requests in `GenerateSparksButton`.
 
 `+layout.ts` passes `pathname` from `url` to the layout data so child pages can read the current route without importing `$app/state` themselves.
 
 ## Page transitions
 
-Pages slide in/out using Svelte `fly` transitions with `cubicOut`/`cubicIn` easing. The `{#key data.pathname}` block in `+layout.svelte` re-mounts `<main>` on each route change to trigger the transition. Do not remove or move this wrapper.
+Pages crossfade using a Svelte `fade` transition (240 ms, no lateral travel). The `{#key data.pathname}` block in `+layout.svelte` re-mounts `<main>` on each route change to trigger the transition. Do not remove or move this wrapper.
 
 ## Adding a new page
 

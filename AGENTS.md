@@ -68,7 +68,7 @@ UI button click
 | ------------------------------------------ | ---------------------------------------------------------------------- |
 | `src/routes/+page.svelte`                  | Home page; mounts the random spark prompt UI                           |
 | `src/routes/sparks/+page.svelte`           | Saved sparks page at `/sparks`                                         |
-| `src/routes/+layout.svelte`                | Root layout: Header, Loading indicator, page transitions               |
+| `src/routes/+layout.svelte`                | Root layout: Header, fade page transitions                             |
 | `src/lib/generate.remote.ts`               | `command()` remote function; owns prompt building and spark enrichment |
 | `src/lib/server/api/gpt/init.ts`           | Creates the OpenAI client from `OPENAI_API_KEY`                        |
 | `src/lib/server/api/gpt/chat-api.ts`       | Calls `openai.responses.create` with a strict JSON schema              |
