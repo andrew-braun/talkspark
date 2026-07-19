@@ -28,14 +28,40 @@ describe('Sparks', () => {
 		render(Sparks, { props: { sparks, freshSparkIds: ['new-1'] } });
 		expect(document.getElementById('spark-new-1')).toHaveAttribute('data-fresh', 'true');
 		expect(document.getElementById('spark-old-1')).not.toHaveAttribute('data-fresh');
+		expect(document.getElementById('spark-target-new-1')).toContainElement(
+			document.getElementById('spark-new-1')
+		);
 		expect(screen.getByRole('heading', { name: 'Fresh sparks' })).toBeVisible();
+	});
+
+	it('keeps fresh cards hidden and untransformed until reveal targets are ready', async () => {
+		const { rerender } = render(Sparks, {
+			props: { sparks: [sparks[0]], freshSparkIds: ['new-1'], revealReady: false },
+		});
+		const card = document.getElementById('spark-new-1')!;
+		const compactSource = sparkComponentSource.replace(/\s+/g, ' ');
+
+		expect(card).toHaveClass('pending');
+		expect(card).not.toHaveClass('reveal-ready');
+		expect(compactSource).toContain(
+			'&.pending { opacity: 0; transform: none; animation: none; }'
+		);
+
+		await rerender({
+			sparks: [sparks[0]],
+			freshSparkIds: ['new-1'],
+			revealReady: true,
+		});
+
+		expect(card).not.toHaveClass('pending');
+		expect(card).toHaveClass('reveal-ready');
 	});
 
 	it('starts every fresh card together at the split-feedback handoff', () => {
 		const compactSource = sparkComponentSource.replace(/\s+/g, ' ');
 
 		expect(compactSource).toContain(
-			'animation-delay: calc(var(--motion-split) - var(--motion-feedback))'
+			'&.reveal-ready { animation: sparkCardExpand var(--motion-expand) var(--ease-spring) both; animation-delay: calc(var(--motion-split) - var(--motion-feedback));'
 		);
 		expect(compactSource).not.toContain('var(--fresh-index) * var(--motion-stagger)');
 	});

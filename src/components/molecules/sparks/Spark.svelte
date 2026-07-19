@@ -10,11 +10,13 @@
 		spark,
 		index,
 		freshIndex,
+		revealReady = true,
 		onFreshEntranceComplete,
 	}: {
 		spark: SparkData;
 		index: number;
 		freshIndex?: number;
+		revealReady?: boolean;
 		onFreshEntranceComplete?: () => void;
 	} = $props();
 
@@ -27,11 +29,13 @@
 </script>
 
 {#if spark}
-	<div class={`spark-group gradient-${index}`}>
+	<div id={`spark-target-${spark.id}`} class={`spark-group gradient-${index}`}>
 		<article
 			id={`spark-${spark.id}`}
 			class="spark"
 			class:fresh={freshIndex !== undefined}
+			class:pending={freshIndex !== undefined && !revealReady}
+			class:reveal-ready={freshIndex !== undefined && revealReady}
 			class:settled={entranceComplete}
 			data-fresh={freshIndex !== undefined || undefined}
 			onanimationend={(event) => {
@@ -110,14 +114,23 @@
 
 		&.fresh {
 			transform-origin: left center;
-			animation: sparkCardExpand var(--motion-expand) var(--ease-spring) both;
-			animation-delay: calc(var(--motion-split) - var(--motion-feedback));
 
 			// The entrance ends on the identity frame, so dropping the animation is
 			// invisible — but it releases `transform` for the desktop hover lift.
 			&.settled {
 				animation: none;
 			}
+		}
+
+		&.pending {
+			opacity: 0;
+			transform: none;
+			animation: none;
+		}
+
+		&.reveal-ready {
+			animation: sparkCardExpand var(--motion-expand) var(--ease-spring) both;
+			animation-delay: calc(var(--motion-split) - var(--motion-feedback));
 		}
 
 		@media (width >= 768px) {
@@ -189,7 +202,7 @@
 				transform: none;
 			}
 
-			&.fresh {
+			&.fresh.reveal-ready {
 				animation-name: fadeIn;
 				animation-duration: var(--motion-reduced);
 				animation-delay: 0ms;

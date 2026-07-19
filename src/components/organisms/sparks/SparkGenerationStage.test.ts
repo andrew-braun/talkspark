@@ -18,13 +18,13 @@ afterEach(() => {
 	cleanup();
 });
 
-function appendCard(id: string, rect: DOMRect) {
-	const card = document.createElement('article');
-	card.id = `spark-${id}`;
-	vi.spyOn(card, 'getBoundingClientRect').mockReturnValue(rect);
-	document.body.append(card);
-	fakeCards.push(card);
-	return card;
+function appendTarget(id: string, rect: DOMRect) {
+	const target = document.createElement('div');
+	target.id = `spark-target-${id}`;
+	vi.spyOn(target, 'getBoundingClientRect').mockReturnValue(rect);
+	document.body.append(target);
+	fakeCards.push(target);
+	return target;
 }
 
 describe('SparkGenerationStage', () => {
@@ -43,11 +43,21 @@ describe('SparkGenerationStage', () => {
 	});
 
 	it('positions all three decorative seeds from the rendered fresh cards', async () => {
-		appendCard('one', new DOMRect(200, 500, 400, 100));
-		appendCard('two', new DOMRect(240, 640, 360, 120));
-		appendCard('three', new DOMRect(180, 800, 440, 80));
+		const article = document.createElement('article');
+		article.id = 'spark-one';
+		const articleRect = vi.spyOn(article, 'getBoundingClientRect');
+		document.body.append(article);
+		fakeCards.push(article);
+		const firstTarget = appendTarget('one', new DOMRect(200, 500, 400, 100));
+		appendTarget('two', new DOMRect(240, 640, 360, 120));
+		appendTarget('three', new DOMRect(180, 800, 440, 80));
+		const onRevealReady = vi.fn();
 		const { container } = render(SparkGenerationStage, {
-			props: { phase: 'revealing', freshSparkIds: ['one', 'two', 'three'] },
+			props: {
+				phase: 'revealing',
+				freshSparkIds: ['one', 'two', 'three'],
+				onRevealReady,
+			},
 		});
 		const stage = container.querySelector('.generation-stage')!;
 		vi.spyOn(stage, 'getBoundingClientRect').mockReturnValue(new DOMRect(100, 200, 400, 240));
@@ -60,43 +70,79 @@ describe('SparkGenerationStage', () => {
 		expect(seeds[2]).toHaveClass('seed-lower');
 		expect(Number.parseFloat(seeds[0].style.getPropertyValue('--seed-x'))).toBeCloseTo(200);
 		expect(Number.parseFloat(seeds[0].style.getPropertyValue('--seed-y'))).toBeCloseTo(201.2);
+		expect(firstTarget.getBoundingClientRect).toHaveBeenCalled();
+		expect(articleRect).not.toHaveBeenCalled();
+		expect(onRevealReady).toHaveBeenCalledOnce();
 	});
 
-	it('suppresses decorative seeds when any fresh card is missing', async () => {
+	it('releases pending cards without seeds when any target is missing', async () => {
+		const onRevealReady = vi.fn();
 		render(SparkGenerationStage, {
-			props: { phase: 'revealing', freshSparkIds: ['missing-1', 'missing-2', 'missing-3'] },
+			props: {
+				phase: 'revealing',
+				freshSparkIds: ['missing-1', 'missing-2', 'missing-3'],
+				onRevealReady,
+			},
 		});
 
-		await tick();
+		await waitFor(() => expect(onRevealReady).toHaveBeenCalledOnce());
 
 		expect(screen.queryAllByTestId('split-seed')).toHaveLength(0);
 	});
 
 	it('cancels pending target measurement when reveal ends', async () => {
-		appendCard('one', new DOMRect(200, 500, 400, 100));
-		appendCard('two', new DOMRect(240, 640, 360, 120));
-		appendCard('three', new DOMRect(180, 800, 440, 80));
+		appendTarget('one', new DOMRect(200, 500, 400, 100));
+		appendTarget('two', new DOMRect(240, 640, 360, 120));
+		appendTarget('three', new DOMRect(180, 800, 440, 80));
+		const onRevealReady = vi.fn();
 		const { rerender } = render(SparkGenerationStage, {
-			props: { phase: 'revealing', freshSparkIds: ['one', 'two', 'three'] },
+			props: {
+				phase: 'revealing',
+				freshSparkIds: ['one', 'two', 'three'],
+				onRevealReady,
+			},
 		});
 
 		await rerender({ phase: 'idle', freshSparkIds: ['one', 'two', 'three'] });
 		await tick();
 
 		expect(screen.queryAllByTestId('split-seed')).toHaveLength(0);
+		expect(onRevealReady).not.toHaveBeenCalled();
 	});
 
-	it('reserves the full split path and pins status above the motion anchor', () => {
+	it('cancels stale work when fresh IDs are replaced with another same-length batch', async () => {
+		appendTarget('old-one', new DOMRect(200, 500, 400, 100));
+		appendTarget('new-one', new DOMRect(300, 700, 400, 100));
+		const onRevealReady = vi.fn();
+		const { container, rerender } = render(SparkGenerationStage, {
+			props: { phase: 'revealing', freshSparkIds: ['old-one'], onRevealReady },
+		});
+		const stage = container.querySelector('.generation-stage')!;
+		vi.spyOn(stage, 'getBoundingClientRect').mockReturnValue(new DOMRect(100, 200, 400, 240));
+
+		await rerender({
+			phase: 'revealing',
+			freshSparkIds: ['new-one'],
+			onRevealReady,
+		});
+		await waitFor(() => expect(screen.getAllByTestId('split-seed')).toHaveLength(1));
+
+		const seed = screen.getByTestId('split-seed');
+		expect(Number.parseFloat(seed.style.getPropertyValue('--seed-x'))).toBeCloseTo(300);
+		expect(Number.parseFloat(seed.style.getPropertyValue('--seed-y'))).toBeCloseTo(401.2);
+		expect(onRevealReady).toHaveBeenCalledOnce();
+	});
+
+	it('pins status above the motion anchor without reserving stage flow space', () => {
 		const compactSource = componentSource.replace(/\s+/g, ' ');
 
-		expect(compactSource).toContain('&.active { min-height: calc(var(--spacing-xxl) * 6); }');
 		expect(compactSource).toContain(
 			'class:motion-active={phase === \u0027loading\u0027 || phase === \u0027revealing\u0027}'
 		);
 		expect(compactSource).toContain(
 			'&.motion-active { .live-status { position: absolute; top: 0;'
 		);
-		expect(compactSource).not.toMatch(/@media \(width >= 768px\).*?&\.active \{ min-height:/s);
+		expect(compactSource).not.toContain('min-height: calc(var(--spacing-xxl) * 6)');
 	});
 
 	it('establishes active stage height without interpolating min-height', () => {
@@ -107,21 +153,21 @@ describe('SparkGenerationStage', () => {
 		);
 	});
 
-	it('overlays the reveal while visually hiding only its live status', () => {
+	it('overlays every active phase while visually hiding only the reveal status', () => {
 		const { container } = render(SparkGenerationStage, {
 			props: { phase: 'revealing', freshSparkIds: ['missing'] },
 		});
 		const stage = container.querySelector('.generation-stage')!;
 		const compactSource = componentSource.replace(/\s+/g, ' ');
 
-		expect(stage).toHaveClass('revealing');
+		expect(stage).toHaveClass('active', 'revealing');
 		expect(compactSource).toContain(
-			'&.revealing { position: absolute; inset: 0 0 auto; z-index: 1; overflow: visible; pointer-events: none;'
+			'&.active { position: absolute; inset: 0; z-index: 1; overflow: visible; pointer-events: none;'
 		);
 		expect(compactSource).toContain(
-			'.live-status { width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%);'
+			'&.revealing { .live-status { width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%);'
 		);
-		expect(compactSource).not.toContain('&.revealing { display: none;');
+		expect(compactSource).toContain('.retry, .jump { z-index: 2; pointer-events: auto;');
 	});
 
 	it('offers an actionable retry in the reserved stage', async () => {

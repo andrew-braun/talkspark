@@ -1,9 +1,15 @@
+import { readFileSync } from 'node:fs';
 import { cleanup, fireEvent, render, screen } from '@testing-library/svelte';
 import { flushSync } from 'svelte';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { generatedSparks } from 'stores/sparks.svelte';
 import { loadingState } from 'stores/loading.svelte';
 import RandomPrompt from './RandomPrompt.svelte';
+
+const componentSource = readFileSync(
+	'src/components/organisms/prompts/RandomPrompt.svelte',
+	'utf8'
+);
 
 const { generateSparks } = vi.hoisted(() => ({ generateSparks: vi.fn() }));
 vi.mock('$lib/generate.remote', () => ({ generateSparks }));
@@ -42,7 +48,24 @@ describe('RandomPrompt', () => {
 			screen.queryByText(/Sparking\.\.\.|Three new sparks are ready|Could not make sparks/)
 		).not.toBeInTheDocument();
 		expect(generateButton.parentElement).toHaveClass('generation-trigger');
-		expect(getComputedStyle(generateButton.parentElement!).justifyContent).toBe('center');
+		const compactSource = componentSource.replace(/\s+/g, ' ');
+		expect(compactSource).toContain(
+			'.generation-trigger { display: flex; justify-content: center;'
+		);
+		expect(componentSource).not.toContain('style:justify-content');
+	});
+
+	it('reserves stage space on the container while generation is active', async () => {
+		generateSparks.mockReturnValue(new Promise(() => {}));
+		const { container } = render(RandomPrompt);
+
+		await fireEvent.click(screen.getByRole('button', { name: 'Random Sparks' }));
+
+		expect(container.querySelector('.sparks-container')).toHaveClass('stage-active');
+		const compactSource = componentSource.replace(/\s+/g, ' ');
+		expect(compactSource).toContain(
+			'.sparks-container { position: relative; flex: 1 1 auto; width: 100%; margin-top: var(--spacing-lg); &.stage-active { min-height: calc(var(--spacing-xxl) * 6); }'
+		);
 	});
 
 	it('withholds a fast batch until the reveal while keeping existing cards visible', async () => {

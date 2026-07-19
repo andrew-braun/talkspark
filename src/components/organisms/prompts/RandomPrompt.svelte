@@ -10,6 +10,7 @@
 	let generator: GenerateSparksButton;
 	let phase = $state<GenerationPhase>('idle');
 	let freshSparkIds = $state<string[]>([]);
+	let revealReady = $state(false);
 	let startedAt = 0;
 	const minimumLoadingStageMs = 1950;
 
@@ -26,6 +27,7 @@
 	function handleStart() {
 		startedAt = performance.now();
 		freshSparkIds = [];
+		revealReady = false;
 		preGenerationIds = new Set(generatedSparks.items.map((spark) => spark.id));
 		phase = 'loading';
 	}
@@ -34,11 +36,13 @@
 		const remaining = Math.max(0, minimumLoadingStageMs - (performance.now() - startedAt));
 		if (remaining > 0) await new Promise((resolve) => setTimeout(resolve, remaining));
 		freshSparkIds = sparks.map((spark) => spark.id);
+		revealReady = false;
 		phase = 'revealing';
 		preGenerationIds = null;
 	}
 
 	function handleError() {
+		revealReady = false;
 		phase = 'error';
 		preGenerationIds = null;
 	}
@@ -46,7 +50,7 @@
 
 <div class="dialog-container">
 	<GenerationControls />
-	<div class="generation-trigger" style:justify-content="center">
+	<div class="generation-trigger">
 		<GenerateSparksButton
 			bind:this={generator}
 			onGenerateStart={handleStart}
@@ -55,12 +59,18 @@
 		/>
 	</div>
 
-	<div class="sparks-container">
-		<SparkGenerationStage {phase} {freshSparkIds} onRetry={() => generator.generate()} />
+	<div class="sparks-container" class:stage-active={phase !== 'idle'}>
+		<SparkGenerationStage
+			{phase}
+			{freshSparkIds}
+			onRevealReady={() => (revealReady = true)}
+			onRetry={() => generator.generate()}
+		/>
 		<Sparks
 			sparks={visibleSparks}
 			clearButton
 			{freshSparkIds}
+			{revealReady}
 			onFreshEntranceComplete={() => (phase = 'idle')}
 		/>
 	</div>
@@ -87,6 +97,10 @@
 			flex: 1 1 auto;
 			width: 100%;
 			margin-top: var(--spacing-lg);
+
+			&.stage-active {
+				min-height: calc(var(--spacing-xxl) * 6);
+			}
 		}
 	}
 </style>

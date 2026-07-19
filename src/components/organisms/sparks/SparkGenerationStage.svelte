@@ -13,11 +13,13 @@
 		phase = 'idle',
 		freshSparkIds = [],
 		errorMessage = 'Could not make sparks.',
+		onRevealReady = () => {},
 		onRetry = () => {},
 	}: {
 		phase?: GenerationPhase;
 		freshSparkIds?: string[];
 		errorMessage?: string;
+		onRevealReady?: () => void;
 		onRetry?: () => void;
 	} = $props();
 
@@ -52,7 +54,7 @@
 	$effect(() => {
 		if (phase !== 'revealing' || freshSparkIds.length === 0) return;
 		void tick().then(() => {
-			const first = document.getElementById(`spark-${freshSparkIds[0]}`);
+			const first = document.getElementById(`spark-target-${freshSparkIds[0]}`);
 			showJump = !!first && isOutsideViewport(first) && manualIntent;
 		});
 	});
@@ -63,19 +65,22 @@
 			return;
 		}
 
+		const ids = freshSparkIds.slice();
 		let cancelled = false;
 		void tick().then(() => {
 			if (cancelled || !stage) return;
-			const cards = freshSparkIds.map((id) => document.getElementById(`spark-${id}`));
-			if (cards.some((card) => !card)) {
+			const targets = ids.map((id) => document.getElementById(`spark-target-${id}`));
+			if (targets.some((target) => !target)) {
 				revealTargets = [];
+				onRevealReady();
 				return;
 			}
 
 			const stageRect = stage.getBoundingClientRect();
-			revealTargets = cards.map((card) =>
-				getRevealTarget(stageRect, card!.getBoundingClientRect())
+			revealTargets = targets.map((target) =>
+				getRevealTarget(stageRect, target!.getBoundingClientRect())
 			);
+			onRevealReady();
 		});
 
 		return () => {
@@ -84,7 +89,7 @@
 	});
 
 	function jumpToFresh() {
-		const first = document.getElementById(`spark-${freshSparkIds[0]}`);
+		const first = document.getElementById(`spark-target-${freshSparkIds[0]}`);
 		if (first) scrollResultIntoView(first, reducedMotion());
 		showJump = false;
 	}
@@ -142,7 +147,11 @@
 		overflow: hidden;
 
 		&.active {
-			min-height: calc(var(--spacing-xxl) * 6);
+			position: absolute;
+			inset: 0;
+			z-index: 1;
+			overflow: visible;
+			pointer-events: none;
 		}
 
 		&.motion-active {
@@ -153,12 +162,6 @@
 		}
 
 		&.revealing {
-			position: absolute;
-			inset: 0 0 auto;
-			z-index: 1;
-			overflow: visible;
-			pointer-events: none;
-
 			.live-status {
 				width: 1px;
 				height: 1px;
@@ -168,10 +171,6 @@
 				clip-path: inset(50%);
 				white-space: nowrap;
 				border: 0;
-			}
-
-			.jump {
-				pointer-events: auto;
 			}
 		}
 
@@ -254,6 +253,7 @@
 		.retry,
 		.jump {
 			z-index: 2;
+			pointer-events: auto;
 			min-width: var(--tap-target-min);
 			min-height: var(--tap-target-min);
 			padding: var(--spacing-sm) var(--spacing-lg);

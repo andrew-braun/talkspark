@@ -10,12 +10,14 @@
 		sparkStore = generatedSparks,
 		clearButton = false,
 		freshSparkIds = [],
+		revealReady = true,
 		onFreshEntranceComplete,
 	}: {
 		sparks?: SparkData[];
 		sparkStore?: typeof generatedSparks;
 		clearButton?: boolean;
 		freshSparkIds?: string[];
+		revealReady?: boolean;
 		onFreshEntranceComplete?: () => void;
 	} = $props();
 
@@ -58,6 +60,7 @@
 				{spark}
 				index={(Math.floor(index) % 4) + 1}
 				freshIndex={freshIndex >= 0 ? freshIndex : undefined}
+				{revealReady}
 				onFreshEntranceComplete={freshIndex >= 0 && freshIndex === freshSparkIds.length - 1
 					? onFreshEntranceComplete
 					: undefined}
