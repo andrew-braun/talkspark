@@ -34,7 +34,6 @@
 			class:fresh={freshIndex !== undefined}
 			class:settled={entranceComplete}
 			data-fresh={freshIndex !== undefined || undefined}
-			style={freshIndex === undefined ? undefined : `--fresh-index: ${freshIndex}`}
 			onanimationend={(event) => {
 				if (
 					event.target === event.currentTarget &&
@@ -112,11 +111,7 @@
 		&.fresh {
 			transform-origin: left center;
 			animation: sparkCardExpand var(--motion-expand) var(--ease-spring) both;
-
-			/* prettier-ignore */
-			animation-delay: calc(
-				var(--motion-split) - var(--motion-feedback) - var(--motion-stagger) + var(--fresh-index) * var(--motion-stagger)
-			);
+			animation-delay: calc(var(--motion-split) - var(--motion-feedback));
 
 			// The entrance ends on the identity frame, so dropping the animation is
 			// invisible — but it releases `transform` for the desktop hover lift.

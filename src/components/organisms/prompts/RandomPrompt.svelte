@@ -46,7 +46,7 @@
 
 <div class="dialog-container">
 	<GenerationControls />
-	<div class="generation-trigger">
+	<div class="generation-trigger" style:justify-content="center">
 		<GenerateSparksButton
 			bind:this={generator}
 			onGenerateStart={handleStart}
@@ -76,11 +76,14 @@
 		height: 100%;
 
 		.generation-trigger {
+			display: flex;
+			justify-content: center;
 			width: 100%;
 			margin-top: var(--spacing-lg);
 		}
 
 		.sparks-container {
+			position: relative;
 			flex: 1 1 auto;
 			width: 100%;
 			margin-top: var(--spacing-lg);

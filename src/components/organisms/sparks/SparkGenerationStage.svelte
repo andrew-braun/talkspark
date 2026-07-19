@@ -7,6 +7,7 @@
 		scrollResultIntoView,
 		type GenerationPhase,
 	} from 'lib/ui/result-navigation';
+	import { getRevealTarget, type RevealTarget } from 'lib/ui/spark-reveal-geometry';
 
 	let {
 		phase = 'idle',
@@ -23,6 +24,7 @@
 	let stage: HTMLElement;
 	let manualIntent = $state(false);
 	let showJump = $state(false);
+	let revealTargets = $state<RevealTarget[]>([]);
 	const reducedMotion = () =>
 		browser && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -55,6 +57,32 @@
 		});
 	});
 
+	$effect(() => {
+		if (phase !== 'revealing' || freshSparkIds.length === 0 || !stage) {
+			revealTargets = [];
+			return;
+		}
+
+		let cancelled = false;
+		void tick().then(() => {
+			if (cancelled || !stage) return;
+			const cards = freshSparkIds.map((id) => document.getElementById(`spark-${id}`));
+			if (cards.some((card) => !card)) {
+				revealTargets = [];
+				return;
+			}
+
+			const stageRect = stage.getBoundingClientRect();
+			revealTargets = cards.map((card) =>
+				getRevealTarget(stageRect, card!.getBoundingClientRect())
+			);
+		});
+
+		return () => {
+			cancelled = true;
+		};
+	});
+
 	function jumpToFresh() {
 		const first = document.getElementById(`spark-${freshSparkIds[0]}`);
 		if (first) scrollResultIntoView(first, reducedMotion());
@@ -66,6 +94,7 @@
 	class="generation-stage"
 	class:active={phase !== 'idle'}
 	class:motion-active={phase === 'loading' || phase === 'revealing'}
+	class:revealing={phase === 'revealing'}
 	bind:this={stage}
 >
 	{#if phase !== 'idle'}
@@ -83,14 +112,17 @@
 			<div class="source-spark starburst" data-testid="source-spark"></div>
 		</div>
 	{:else if phase === 'revealing'}
-		<div class="split" aria-hidden="true">
-			{#each freshSparkIds as id, index (id)}
-				<span
-					data-testid="split-seed"
-					class={`seed starburst ${['seed-upper', 'seed-middle', 'seed-lower'][index]}`}
-				></span>
-			{/each}
-		</div>
+		{#if revealTargets.length === freshSparkIds.length}
+			<div class="split" aria-hidden="true">
+				{#each revealTargets as target, index (freshSparkIds[index])}
+					<span
+						data-testid="split-seed"
+						class={`seed starburst ${['seed-upper', 'seed-middle', 'seed-lower'][index]}`}
+						style={`--seed-x: ${target.x}px; --seed-y: ${target.y}px`}
+					></span>
+				{/each}
+			</div>
+		{/if}
 	{:else if phase === 'error'}
 		<button type="button" class="retry" onclick={onRetry}>Try again</button>
 	{/if}
@@ -117,6 +149,29 @@
 			.live-status {
 				position: absolute;
 				top: 0;
+			}
+		}
+
+		&.revealing {
+			position: absolute;
+			inset: 0 0 auto;
+			z-index: 1;
+			overflow: visible;
+			pointer-events: none;
+
+			.live-status {
+				width: 1px;
+				height: 1px;
+				margin: -1px;
+				padding: 0;
+				overflow: hidden;
+				clip-path: inset(50%);
+				white-space: nowrap;
+				border: 0;
+			}
+
+			.jump {
+				pointer-events: auto;
 			}
 		}
 
@@ -183,23 +238,14 @@
 				animation: sparkSeedSplit var(--motion-split) var(--ease-out) forwards;
 
 				&.seed-upper {
-					--seed-x: calc(var(--spacing-xxl) * 2);
-					--seed-y: calc(var(--spacing-xxl) * -2);
-
 					background: var(--accent-color-2);
 				}
 
 				&.seed-middle {
-					--seed-x: calc(var(--spacing-xxl) * 2);
-					--seed-y: 0;
-
 					background: var(--accent-color-4);
 				}
 
 				&.seed-lower {
-					--seed-x: calc(var(--spacing-xxl) * 2);
-					--seed-y: calc(var(--spacing-xxl) * 2);
-
 					background: var(--accent-color-6);
 				}
 			}

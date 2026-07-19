@@ -31,12 +31,13 @@ describe('Sparks', () => {
 		expect(screen.getByRole('heading', { name: 'Fresh sparks' })).toBeVisible();
 	});
 
-	it('starts every staggered card before the split finishes', () => {
+	it('starts every fresh card together at the split-feedback handoff', () => {
 		const compactSource = sparkComponentSource.replace(/\s+/g, ' ');
 
 		expect(compactSource).toContain(
-			'var(--motion-split) - var(--motion-feedback) - var(--motion-stagger) + var(--fresh-index) * var(--motion-stagger)'
+			'animation-delay: calc(var(--motion-split) - var(--motion-feedback))'
 		);
+		expect(compactSource).not.toContain('var(--fresh-index) * var(--motion-stagger)');
 	});
 
 	it('hides Clear All when there is nothing to clear', () => {

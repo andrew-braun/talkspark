@@ -1,5 +1,6 @@
 import { readFileSync } from 'node:fs';
-import { cleanup, fireEvent, render, screen } from '@testing-library/svelte';
+import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/svelte';
+import { tick } from 'svelte';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import SparkGenerationStage from './SparkGenerationStage.svelte';
 
@@ -8,7 +9,23 @@ const componentSource = readFileSync(
 	'utf8'
 );
 
-afterEach(cleanup);
+const fakeCards: HTMLElement[] = [];
+
+afterEach(() => {
+	fakeCards.forEach((card) => card.remove());
+	fakeCards.length = 0;
+	vi.restoreAllMocks();
+	cleanup();
+});
+
+function appendCard(id: string, rect: DOMRect) {
+	const card = document.createElement('article');
+	card.id = `spark-${id}`;
+	vi.spyOn(card, 'getBoundingClientRect').mockReturnValue(rect);
+	document.body.append(card);
+	fakeCards.push(card);
+	return card;
+}
 
 describe('SparkGenerationStage', () => {
 	it('renders no padded status content while idle', () => {
@@ -25,15 +42,48 @@ describe('SparkGenerationStage', () => {
 		expect(screen.getByTestId('source-spark')).toHaveClass('starburst');
 	});
 
-	it('renders three decorative seeds during reveal', () => {
-		render(SparkGenerationStage, {
+	it('positions all three decorative seeds from the rendered fresh cards', async () => {
+		appendCard('one', new DOMRect(200, 500, 400, 100));
+		appendCard('two', new DOMRect(240, 640, 360, 120));
+		appendCard('three', new DOMRect(180, 800, 440, 80));
+		const { container } = render(SparkGenerationStage, {
 			props: { phase: 'revealing', freshSparkIds: ['one', 'two', 'three'] },
 		});
+		const stage = container.querySelector('.generation-stage')!;
+		vi.spyOn(stage, 'getBoundingClientRect').mockReturnValue(new DOMRect(100, 200, 400, 240));
+
+		await waitFor(() => expect(screen.getAllByTestId('split-seed')).toHaveLength(3));
 		const seeds = screen.getAllByTestId('split-seed');
 		expect(seeds).toHaveLength(3);
 		expect(seeds[0]).toHaveClass('seed-upper');
 		expect(seeds[1]).toHaveClass('seed-middle');
 		expect(seeds[2]).toHaveClass('seed-lower');
+		expect(Number.parseFloat(seeds[0].style.getPropertyValue('--seed-x'))).toBeCloseTo(200);
+		expect(Number.parseFloat(seeds[0].style.getPropertyValue('--seed-y'))).toBeCloseTo(201.2);
+	});
+
+	it('suppresses decorative seeds when any fresh card is missing', async () => {
+		render(SparkGenerationStage, {
+			props: { phase: 'revealing', freshSparkIds: ['missing-1', 'missing-2', 'missing-3'] },
+		});
+
+		await tick();
+
+		expect(screen.queryAllByTestId('split-seed')).toHaveLength(0);
+	});
+
+	it('cancels pending target measurement when reveal ends', async () => {
+		appendCard('one', new DOMRect(200, 500, 400, 100));
+		appendCard('two', new DOMRect(240, 640, 360, 120));
+		appendCard('three', new DOMRect(180, 800, 440, 80));
+		const { rerender } = render(SparkGenerationStage, {
+			props: { phase: 'revealing', freshSparkIds: ['one', 'two', 'three'] },
+		});
+
+		await rerender({ phase: 'idle', freshSparkIds: ['one', 'two', 'three'] });
+		await tick();
+
+		expect(screen.queryAllByTestId('split-seed')).toHaveLength(0);
 	});
 
 	it('reserves the full split path and pins status above the motion anchor', () => {
@@ -55,6 +105,23 @@ describe('SparkGenerationStage', () => {
 		expect(compactSource).not.toMatch(
 			/transition(?:-property)?:\s*[^;}]*\b(?:all|min-height)\b/
 		);
+	});
+
+	it('overlays the reveal while visually hiding only its live status', () => {
+		const { container } = render(SparkGenerationStage, {
+			props: { phase: 'revealing', freshSparkIds: ['missing'] },
+		});
+		const stage = container.querySelector('.generation-stage')!;
+		const compactSource = componentSource.replace(/\s+/g, ' ');
+
+		expect(stage).toHaveClass('revealing');
+		expect(compactSource).toContain(
+			'&.revealing { position: absolute; inset: 0 0 auto; z-index: 1; overflow: visible; pointer-events: none;'
+		);
+		expect(compactSource).toContain(
+			'.live-status { width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%);'
+		);
+		expect(compactSource).not.toContain('&.revealing { display: none;');
 	});
 
 	it('offers an actionable retry in the reserved stage', async () => {

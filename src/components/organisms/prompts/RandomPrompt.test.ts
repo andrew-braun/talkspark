@@ -42,6 +42,7 @@ describe('RandomPrompt', () => {
 			screen.queryByText(/Sparking\.\.\.|Three new sparks are ready|Could not make sparks/)
 		).not.toBeInTheDocument();
 		expect(generateButton.parentElement).toHaveClass('generation-trigger');
+		expect(getComputedStyle(generateButton.parentElement!).justifyContent).toBe('center');
 	});
 
 	it('withholds a fast batch until the reveal while keeping existing cards visible', async () => {
