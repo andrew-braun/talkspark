@@ -112,7 +112,11 @@
 		&.fresh {
 			transform-origin: left center;
 			animation: sparkCardExpand var(--motion-expand) var(--ease-spring) both;
-			animation-delay: calc(var(--motion-split) + var(--fresh-index) * var(--motion-stagger));
+
+			/* prettier-ignore */
+			animation-delay: calc(
+				var(--motion-split) - var(--motion-feedback) - var(--motion-stagger) + var(--fresh-index) * var(--motion-stagger)
+			);
 
 			// The entrance ends on the identity frame, so dropping the animation is
 			// invisible — but it releases `transform` for the desktop hover lift.

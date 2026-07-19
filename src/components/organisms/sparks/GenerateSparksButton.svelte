@@ -41,7 +41,7 @@
 	classes="spark-button"
 	disabled={loadingState.isLoading}
 	isLoading={loadingState.isLoading}
-	loadingText="Making three sparks…"
+	loadingText="Sparking..."
 >
 	{buttonText}
 </Button>

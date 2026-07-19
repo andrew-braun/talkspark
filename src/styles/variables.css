@@ -83,11 +83,11 @@
 	--transition-std: all 0.3s ease-in-out;
 	--motion-press: 140ms;
 	--motion-feedback: 240ms;
-	--motion-drop: 420ms;
-	--motion-split: 220ms;
-	--motion-expand: 360ms;
-	--motion-stagger: 80ms;
-	--motion-loader: 900ms;
+	--motion-drop: 550ms;
+	--motion-split: 800ms;
+	--motion-expand: 500ms;
+	--motion-stagger: 120ms;
+	--motion-loader: 1100ms;
 	--motion-reduced: 120ms;
 	--ease-spring: cubic-bezier(0.2, 0.85, 0.25, 1.12);
 	--ease-out: cubic-bezier(0.2, 0.75, 0.2, 1);

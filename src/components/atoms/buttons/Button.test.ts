@@ -25,7 +25,7 @@ describe('Button', () => {
 	});
 
 	it('exposes loading state to assistive technology', () => {
-		render(Button, { props: { isLoading: true, loadingText: 'Making three sparks…' } });
+		render(Button, { props: { isLoading: true, loadingText: 'Sparking...' } });
 
 		expect(screen.getByRole('button')).toHaveAttribute('aria-busy', 'true');
 		expect(screen.getByRole('button')).toHaveAttribute('data-loading', 'true');

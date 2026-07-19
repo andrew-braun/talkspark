@@ -62,23 +62,33 @@
 	}
 </script>
 
-<section class="generation-stage" class:active={phase !== 'idle'} bind:this={stage}>
-	<div class="live-status" role="status" aria-live="polite">
-		{phase === 'loading'
-			? 'Making three sparks…'
-			: phase === 'revealing'
-				? 'Three new sparks are ready.'
-				: phase === 'error'
-					? errorMessage
-					: ''}
-	</div>
+<section
+	class="generation-stage"
+	class:active={phase !== 'idle'}
+	class:motion-active={phase === 'loading' || phase === 'revealing'}
+	bind:this={stage}
+>
+	{#if phase !== 'idle'}
+		<div class="live-status" role="status" aria-live="polite">
+			{phase === 'loading'
+				? 'Sparking...'
+				: phase === 'revealing'
+					? 'Three new sparks are ready.'
+					: errorMessage}
+		</div>
+	{/if}
 
 	{#if phase === 'loading'}
-		<div class="source-spark" data-testid="source-spark" aria-hidden="true"></div>
+		<div class="source-anchor" aria-hidden="true">
+			<div class="source-spark starburst" data-testid="source-spark"></div>
+		</div>
 	{:else if phase === 'revealing'}
 		<div class="split" aria-hidden="true">
 			{#each freshSparkIds as id, index (id)}
-				<span data-testid="split-seed" class={`seed seed-${index + 1}`}></span>
+				<span
+					data-testid="split-seed"
+					class={`seed starburst ${['seed-upper', 'seed-middle', 'seed-lower'][index]}`}
+				></span>
 			{/each}
 		</div>
 	{:else if phase === 'error'}
@@ -98,10 +108,16 @@
 		width: 100%;
 		min-height: 0;
 		overflow: hidden;
-		transition: min-height var(--motion-expand) var(--ease-out);
 
 		&.active {
-			min-height: calc(var(--spacing-xxl) * 3);
+			min-height: calc(var(--spacing-xxl) * 6);
+		}
+
+		&.motion-active {
+			.live-status {
+				position: absolute;
+				top: 0;
+			}
 		}
 
 		.live-status {
@@ -112,65 +128,77 @@
 			transition: opacity var(--motion-feedback) var(--ease-out);
 		}
 
-		.source-spark,
-		.split,
-		.seed {
+		.source-anchor,
+		.split {
+			position: absolute;
+			top: 62%;
+			left: 50%;
+			transform: translate(-50%, -50%);
 			pointer-events: none;
 		}
 
-		.source-spark {
-			--spark-drop-distance: var(--spacing-xxl);
+		.starburst {
+			clip-path: polygon(
+				50% 0%,
+				61% 31%,
+				84% 15%,
+				70% 40%,
+				100% 50%,
+				70% 60%,
+				84% 85%,
+				61% 69%,
+				50% 100%,
+				39% 69%,
+				16% 85%,
+				30% 60%,
+				0% 50%,
+				30% 40%,
+				16% 15%,
+				39% 31%
+			);
+		}
 
-			position: absolute;
-			top: var(--spacing-md);
+		.source-spark {
+			--spark-drop-distance: calc(var(--spacing-xxl) * 2);
+
+			position: relative;
 			width: var(--spacing-xl);
 			height: var(--spacing-xl);
-			border-radius: 50%;
-			animation: sparkDrop var(--motion-drop) var(--ease-spring) forwards;
-
-			&::before {
-				position: absolute;
-				inset: 0;
-				border-radius: inherit;
-				background: var(--gradient-3);
-				animation: sparkPulse var(--motion-loader) var(--ease-out) var(--motion-drop)
-					infinite;
-				content: '';
-				pointer-events: none;
-			}
+			background: var(--gradient-3);
+			animation:
+				sparkDrop var(--motion-drop) var(--ease-spring) forwards,
+				sparkPulse var(--motion-loader) var(--ease-out) var(--motion-drop) infinite;
 		}
 
 		.split {
-			position: absolute;
-			inset: 0;
+			width: 0;
+			height: 0;
 
 			.seed {
 				position: absolute;
-				top: 50%;
-				left: 50%;
+				top: calc(var(--spacing-md) * -0.5);
+				left: calc(var(--spacing-md) * -0.5);
 				width: var(--spacing-md);
 				height: var(--spacing-md);
-				border-radius: 50%;
-				background: var(--accent-color-1);
 				animation: sparkSeedSplit var(--motion-split) var(--ease-out) forwards;
 
-				&.seed-1 {
-					--seed-x: calc(var(--spacing-xxl) * -1);
-					--seed-y: var(--spacing-xl);
+				&.seed-upper {
+					--seed-x: calc(var(--spacing-xxl) * 2);
+					--seed-y: calc(var(--spacing-xxl) * -2);
 
 					background: var(--accent-color-2);
 				}
 
-				&.seed-2 {
-					--seed-x: 0;
-					--seed-y: var(--spacing-xxl);
+				&.seed-middle {
+					--seed-x: calc(var(--spacing-xxl) * 2);
+					--seed-y: 0;
 
 					background: var(--accent-color-4);
 				}
 
-				&.seed-3 {
-					--seed-x: var(--spacing-xxl);
-					--seed-y: var(--spacing-xl);
+				&.seed-lower {
+					--seed-x: calc(var(--spacing-xxl) * 2);
+					--seed-y: calc(var(--spacing-xxl) * 2);
 
 					background: var(--accent-color-6);
 				}
@@ -204,32 +232,10 @@
 			box-shadow: var(--box-shadow);
 		}
 
-		@media (width >= 768px) {
-			&.active {
-				min-height: calc(var(--spacing-xxl) * 4);
-			}
-
-			.source-spark {
-				--spark-drop-distance: calc(var(--spacing-xxl) * 2);
-			}
-
-			.split {
-				.seed {
-					&.seed-1 {
-						--seed-x: calc(var(--spacing-xxl) * -2);
-					}
-
-					&.seed-3 {
-						--seed-x: calc(var(--spacing-xxl) * 2);
-					}
-				}
-			}
-		}
-
 		@media (prefers-reduced-motion: reduce) {
 			transition-duration: var(--motion-reduced);
 
-			.source-spark,
+			.source-anchor,
 			.split {
 				display: none;
 			}

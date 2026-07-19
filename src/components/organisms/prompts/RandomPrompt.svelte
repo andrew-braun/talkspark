@@ -11,9 +11,10 @@
 	let phase = $state<GenerationPhase>('idle');
 	let freshSparkIds = $state<string[]>([]);
 	let startedAt = 0;
+	const minimumLoadingStageMs = 1950;
 
 	// IDs present when a generation starts. While set, the store's newly written batch
-	// stays hidden so a fast response cannot flash plain cards before the 650ms reveal.
+	// stays hidden so a fast response cannot flash plain cards before the reveal.
 	let preGenerationIds = $state<Set<string> | null>(null);
 
 	const visibleSparks = $derived.by(() => {
@@ -30,7 +31,7 @@
 	}
 
 	async function handleGenerated(sparks: SparkData[]) {
-		const remaining = Math.max(0, 650 - (performance.now() - startedAt));
+		const remaining = Math.max(0, minimumLoadingStageMs - (performance.now() - startedAt));
 		if (remaining > 0) await new Promise((resolve) => setTimeout(resolve, remaining));
 		freshSparkIds = sparks.map((spark) => spark.id);
 		phase = 'revealing';
@@ -45,12 +46,14 @@
 
 <div class="dialog-container">
 	<GenerationControls />
-	<GenerateSparksButton
-		bind:this={generator}
-		onGenerateStart={handleStart}
-		onGenerated={handleGenerated}
-		onGenerateError={handleError}
-	/>
+	<div class="generation-trigger">
+		<GenerateSparksButton
+			bind:this={generator}
+			onGenerateStart={handleStart}
+			onGenerated={handleGenerated}
+			onGenerateError={handleError}
+		/>
+	</div>
 
 	<div class="sparks-container">
 		<SparkGenerationStage {phase} {freshSparkIds} onRetry={() => generator.generate()} />
@@ -71,6 +74,11 @@
 		justify-content: center;
 		width: 100%;
 		height: 100%;
+
+		.generation-trigger {
+			width: 100%;
+			margin-top: var(--spacing-lg);
+		}
 
 		.sparks-container {
 			flex: 1 1 auto;

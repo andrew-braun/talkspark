@@ -62,7 +62,7 @@
 @keyframes sparkDrop {
 	0% {
 		opacity: 0;
-		transform: translateY(0) scale(0.25);
+		transform: translateY(calc(var(--spark-drop-distance) * -1)) scale(0.25);
 	}
 
 	20% {
@@ -71,7 +71,7 @@
 
 	100% {
 		opacity: 1;
-		transform: translateY(var(--spark-drop-distance)) scale(1);
+		transform: translateY(0) scale(1);
 	}
 }
 
@@ -90,22 +90,23 @@
 
 @keyframes sparkSeedSplit {
 	0% {
-		opacity: 0;
-		transform: translate(0, 0) scale(0.2);
+		opacity: 1;
+		transform: translate(0, 0) scale(0.55);
 	}
 
 	18% {
 		opacity: 1;
+		transform: translate(0, 0) scale(1);
 	}
 
-	80% {
+	78% {
 		opacity: 1;
 		transform: translate(var(--seed-x), var(--seed-y)) scale(1);
 	}
 
 	100% {
 		opacity: 0;
-		transform: translate(var(--seed-x), var(--seed-y)) scale(3.5);
+		transform: translate(var(--seed-x), var(--seed-y)) scale(1.45);
 	}
 }
 

@@ -1,6 +1,9 @@
+import { readFileSync } from 'node:fs';
 import { cleanup, fireEvent, render, screen } from '@testing-library/svelte';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import Sparks from './Sparks.svelte';
+
+const sparkComponentSource = readFileSync('src/components/molecules/sparks/Spark.svelte', 'utf8');
 
 vi.mock('$lib/followups.remote', () => ({ generateFollowups: vi.fn() }));
 vi.mock('lib/assets/icons/copy.svg?component', () => ({ default: () => {} }));
@@ -26,6 +29,14 @@ describe('Sparks', () => {
 		expect(document.getElementById('spark-new-1')).toHaveAttribute('data-fresh', 'true');
 		expect(document.getElementById('spark-old-1')).not.toHaveAttribute('data-fresh');
 		expect(screen.getByRole('heading', { name: 'Fresh sparks' })).toBeVisible();
+	});
+
+	it('starts every staggered card before the split finishes', () => {
+		const compactSource = sparkComponentSource.replace(/\s+/g, ' ');
+
+		expect(compactSource).toContain(
+			'var(--motion-split) - var(--motion-feedback) - var(--motion-stagger) + var(--fresh-index) * var(--motion-stagger)'
+		);
 	});
 
 	it('hides Clear All when there is nothing to clear', () => {
